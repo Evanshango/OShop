@@ -1,0 +1,145 @@
+openapi: 3.0.0
+info:
+  title: OShop REST API
+  description: OShop's API Documentation
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Development server
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: express:sess
+
+  schemas:
+    Signin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: test@test.com
+        password: password
+
+    Signup:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        firstName: Test
+        lastName: Test
+        email: test@test.com
+        password: password
+
+    User:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        fullName:
+          type: string
+        email:
+          type: string
+        avatar:
+          type: string
+        verified:
+          type: boolean
+        role:
+          type: string
+        createdAt:
+          type: string
+
+paths:
+  /auth/signup:
+    post:
+      summary: Register a new user
+      description: Register a new user in the system. The session ID is returned in a cookie named 'express:sess'. Include it in subsequent requests that require authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Signup'
+      responses:
+        201:
+          description: Account created successfully
+        400:
+          description: Bad request
+
+  /auth/signin:
+    post:
+      summary: Sign in a user
+      description: Sign in an existing user in the system. The session ID is returned in a cookie named 'express:sess'. Include it in subsequent requests that require authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Signin'
+      responses:
+        200:
+          description: User signed in successfully
+        400:
+          description: Bad request
+
+  /auth/signout:
+    get:
+      summary: Sign out a user
+      description: Sign out a logged in user
+      responses:
+        200:
+          description: User signed out successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  status:
+                    type: string
+                  message:
+                    type: string
+
+  /users:
+    get:
+      summary: Get users
+      description: Retrieves a list user JSON objects in an array (*admin only*)
+      responses:
+        200:
+          description: A list of user JSON objects in an array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+  /users/current:
+    get:
+      summary: Get Current user
+      description: Retrieve currently signed in user
+      security:
+        - cookieAuth: [ ]
+      responses:
+        200:
+          description: Currently signed in user
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/User'
