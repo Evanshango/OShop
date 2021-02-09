@@ -33,13 +33,13 @@ interface IUserDoc extends Document {
 
 const userSchema = new Schema({
     email: {
-        type: String, required: true, unique: true, lowercase: true
+        type: String, required: true, unique: true, lowercase: true, trim: true
     },
     firstName: {
-        type: String, required: true
+        type: String, required: true, trim: true
     },
     lastName: {
-        type: String, required: true
+        type: String, required: true, trim: true
     },
     fullName: {
         type: String,
@@ -85,5 +85,5 @@ userSchema.pre('save', async function (done) {
 
 const User = model<IUserDoc, IUserModel>('User', userSchema)
 
-export {User, IUserAttrs}
+export {User}
 

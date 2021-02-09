@@ -11,6 +11,7 @@ import {serve, setup} from 'swagger-ui-express'
 import yaml from 'yamljs'
 import {authRouter} from "./routes/authRoutes";
 import {userRouter} from "./routes/userRoutes";
+import {categoryRouter} from "./routes/categoryRoutes";
 
 const app = express()
 app.use(json())
@@ -38,6 +39,7 @@ app.use(cookieSession({
 app.use('/api/v1/docs', serve, setup(swaggerDefinition))
 app.use('/api/v1', authRouter)
 app.use('/api/v1', userRouter)
+app.use('/api/v1', categoryRouter)
 
 app.all('*', async () => {
     throw new NotFoundError()

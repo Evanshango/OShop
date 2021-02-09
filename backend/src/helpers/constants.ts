@@ -19,3 +19,8 @@ export enum UserRole {
     ADMIN = 'ADMIN',
     VENDOR = 'VENDOR'
 }
+
+export enum ItemVisibility{
+    ACTIVE = 'ACTIVE',
+    INACTIVE = 'INACTIVE'
+}

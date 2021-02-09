@@ -1,10 +1,11 @@
 import {NextFunction, Request, Response} from 'express'
 import jwt from 'jsonwebtoken'
-import {AuthMethod, UserRole, JWT_SECRET} from "../helpers/constants";
+import {UserRole, JWT_SECRET} from "../helpers/constants";
 
 interface IPayload {
     id: string
     email: string
+    role: UserRole
 }
 
 declare global {
