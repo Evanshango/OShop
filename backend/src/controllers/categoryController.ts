@@ -7,10 +7,7 @@ import {BadRequestError} from "../errors/bad-request-error";
 
 const checkCategory = async (req: Request) => {
     const {slug} = req.params
-
-    const category = await Category.findOne({slug})
-    if (!category) throw new NotFoundError()
-    return category
+    return Category.findOne({slug});
 }
 
 export const addCategory = async (req: Request, res: Response) => {
@@ -26,8 +23,6 @@ export const addCategory = async (req: Request, res: Response) => {
     return res.status(201).send(category)
 }
 
-
-
 export const fetchCategories = async (req: Request, res: Response) => {
     const categories = await Category.find({})
     res.send(categories)
@@ -40,23 +35,29 @@ export const visibleCategories = async (req: Request, res: Response) => {
 
 export const fetchCategory = async (req: Request, res: Response) => {
     const category = await checkCategory(req)
+    if (!category) throw new NotFoundError('Category')
+
     res.send(category)
 }
 
 export const updateCategory = async (req: Request, res: Response) => {
-    const category = await checkCategory(req)
+    let category = await checkCategory(req)
+
+    if (!category) throw new NotFoundError('Category')
 
     if (req.user!.role !== UserRole.ADMIN) throw new NotAuthorizedError()
 
-    const updatedCategory = await Category.findByIdAndUpdate(category.id, {...req.body}, {
-        new: true,
-        runValidators: true
-    })
-    return res.send(updatedCategory)
+    if (req.body.name === category.name) throw new BadRequestError('Category name already exists')
+
+    category.name = req.body.name
+    category.visible = req.body.visible
+    await category.save()
+    return res.send(category)
 }
 
 export const deleteCategory = async (req: Request, res: Response) => {
     const category = await checkCategory(req)
+    if (!category) throw new NotFoundError('Category')
 
     if (req.user!.role !== UserRole.ADMIN) throw new NotAuthorizedError()
 

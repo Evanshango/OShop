@@ -13,7 +13,7 @@ const Signin = ({clientId}) => {
     const [user, setUser] = useState({email: '', password: ''})
     const dispatch = useDispatch()
     const {doRequest, errors} = useRequest({
-        url: 'http://localhost:5000/api/v1/signin',
+        url: 'http://localhost:5000/api/v1/auth/signin',
         method: 'post',
         body: {email: user.email, password: user.password},
         onSuccess: () => {

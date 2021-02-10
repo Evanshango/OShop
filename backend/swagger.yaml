@@ -3,7 +3,6 @@ info:
   title: OShop REST API
   description: OShop's API Documentation
   version: 1.0.0
-
 servers:
   - url: http://localhost:5000/api/v1
     description: Development server
@@ -35,7 +34,6 @@ components:
           type: string
         createdAt:
           type: string
-
     Category:
       type: object
       properties:
@@ -49,9 +47,25 @@ components:
         name: Kitchen Ware
         slug: kitchen-ware
         visible: ACTIVE
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        stock:
+          type: number
+      example:
+        name: Samsung A50
+        slug: samsung-a50
+        stock: 20
+
 paths:
   /auth/signup:
     post:
+      tags:
+        - authentication
       summary: Register a new user
       description: Register a new user in the system. The session ID is returned in a cookie named 'express:sess'. Include it in subsequent requests that require authentication
       requestBody:
@@ -82,6 +96,8 @@ paths:
 
   /auth/signin:
     post:
+      tags:
+        - authentication
       summary: Sign in a user
       description: Sign in an existing user in the system. The session ID is returned in a cookie named 'express:sess'. Include it in subsequent requests that require authentication
       requestBody:
@@ -106,6 +122,8 @@ paths:
 
   /auth/signout:
     get:
+      tags:
+        - authentication
       summary: Sign out a user
       description: Sign out a logged in user
       responses:
@@ -123,8 +141,12 @@ paths:
 
   /users:
     get:
+      tags:
+        - users
       summary: Get users
       description: Retrieves a list user JSON objects in an array (*admin only*)
+      security:
+        - cookieAuth: [ ]
       responses:
         200:
           description: A list of user JSON objects in an array
@@ -135,8 +157,97 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
 
+  /users/{id}:
+    get:
+      tags:
+        - users
+      summary: Get user
+      description: Retrieves a user based on the id provided
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: userId
+          schema:
+            type: string
+      responses:
+        200:
+          description: A user in the format of a JSON object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: User not found
+
+    patch:
+      tags:
+        - users
+      summary: Update user
+      description: Update the currently logged in user details
+      security:
+        - cookieAuth: [ ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The User Id
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                password:
+                  type: string
+              example:
+                firstName: Lazy
+                lastName: Programmer
+                password: password
+      responses:
+        200:
+          description: User details updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        401:
+          description: Unauthorized request
+        404:
+          description: Not found
+
+    delete:
+      tags:
+        - users
+      summary: Deletes a user
+      description: Deletes a user based on the id provided (*admin request*)
+      security:
+        - cookieAuth: [ ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The user id
+          schema:
+            type: string
+      responses:
+        204:
+          description: User deleted successfully
+        401:
+          description: Unauthorized request
+        404:
+          description: Not found
+
   /users/current:
     get:
+      tags:
+        - users
       summary: Get Current user
       description: Retrieve currently signed in user
       security:
@@ -153,6 +264,8 @@ paths:
 
   /categories:
     post:
+      tags:
+        - categories
       summary: Add Category
       description: Add a new Category
       security:
@@ -177,6 +290,8 @@ paths:
           description: Unauthorized request
 
     get:
+      tags:
+        - categories
       summary: Get Categories
       description: Retrieves a list of available categories in an array
       responses:
@@ -191,6 +306,8 @@ paths:
 
   /categories/all:
     get:
+      tags:
+        - categories
       summary: Get all Categories
       description: Retrieves a list of all the available categories in the system
       responses:
@@ -205,6 +322,8 @@ paths:
 
   /categories/{slug}:
     get:
+      tags:
+        - categories
       summary: Get a Category
       description: Retrieves a category based on the slug
       parameters:
@@ -225,6 +344,8 @@ paths:
           description: Not found
 
     patch:
+      tags:
+        - categories
       summary: Updates a Category
       description: Update a specific category based on the slug provided
       security:
@@ -250,7 +371,6 @@ paths:
               example:
                 name: Laptops
                 visible: ACTIVE
-
       responses:
         200:
           description: Category updated successfully
@@ -264,6 +384,8 @@ paths:
           description: Not found
 
     delete:
+      tags:
+        - categories
       summary: Deletes a Category
       description: Delete a specific category based on the category slug
       security:
@@ -275,7 +397,6 @@ paths:
           description: The category slug
           schema:
             type: string
-
       responses:
         204:
           description: Category deleted successfully
@@ -283,3 +404,19 @@ paths:
           description: Unauthorized request
         404:
           description: Not found
+
+  /products:
+    get:
+      tags:
+        - products
+      summary: Get Products
+      description: Retrieves a list of available products in JSON format
+      responses:
+        200:
+          description: A list of product JSON objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'

@@ -12,6 +12,7 @@ import yaml from 'yamljs'
 import {authRouter} from "./routes/authRoutes";
 import {userRouter} from "./routes/userRoutes";
 import {categoryRouter} from "./routes/categoryRoutes";
+import {productRouter} from "./routes/productRoutes";
 
 const app = express()
 app.use(json())
@@ -40,9 +41,10 @@ app.use('/api/v1/docs', serve, setup(swaggerDefinition))
 app.use('/api/v1', authRouter)
 app.use('/api/v1', userRouter)
 app.use('/api/v1', categoryRouter)
+app.use('/api/v1', productRouter)
 
 app.all('*', async () => {
-    throw new NotFoundError()
+    throw new NotFoundError('Route')
 })
 
 app.use(errorHandler)

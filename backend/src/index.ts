@@ -9,7 +9,7 @@ const start = async () => {
 
     try {
         await mongoose.connect(MONGO_URI, {
-                useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true
+                useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
             }
         )
         console.log('Connection to DB successful')

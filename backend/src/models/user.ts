@@ -28,7 +28,6 @@ interface IUserDoc extends Document {
     method: AuthMethod
     role?: UserRole
     password?: string
-    createdAt: string
 }
 
 const userSchema = new Schema({
@@ -59,10 +58,8 @@ const userSchema = new Schema({
     password: {
         type: String
     },
-    createdAt: {
-        type: Date, default: Date.now
-    }
 }, {
+    timestamps: true,
     toJSON: {
         transform(doc, ret) {
             ret.id = ret._id
