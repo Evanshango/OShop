@@ -2,7 +2,7 @@ import express from "express";
 import {googleOAuth, signinUser, signoutUser, signupUser} from "../controllers/authController";
 import {body} from "express-validator";
 import {validateRequest} from "../middlewares/validate-request";
-import {currentUser} from "../middlewares/current-user";
+import {requireAuth} from "../middlewares/require-auth";
 
 const router = express.Router()
 
@@ -20,6 +20,6 @@ router.post('/auth/signin', [
 ], validateRequest, signinUser)
 
 router.post('/auth/google', googleOAuth)
-router.get('/auth/signout', currentUser, signoutUser)
+router.get('/auth/signout', requireAuth, signoutUser)
 
 export {router as authRouter}

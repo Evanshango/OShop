@@ -3,22 +3,21 @@ import {requireAuth} from "../middlewares/require-auth";
 import {body} from "express-validator";
 import {validateRequest} from "../middlewares/validate-request";
 import {
-    addCategory, deleteCategory, fetchCategories, fetchCategory, updateCategory, visibleCategories
+    addCategory, deleteCategory, fetchCategories, fetchCategory, updateCategory
 } from "../controllers/categoryController";
-import {currentUser} from "../middlewares/current-user";
+import {isAdmin} from "../middlewares/is-admin";
 
 const router = express.Router()
 
-router.post('/categories', requireAuth, [
+router.post('/categories', requireAuth, isAdmin, [
     body('name').notEmpty().trim().withMessage('Category name is required')
 ], validateRequest, addCategory)
 
-router.get('/categories/all', fetchCategories)
-router.get('/categories', visibleCategories)
+router.get('/categories', fetchCategories)
 router.get('/categories/:slug', fetchCategory)
-router.patch('/categories/:slug', currentUser, requireAuth, [
+router.patch('/categories/:slug', requireAuth, isAdmin, [
     body('name').not().isEmpty().trim().withMessage('Category name is required')
 ], validateRequest, updateCategory)
-router.delete('/categories/:slug', currentUser, requireAuth, deleteCategory)
+router.delete('/categories/:slug', requireAuth, isAdmin, deleteCategory)
 
 export {router as categoryRouter}

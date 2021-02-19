@@ -1,16 +1,13 @@
 import {Document, HookNextFunction, Model, model, Schema} from "mongoose";
-import {ItemVisibility} from "../helpers/constants";
 import slugify from "slugify";
 
 interface ICategoryAttrs {
     name: string
-    visible?: ItemVisibility
 }
 
 interface ICategoryDoc extends Document {
     name: string
     slug: string
-    visible: ItemVisibility
 }
 
 interface ICategoryModel extends Model<ICategoryDoc> {
@@ -24,12 +21,6 @@ const categorySchema = new Schema({
     slug: {
         type: String
     },
-    visible: {
-        type: String, enum: Object.values(ItemVisibility), default: ItemVisibility.ACTIVE, trim: true
-    },
-    parentId: {
-        type: String
-    }
 }, {
     timestamps: true,
     toJSON: {

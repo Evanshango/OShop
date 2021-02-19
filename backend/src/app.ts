@@ -3,6 +3,7 @@ import 'express-async-errors'
 import cookieSession from 'cookie-session'
 import cors from 'cors'
 import morgan from 'morgan'
+import multer from 'multer'
 
 import {NotFoundError} from "./errors/not-found-error";
 import {errorHandler} from "./middlewares/error-handler";
@@ -13,9 +14,14 @@ import {authRouter} from "./routes/authRoutes";
 import {userRouter} from "./routes/userRoutes";
 import {categoryRouter} from "./routes/categoryRoutes";
 import {productRouter} from "./routes/productRoutes";
+import {sectionRouter} from "./routes/sectionRoutes";
 
 const app = express()
+const upload = multer()
+
 app.use(json())
+app.use(upload.any())
+
 const corsConfig = {
     credentials: true,
     origin: 'http://localhost:3000',
@@ -41,6 +47,7 @@ app.use('/api/v1/docs', serve, setup(swaggerDefinition))
 app.use('/api/v1', authRouter)
 app.use('/api/v1', userRouter)
 app.use('/api/v1', categoryRouter)
+app.use('/api/v1', sectionRouter)
 app.use('/api/v1', productRouter)
 
 app.all('*', async () => {

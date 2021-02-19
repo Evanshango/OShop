@@ -4,10 +4,11 @@ import slugify from "slugify";
 interface IProductAttrs {
     name: string
     price: number
-    quantity: number
-    category: string
+    stock: number
+    section: string
+    brand: string
     description: string
-    offer?: string
+    discount?: number
     images: string[]
     createdBy: string
 }
@@ -16,12 +17,12 @@ interface IProductDoc extends Document {
     name: string
     price: number
     slug: string
-    quantity: number
-    category: string
+    stock: number
+    section: string
+    brand: string
     description: string
-    offer?: number
+    discount?: number
     images: string[]
-    rating: number
     createdBy: string
 }
 
@@ -36,7 +37,7 @@ const productSchema = new Schema({
     price: {
         type: Number, required: true
     },
-    quantity: {
+    stock: {
         type: Number, required: true
     },
     slug: {
@@ -46,13 +47,13 @@ const productSchema = new Schema({
         type: String, required: true
     },
     images: [String],
-    offer: {
-        type: Number
+    discount: {
+        type: Number, default: 0
     },
     rating: {
         type: Number, default: 0
     },
-    category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
+    section: {type: mongoose.Schema.Types.ObjectId, ref: 'Section'},
     createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 }, {
     timestamps: true,
@@ -60,19 +61,29 @@ const productSchema = new Schema({
         transform(doc, ret) {
             ret.id = ret._id
             delete ret._id
-            delete ret.password
             delete ret.__v
+            delete ret.createdAt
+            delete ret.updatedAt
         }
     }
 })
 
 productSchema.statics.build = (attrs: IProductAttrs) => (new Product(attrs))
 
+productSchema.pre(/^find/, function (next: HookNextFunction) {
+    this.populate({
+        path: 'section',
+        select: 'name'
+    })
+    next()
+})
+
 productSchema.pre('save', async function (next: HookNextFunction) {
     // @ts-ignore
     this.set('slug', await slugify(this.name, {lower: true}))
     next()
 })
+
 
 const Product = model<IProductDoc, IProductModel>('Product', productSchema)
 

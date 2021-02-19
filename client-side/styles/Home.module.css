@@ -1,7 +1,160 @@
-.home_container{
-    /*display: flex;*/
-    /*width: 70%;*/
-    /*justify-content: center;*/
-    /*align-items: center;*/
-    /*margin: auto;*/
+.home_content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
+
+.home_content h1 {
+    text-transform: uppercase;
+    font-size: 60px;
+    font-weight: normal;
+}
+
+.home_button {
+    padding: 14px 30px;
+    color: #ffffff;
+    font-size: 17px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: rgb(241, 196, 15);
+    margin: 20px 0;
+    background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
+}
+
+.featured_container {
+    width: 500px;
+    height: 400px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    padding: 20px;
+    color: #242424;
+    display: flex;
+    align-items: center;
+    text-align: justify;
+}
+
+.welcome_info {
+    margin: 20px;
+    padding: 10px;
+}
+
+.welcome_info p {
+    line-height: 1.8;
+}
+
+.newsletter {
+    width: 100%;
+    background: linear-gradient(90deg, rgb(50, 27, 27) 0%, rgb(26, 23, 23) 100%);
+    border-radius: 5px;
+    padding: 2rem;
+    margin: 40px 0 0 0;
+    display: flex;
+    align-items: center;
+}
+
+.contact_left, .contact_right {
+    flex: 1 1 50%;
+}
+
+.contact_left {
+    color: #ffffff;
+}
+
+.contact_left h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1.6rem;
+}
+
+.contact_left p {
+    font-size: .9rem;
+}
+
+.contact_right {
+    text-align: right;
+}
+
+.contact_right form {
+    position: relative;
+}
+
+.contact_right input {
+    padding: 1.2rem 0;
+    border-radius: 1rem;
+    border: none;
+    width: 80%;
+    text-indent: 1rem;
+}
+
+.contact_right input:focus {
+    outline: none;
+}
+
+.contact_right button {
+    border-radius: 1rem;
+    position: absolute;
+    color: #ffffff;
+    top: .4rem;
+    right: .5rem;
+    border: 1px solid rgba(241, 196, 15, 1);
+    padding: .7rem 1.5rem;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+    background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
+}
+
+.contact_right button:focus {
+    outline: none;
+}
+
+.contact_right button:hover {
+    background-color: transparent;
+    color: #242424;
+}
+
+@media screen and (max-width: 996px) {
+    /*.newsletter{*/
+    /*    padding: 1.5rem;*/
+    /*}*/
+    .contact_left h1 {
+        font-size: 1.8rem;
+    }
+
+    .contact_right button {
+        padding: .6rem 1rem;
+        top: .6rem;
+    }
+}
+
+@media screen and (max-width: 828px) {
+    .newsletter {
+        flex-direction: column;
+    }
+
+    .contact_right {
+        width: 100%;
+        text-align: center;
+    }
+
+    .contact_right button {
+        right: 3.5rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .contact_right input {
+        width: 100%;
+    }
+
+    .contact_right button {
+        right: 1rem;
+    }
+}
+
+@media screen and (max-width: 567px) {
+    .newsletter {
+        padding: 1rem;
+    }
+}
+

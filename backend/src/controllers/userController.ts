@@ -49,11 +49,5 @@ export const updateUser = async (req: Request, res: Response) => {
 
 export const deleteUser = async (req: Request, res: Response) => {
     const user = await checkUser(req)
-
-    // if (req.user?.role !== UserRole.ADMIN) throw new NotAuthorizedError()
-
-    return res.send({
-        role: req.user?.role,
-        userId: user.id
-    })
+    //todo implement user deletion
 }

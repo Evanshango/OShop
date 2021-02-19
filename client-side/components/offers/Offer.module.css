@@ -1,0 +1,27 @@
+.offer_container{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 90%;
+    margin: auto;
+}
+
+.offer_container h5 {
+    font-size: 25px;
+    padding: 2rem;
+}
+
+.offer_card_container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    width: 100%;
+}
+
+.offer_card{
+    border-radius: 10px;
+    height: 150px;
+    padding: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+}
