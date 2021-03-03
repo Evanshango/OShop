@@ -3,13 +3,21 @@ import {TokenManager} from "../helpers/token-manager";
 import gravatar from "gravatar";
 import {User} from "../models/user";
 import {BadRequestError} from "../errors/bad-request-error";
-import {AuthMethod, GOOGLE_CLIENT_ID} from "../helpers/constants";
+import {AuthMethod, COOKIE_EXPIRES_IN, GOOGLE_CLIENT_ID, NODE_ENV} from "../helpers/constants";
 import {PasswordManager} from "../helpers/password-manager";
 import {OAuth2Client} from "google-auth-library";
 
 const userResponse = async (user: any, req: Request, res: Response, status: number) => {
+
     const userJWt = await TokenManager.generateToken(user)
-    req.session = {jwt: userJWt}
+
+    // const cookieOptions = {
+    //     expires: new Date(Date.now() + COOKIE_EXPIRES_IN! * 24 * 60 * 60 * 1000),
+    //     httpOnly: true,
+    //     secure: false,
+    // }
+    // if (NODE_ENV === 'production') cookieOptions.secure = true
+    // res.cookie('oshop', userJWt, cookieOptions)
 
     return res.status(status).json({
         status: 'success',

@@ -1,0 +1,184 @@
+.dashboard_container h2 {
+    padding: 1rem 0;
+}
+
+.dashboard_top {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 1rem;
+}
+
+.dashboard_card {
+    border-radius: .5rem;
+    box-shadow: 0 .4rem 1.2rem rgba(0, 0, 0, .15);
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.card_body {
+    text-align: center;
+    padding: .5rem;
+}
+
+.card_body h3 {
+    font-size: 1.7rem;
+}
+
+.card_body h3 span {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.card_footer {
+    border-top: 1px solid #f3f4f6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card_footer span {
+    padding: .6rem;
+}
+
+.next_button {
+    padding: 0 2rem;
+}
+
+.content{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 1rem;
+    margin: 1rem 0;
+}
+
+.users{
+    width: 100%;
+}
+.recent_orders, .users {
+    box-shadow: 0 .4rem 1.2rem rgba(0, 0, 0, .15);
+    border-radius: .5rem;
+    padding: 1rem;
+}
+
+.orders_table, .user_data{
+    margin-top: 1rem;
+}
+
+.orders_table tr {
+    border-collapse: collapse;
+}
+
+.orders_table tr th{
+    text-align: left;
+    border: 1px solid #a5aaad;
+    background: #a5aaad;
+}
+
+.orders_table tr th,
+.orders_table tr td{
+    padding: .5rem;
+    border-top: 1px solid gainsboro;
+    border-left: 1px solid gainsboro;
+}
+
+.orders_table tr th:last-child,
+.orders_table tr td:last-child{
+    border-right: 1px solid gainsboro;
+}
+
+.orders_table tr:last-child th,
+.orders_table tr:last-child td {
+    border-bottom: 1px solid gainsboro;
+}
+
+.orders_table tr td {
+    font-weight: 300;
+}
+
+.orders_table tr th {
+    font-weight: 700;
+}
+
+.order_status{
+    font-size: 14px;
+}
+
+.user_data{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+    align-items: center;
+
+}
+
+.top_area{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.users h3{
+    padding: 0 0 1rem 0;
+}
+
+.user_data img{
+    border-radius: 50%;
+    height: 3rem;
+    width: 3rem;
+    border: 1px solid gainsboro;
+    object-fit: cover;
+}
+
+.user_info{
+    display: flex;
+    align-items: center;
+}
+
+.user_info span{
+    margin-left: 1rem;
+}
+
+.actions{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+}
+
+.actions button, .top_area button{
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.top_area button{
+    background: green;
+    display: flex;
+    align-items: center;
+}
+
+.email{
+    background: #ff000090;
+}
+
+.call{
+    background: #256eff90;
+}
+
+@media screen and (max-width: 1298px) {
+    .dashboard_top {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .content{
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 638px) {
+    .dashboard_top {
+        grid-template-columns: 1fr 1fr;
+    }
+}

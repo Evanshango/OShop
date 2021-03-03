@@ -1,8 +1,10 @@
 import styles from './../styles/Home.module.css'
 import Slider from "../components/slider/Slider";
-import NewProduct from "../components/products/NewProduct";
+import Featured from "../components/products/Featured";
+import Latest from "../components/products/Latest";
 import Content from "../components/Content";
-import Offer from "../components/offers/Offer";
+import Link from "next/link";
+import React from "react";
 
 const images = [
     '/img_1.jpg',
@@ -34,10 +36,30 @@ const Home = ({userInfo}) => {
                     </div>
                 </div>
             </Slider>
+            <Featured/>
+            <Latest/>
+            <div className={styles.banner} style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, .4), rgba(0, 0, 0, .4)), url(${'/img_9.jpg'})`}}>
+                <div className={styles.banner_right}>
+                    <div className={styles.content}>
+                        <h3><span className={styles.discount}>70%</span> sale off</h3>
+                        <h2>Hurry while stocks last</h2>
+                        <Link href={'/'} passHref>
+                            <a className={styles.btn}>
+                                <button>Shop Now</button>
+                            </a>
+                        </Link>
+                    </div>
+                </div>
+            </div>
             <Content>
-                <NewProduct name={'New Products'}/>
-                <Offer/>
-                <NewProduct name={'Featured Products'}/>
+                <div className={styles.offers}>
+                    <div className={styles.title}>
+                        <h5>Offers</h5>
+                    </div>
+                    <div>
+                        **********something here*****
+                    </div>
+                </div>
                 <div className={styles.newsletter}>
                     <div className={styles.contact_left}>
                         <h1>Subscribe to our Newsletter</h1>

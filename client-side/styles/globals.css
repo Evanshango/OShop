@@ -20,13 +20,13 @@ a {
 }
 
 ::-webkit-scrollbar{
-  width: 10px;
+  width: 8px;
   height: 3px;
 }
 
 ::-webkit-scrollbar-thumb{
   background: green;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 li, ul{
@@ -42,14 +42,15 @@ h2, h3, h4{
   font-weight: 600;
 }
 
-/*.container {*/
-/*  max-width: 114rem;*/
-/*  padding: 0 1rem;*/
-/*  margin: 0 auto;*/
-/*}*/
+.main_container {
+  display: flex;
+  width: 60%;
+  margin: 20px auto;
+  flex-direction: column;
+}
 
-/*@media only screen and (max-width: 992px){*/
-/*  .container {*/
-/*    padding: 0 3rem;*/
-/*  }*/
-/*}*/
+@media screen and (max-width: 620px) {
+  .main_container {
+    width: 85%;
+  }
+}

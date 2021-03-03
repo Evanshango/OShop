@@ -1,8 +1,9 @@
-import {Document, HookNextFunction, Model, model, Schema} from "mongoose";
+import mongoose, {Document, HookNextFunction, Model, model, Schema} from "mongoose";
 import slugify from "slugify";
 
 interface ICategoryAttrs {
     name: string
+    section: string
 }
 
 interface ICategoryDoc extends Document {
@@ -18,6 +19,7 @@ const categorySchema = new Schema({
     name: {
         type: String, required: true, unique: true, trim: true
     },
+    section: {type: mongoose.Schema.Types.ObjectId, ref: 'Section'},
     slug: {
         type: String
     },
@@ -37,6 +39,14 @@ categorySchema.statics.build = (attrs: ICategoryAttrs) => (new Category(attrs))
 categorySchema.pre('save', async function (next: HookNextFunction) {
     // @ts-ignore
     this.set('slug', await slugify(this.name, {lower: true}))
+    next()
+})
+
+categorySchema.pre(/^find/, function (next: HookNextFunction) {
+    this.populate({
+        path: 'section',
+        select: 'name'
+    })
     next()
 })
 

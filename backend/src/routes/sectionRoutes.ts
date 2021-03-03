@@ -11,9 +11,9 @@ router.post('/sections', requireAuth, isAdmin, [
     body('name').notEmpty().trim().withMessage('Section name is required')
 ], validateRequest, addSection)
 router.get('/sections', fetchSections)
-router.patch('/sections/:slug', requireAuth, isAdmin, [
+router.patch('/sections/:id', requireAuth, isAdmin, [
     body('name').notEmpty().trim().withMessage('Section name is required')
 ], updateSection)
-router.delete('/sections/:slug', requireAuth, isAdmin, deleteSection)
+router.delete('/sections/:id', requireAuth, isAdmin, deleteSection)
 
 export {router as sectionRouter}

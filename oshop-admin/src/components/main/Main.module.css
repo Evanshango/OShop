@@ -1,0 +1,5 @@
+.main_container{
+    grid-area: main;
+    overflow-y: auto;
+    padding: 1rem;
+}

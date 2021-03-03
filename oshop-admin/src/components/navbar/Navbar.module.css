@@ -1,0 +1,38 @@
+.navbar{
+    background: #ffffff;
+    box-shadow: 0 .4rem 1.2rem rgba(0, 0, 0, .15);
+    grid-area: nav;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.nav_icon{
+    display: none;
+}
+
+.nav_icon svg{
+    cursor: pointer;
+    color: #838383;
+    font-size: 30px;
+}
+
+.navbar_right{
+    margin-left: auto;
+}
+
+.navbar_right svg{
+    background: red;
+    border-radius: 50%;
+    padding: .5rem;
+    font-size: 2.5rem;
+    color: #ffffff;
+}
+
+@media only screen and (max-width: 978px){
+    .nav_icon{
+        display: inline;
+    }
+}

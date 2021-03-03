@@ -3,10 +3,12 @@ import {Product} from "../models/product";
 import {BadRequestError} from "../errors/bad-request-error";
 import {FileHandler} from "../helpers/file-handler";
 import {NotFoundError} from "../errors/not-found-error";
+import mongoose from "mongoose";
 
 const checkProduct = async (req: Request) => {
-    const {slug} = req.params
-    return Product.findOne({slug})
+    const {id} = req.params
+    if (!mongoose.Types.ObjectId.isValid(id)) throw new BadRequestError('Invalid product ID')
+    return Product.findById(id)
 }
 
 export const fetchProducts = async (req: Request, res: Response) => {
@@ -15,17 +17,16 @@ export const fetchProducts = async (req: Request, res: Response) => {
 }
 
 export const addProduct = async (req: Request, res: Response) => {
-    const {name, price, stock, description, section, brand} = req.body
-
-    const existingProduct = await Product.findOne({name})
-    if (existingProduct) throw new BadRequestError('Product already exists. Consider updating the stock')
+    const {
+        name, price, stock, section, category, discount, discountPrice, finalPrice, description
+    } = JSON.parse(JSON.stringify(req.body))
 
     if (req.files.length === 0) throw new BadRequestError('Product images not found')
-    const createdBy = req.user!.id
+    const createdBy = req['user']!.id
     const images = await FileHandler.upload(req.files, name)
 
     const product = Product.build({
-        name, price, stock, section, brand, description, images, createdBy
+        name, price, stock, section, category, discount, discountPrice, finalPrice, description, images, createdBy
     })
     await product.save()
     return res.send(product)
@@ -53,7 +54,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
 
     const result = await FileHandler.delete(product.images, product.name)
 
-    if (Object.keys(result[0]).length === 0){
+    if (Object.keys(result[0]).length === 0) {
         await Product.findByIdAndDelete(product.id)
 
         return res.status(200).send({

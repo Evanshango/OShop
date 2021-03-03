@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Link from 'next/link'
 import styles from './NavBar.module.css'
 import {AiOutlineClose, AiOutlineMenu, AiOutlineShoppingCart, AiOutlineUser} from "react-icons/ai";
@@ -7,27 +7,27 @@ const NavBar = () => {
 
     // const {user} = useSelector(state => state.user)
     const [click, setClick] = useState(false)
-    const [button, setButton] = useState(true)
+    // const [button, setButton] = useState(true)
 
     const handleClick = () => setClick(!click)
 
     const closeMobileMenu = () => setClick(false)
 
-    const showButton = () => {
-        if (window.innerWidth <= 960) {
-            setButton(false)
-        } else {
-            setButton(true)
-        }
-    }
+    // const showButton = () => {
+    //     if (window.innerWidth <= 960) {
+    //         setButton(false)
+    //     } else {
+    //         setButton(true)
+    //     }
+    // }
 
-    useEffect(() => {
-        showButton()
-        window.addEventListener('resize', showButton)
-        return () => {
-            window.removeEventListener('resize', showButton)
-        }
-    }, [])
+    // useEffect(() => {
+    //     showButton()
+    //     window.addEventListener('resize', showButton)
+    //     return () => {
+    //         window.removeEventListener('resize', showButton)
+    //     }
+    // }, [])
 
     return (
         <nav className={styles.nav}>

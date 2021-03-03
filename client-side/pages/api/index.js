@@ -1,5 +1,4 @@
 import axios from 'axios'
-import Router from 'next/router'
 import {authError, authRequest, authSuccess} from "../../redux/actions/authActions";
 
 const BASE_URL = process.env.BASE_URL

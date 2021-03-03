@@ -6,9 +6,11 @@ interface IProductAttrs {
     price: number
     stock: number
     section: string
-    brand: string
+    category: string
+    discount: number
+    discountPrice: number
+    finalPrice: number
     description: string
-    discount?: number
     images: string[]
     createdBy: string
 }
@@ -18,10 +20,11 @@ interface IProductDoc extends Document {
     price: number
     slug: string
     stock: number
-    section: string
-    brand: string
+    category: string
+    discount: number
+    discountPrice: number
+    finalPrice: number
     description: string
-    discount?: number
     images: string[]
     createdBy: string
 }
@@ -50,9 +53,16 @@ const productSchema = new Schema({
     discount: {
         type: Number, default: 0
     },
+    discountPrice: {
+        type: Number, default: 0
+    },
+    finalPrice: {
+        type: Number
+    },
     rating: {
         type: Number, default: 0
     },
+    category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
     section: {type: mongoose.Schema.Types.ObjectId, ref: 'Section'},
     createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 }, {
@@ -72,7 +82,7 @@ productSchema.statics.build = (attrs: IProductAttrs) => (new Product(attrs))
 
 productSchema.pre(/^find/, function (next: HookNextFunction) {
     this.populate({
-        path: 'section',
+        path: 'category',
         select: 'name'
     })
     next()

@@ -1,0 +1,205 @@
+.section_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+}
+
+.sections, .categories {
+    border-radius: .5rem;
+    padding: 1rem;
+    width: 100%;
+    box-shadow: 0 .4rem 1.2rem rgba(0, 0, 0, .15);
+    height: auto;
+}
+
+.sections hr,
+.categories hr {
+    margin-top: 1rem;
+}
+
+.header_area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_area button {
+    display: flex;
+    align-items: center;
+    border-radius: .5rem;
+    padding: .4rem 1rem;
+    border: none;
+    outline: none;
+    color: #fff;
+    cursor: pointer;
+    background: green;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.header_area button span {
+    font-size: 10px !important;
+    padding: 0 !important;
+    margin-left: 2px;
+}
+
+.items_table {
+    margin-top: 1rem;
+    width: 100%
+}
+
+.items_table tr th {
+    text-align: left;
+    border: 1px solid #a5aaad;
+    background: #a5aaad;
+}
+
+.items_table tr th,
+.items_table tr td {
+    padding: .5rem;
+    border-top: 1px solid gainsboro;
+    border-left: 1px solid gainsboro;
+}
+
+.items_table tr th:last-child,
+.items_table tr td:last-child {
+    border-right: 1px solid gainsboro;
+}
+
+.items_table tr:last-child th,
+.items_table tr:last-child td {
+    border-bottom: 1px solid gainsboro;
+}
+
+.items_table tr td {
+    font-size: 15px;
+}
+
+.action_buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.action_buttons span {
+    cursor: pointer;
+    padding: 0 .3rem;
+    position: relative;
+    border: 1px solid gainsboro;
+    border-radius: .5rem;
+}
+
+.action_buttons span:not(:last-child) {
+    color: #256eff;
+    margin-right: 1rem;
+}
+
+.action_buttons span:last-child {
+    color: #ff0000;
+    margin-right: 1rem;
+}
+
+.action_buttons span h5 {
+    background: #838383;
+    color: #ffffff;
+    padding: 0 .3rem;
+    border-radius: 5px;
+    position: absolute;
+    top: .5rem;
+    left: 1.5rem;
+    font-weight: normal;
+    transform: translate(0, -50%) scale(0);
+    z-index: 2;
+    opacity: 0;
+    transition: all 500ms ease-in-out;
+}
+
+
+.action_buttons span:hover h5 {
+    opacity: 1;
+    background: #6495ed;
+    transition: all 300ms ease-in-out;
+    transform: translate(0, -50%) scale(1);
+}
+
+.action_buttons span:last-child h5 {
+    background: #ff0000;
+}
+
+.pagination {
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto;
+}
+
+.dialog_title{
+    font-weight: bold;
+}
+
+.buttons button {
+    border-radius: 2rem;
+    padding: .6rem 2rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.buttons button:last-child {
+    background: #6495ed;
+    margin-left: 1rem;
+    color: #ffffff;
+}
+
+.buttons button:not(:last-child){
+    color: #ffffff;
+    background: #ff0000;
+}
+
+.content select{
+    margin-bottom: 1rem;
+}
+
+.content input, .content select{
+    width: 100%;
+    padding: .8rem;
+    border-radius: 5px;
+    border: 1px solid #a5aaad;
+}
+
+.content input:focus, .content select:focus{
+    outline: none;
+}
+
+.content p{
+    padding-bottom: .7rem;
+}
+
+.errors{
+    background: rgb(248,215,218);
+    margin: 1rem 0;
+    padding: 1rem;
+    color:#ff0000;
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 898px) {
+    .section_container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 498px) {
+    .action_buttons span:last-child {
+        color: #ff0000;
+        margin: 0;
+    }
+
+    .action_buttons span:last-child h5 {
+        left: -2rem;
+    }
+
+    .buttons{
+        width: 100%;
+        text-align: center;
+    }
+}

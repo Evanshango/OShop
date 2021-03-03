@@ -1,0 +1,228 @@
+.products_container h3 {
+    padding: 1rem 0;
+    font-size: 20px;
+}
+
+.products_container button {
+    padding: .6rem 2rem;
+    background: #ff0000;
+    border-radius: 2rem;
+    outline: none;
+    border: none;
+    color: #ffffff;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.products_container button:focus {
+    outline: none;
+    border: none;
+}
+
+.search_products {
+    padding: 2rem 0;
+}
+
+.sec_cat_area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.section p, .category p {
+    padding: .5rem 0;
+}
+
+.section select, .category select {
+    padding: .6rem .8rem;
+    width: 100%;
+    border-radius: .3rem;
+    border: 1px solid #a5aaad;
+}
+
+.section select:focus, .category select:focus {
+    outline: none;
+}
+
+.dialog_title {
+    color: #212121;
+    font-weight: bold !important;
+}
+
+.add_new {
+    margin: 1rem 0;
+}
+
+.add_new p {
+    font-weight: bold;
+}
+
+.add_new hr {
+    margin: 1rem 0;
+}
+
+.row_one, .row_two {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 1rem;
+    margin: 1rem 0;
+}
+
+.row_one span h5, .row_two span h5 {
+    padding: .5rem 0;
+}
+
+.row_one span input, .row_two span input {
+    width: 100%;
+    padding: .6rem .2rem;
+    border-radius: .3rem;
+    border: 1px solid #a5aaad;
+}
+
+.row_one span input:focus,
+.row_two span input:focus,
+.product_description textarea:focus {
+    outline: none;
+}
+
+.product_description {
+    margin: 2rem 0;
+}
+
+.product_description h5 {
+    padding: 0 0 1rem 0;
+}
+
+.product_description textarea {
+    width: 100%;
+    height: 10rem;
+    padding: .6rem .2rem;
+    border-radius: .3rem;
+    border: 1px solid #a5aaad;
+    font-family: 'Dosis', sans-serif;
+    font-size: 1rem;
+}
+
+.image_area {
+    padding: 3rem;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border: 2px dashed #b1b1b1;
+    border-radius: 5px;
+    background-color: #cbc8c8;
+    cursor: pointer;
+}
+
+.image_area svg {
+    font-size: 3rem;
+}
+
+.image_area p {
+    font-weight: normal;
+    font-size: .8rem;
+}
+
+.image_area.highlighted {
+    background: #3cb37160;
+    padding: 3rem;
+}
+
+.add_new form button {
+    background: #256eff;
+    padding: .6rem 2rem;
+    cursor: pointer;
+    border-radius: 2rem;
+    outline: none;
+    border: none;
+    color: #ffffff;
+    margin: 2rem 1rem;
+}
+
+.preview_images {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+    gap: 2rem .5rem;
+}
+
+.preview_images img {
+    width: 10rem;
+    object-fit: cover;
+    height: 8rem;
+    border-radius: .5rem;
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+.preview_container p {
+    color: #ff0000;
+    text-align: center;
+    padding: 2rem 0 1rem 0;
+}
+
+.cancel, .save {
+    border-radius: 1rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: .6rem 3rem;
+    color: #ffffff;
+}
+
+.cancel {
+    background: #ff0000;
+}
+
+.save {
+    background: #256eff;
+}
+
+.products_table {
+
+}
+
+@media screen and (max-width: 720px) {
+    .row_one, .row_two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 1rem;
+        margin: 1rem 0;
+    }
+}
+
+@media screen and (max-width: 598px) {
+    .sec_cat_area {
+        grid-template-columns: 1fr;
+    }
+
+    .preview_images {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .preview_images img {
+        width: 7.5rem;
+        height: 7rem;
+    }
+
+    .preview_container p {
+        font-weight: normal;
+    }
+
+    .add_new form button {
+        width: 90%;
+    }
+
+    .row_one, .row_two {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 358px) {
+    .preview_images img {
+        width: 5.5rem;
+        height: 5rem;
+    }
+}

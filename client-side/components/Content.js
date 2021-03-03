@@ -1,7 +1,6 @@
-import styles from './products/NewProducts.module.css'
 const Content = ({children}) => {
     return(
-        <div className={styles.main_container}>
+        <div className='main_container'>
             {children}
         </div>
     )

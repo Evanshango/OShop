@@ -9,10 +9,10 @@ servers:
 
 components:
   securitySchemes:
-    cookieAuth:
+    tokenAuth:
       type: apiKey
-      in: cookie
-      name: express:sess
+      in: header
+      name: Authorization
 
   schemas:
     User:
@@ -34,6 +34,16 @@ components:
           type: string
         createdAt:
           type: string
+    Section:
+      type: object
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+      example:
+        name: Art
+        slug: art
     Category:
       type: object
       properties:
@@ -44,19 +54,6 @@ components:
       example:
         name: Kitchen Ware
         slug: kitchen-ware
-    Section:
-      type: object
-      properties:
-        name:
-          type: string
-        slug:
-          type: string
-        categoryId:
-          type: string
-      example:
-        name: Microwave
-        slug: microwave
-        categoryId: random_id
     Product:
       type: object
       properties:
@@ -196,7 +193,7 @@ paths:
       summary: Get users
       description: Retrieves a list user JSON objects in an array (*admin only*)
       security:
-        - cookieAuth: [ ]
+        - tokenAuth: [ ]
       responses:
         200:
           description: A list of user JSON objects in an array
@@ -301,7 +298,7 @@ paths:
       summary: Get Current user
       description: Retrieve currently signed in user
       security:
-        - cookieAuth: [ ]
+        - tokenAuth: [ ]
       responses:
         200:
           description: Currently signed in user
@@ -312,130 +309,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
 
-  /categories:
-    post:
-      tags:
-        - categories
-      summary: Add Category
-      description: Add a new Category
-      security:
-        - cookieAuth: [ ]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-              example:
-                name: Laptops
-      responses:
-        201:
-          description: Category created successfully
-        400:
-          description: Bad request
-        401:
-          description: Unauthorized request
-
-    get:
-      tags:
-        - categories
-      summary: Get Categories
-      description: Retrieves a list of available categories in an array
-      responses:
-        200:
-          description: A list of category JSON objects in an array
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Category'
-
-  /categories/{slug}:
-    get:
-      tags:
-        - categories
-      summary: Get a Category
-      description: Retrieves a category based on the slug
-      parameters:
-        - in: path
-          name: slug
-          required: true
-          description: Category slug
-          schema:
-            type: string
-      responses:
-        200:
-          description: A category in the format of a JSON object
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Category'
-        404:
-          description: Not found
-
-    patch:
-      tags:
-        - categories
-      summary: Updates a Category
-      description: Update a specific category based on the slug provided
-      security:
-        - cookieAuth: [ ]
-      parameters:
-        - in: path
-          name: slug
-          required: true
-          description: The Category slug
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-              example:
-                name: Laptops
-      responses:
-        200:
-          description: Category updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Category"
-        401:
-          description: Unauthorized request
-        404:
-          description: Not found
-
-    delete:
-      tags:
-        - categories
-      summary: Deletes a Category
-      description: Delete a specific category based on the category slug
-      security:
-        - cookieAuth: [ ]
-      parameters:
-        - in: path
-          name: slug
-          required: true
-          description: The category slug
-          schema:
-            type: string
-      responses:
-        204:
-          description: Category deleted successfully
-        401:
-          description: Unauthorized request
-        404:
-          description: Not found
-
   /sections:
     post:
       tags:
@@ -443,7 +316,7 @@ paths:
       summary: Add Section
       description: Add a new Section
       security:
-        - cookieAuth: [ ]
+        - tokenAuth: [ ]
       requestBody:
         required: true
         content:
@@ -453,11 +326,8 @@ paths:
               properties:
                 name:
                   type: string
-                categoryId:
-                  type: string
               example:
-                name: Microwave
-                categoryId: random_key
+                name: Art
       responses:
         201:
           description: Section created successfully
@@ -481,17 +351,17 @@ paths:
                 items:
                   $ref: '#/components/schemas/Section'
 
-  /sections/{slug}:
+  /sections/{id}:
     get:
       tags:
         - sections
       summary: Get a Section
-      description: Retrieves a section based on the slug
+      description: Retrieves a section based on the id
       parameters:
         - in: path
-          name: slug
+          name: id
           required: true
-          description: Section slug
+          description: Section id
           schema:
             type: string
       responses:
@@ -508,14 +378,14 @@ paths:
       tags:
         - sections
       summary: Updates a Section
-      description: Update a specific section based on the slug provided
+      description: Update a specific section based on the id provided
       security:
-        - cookieAuth: [ ]
+        - tokenAuth: [ ]
       parameters:
         - in: path
-          name: slug
+          name: id
           required: true
-          description: The Section slug
+          description: The Section id
           schema:
             type: string
       requestBody:
@@ -528,7 +398,7 @@ paths:
                 name:
                   type: string
               example:
-                name: Microwave
+                name: Art
       responses:
         200:
           description: Section updated successfully
@@ -545,23 +415,185 @@ paths:
       tags:
         - sections
       summary: Deletes a Section
-      description: Delete a specific section based on the section slug
+      description: Delete a specific section based on the section id
       security:
-        - cookieAuth: [ ]
+        - tokenAuth: [ ]
       parameters:
         - in: path
-          name: slug
+          name: id
           required: true
-          description: The section slug
+          description: The section id
           schema:
             type: string
       responses:
         204:
           description: Section deleted successfully
+        400:
+          description: Invalid id
         401:
           description: Unauthorized request
         404:
           description: Not found
+
+  /categories:
+    post:
+      tags:
+        - categories
+      summary: Add Category
+      description: Add a new Category
+      security:
+        - tokenAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                sectionId:
+                  type: string
+              example:
+                name: Laptops
+                sectionId: random_key
+      responses:
+        201:
+          description: Category created successfully
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized request
+
+    get:
+      tags:
+        - categories
+      summary: Get Categories
+      description: Retrieves a list of available categories in an array
+      responses:
+        200:
+          description: A list of category JSON objects in an array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+
+  /categories/{id}:
+    get:
+      tags:
+        - categories
+      summary: Get a Category
+      description: Retrieves a category based on the id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Category id
+          schema:
+            type: string
+      responses:
+        200:
+          description: A category in the format of a JSON object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        400:
+          description: Bad request
+        404:
+          description: Not found
+
+    patch:
+      tags:
+        - categories
+      summary: Updates a Category
+      description: Update a specific category based on the id provided
+      security:
+        - tokenAuth: [ ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The Category id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              example:
+                name: Laptops
+      responses:
+        200:
+          description: Category updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized request
+        404:
+          description: Not found
+
+    delete:
+      tags:
+        - categories
+      summary: Deletes a Category
+      description: Delete a specific category based on the category id
+      security:
+        - tokenAuth: [ ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The category id
+          schema:
+            type: string
+      responses:
+        204:
+          description: Category deleted successfully
+        400:
+          description Bad request
+        401:
+          description: Unauthorized request
+        404:
+          description: Not found
+
+  /categories/section/{sectionId}:
+    get:
+      tags:
+        - categories
+      summary: Get Categories by sectionId
+      description: Retrieves categories based on the sectionId provided
+      parameters:
+        - in: path
+          name: sectionId
+          required: true
+          description: Section id
+          schema:
+            type: string
+      responses:
+        200:
+          description: A list of categories based on the section id provided
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        400:
+          description: Bad request
+        404:
+          description: Section not found
 
   /products:
     post:
@@ -570,7 +602,7 @@ paths:
       summary: Add a product
       description: Add a new product
       security:
-        - cookieAuth: [ ]
+        - tokenAuth: [ ]
       requestBody:
         required: true
         content:
@@ -601,17 +633,17 @@ paths:
                 items:
                   $ref: '#/components/schemas/Product'
 
-  /products/{slug}:
+  /products/{id}:
     get:
       tags:
         - products
       summary: Get a product
-      description: Retrieves a product based in the slug provided
+      description: Retrieves a product based in the id provided
       parameters:
         - in: path
-          name: slug
+          name: id
           required: true
-          description: Product slug
+          description: Product id
           schema:
             type: string
       responses:
@@ -621,6 +653,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request
         404:
           description: Not found
 
@@ -628,14 +662,14 @@ paths:
       tags:
         - products
       summary: Updates a Product
-      description: Update a specific product based on the product slug provided
+      description: Update a specific product based on the product id provided
       security:
-        - cookieAuth: [ ]
+        - tokenAuth: [ ]
       parameters:
         - in: path
-          name: slug
+          name: id
           required: true
-          description: The Product slug
+          description: The Product id
           schema:
             type: string
       requestBody:
@@ -652,6 +686,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Product"
+        4004:
+          description: Bad request
         401:
           description: Unauthorized request
         404:
@@ -661,19 +697,21 @@ paths:
       tags:
         - products
       summary: Deletes a Product
-      description: Delete a specific product based on the product slug provided
+      description: Delete a specific product based on the product id provided
       security:
-        - cookieAuth: [ ]
+        - tokenAuth: [ ]
       parameters:
         - in: path
-          name: slug
+          name: id
           required: true
-          description: The Product slug
+          description: The Product id
           schema:
             type: string
       responses:
         200:
           description: Product deleted successfully
+        4004:
+          description: Bad request
         401:
           description: Unauthorized request
         404:

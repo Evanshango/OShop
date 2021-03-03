@@ -8,6 +8,7 @@ export const GOOGLE_CLIENT_SECRET = process.env.CLIENT_SECRET
 export const MONGO_URI = process.env.MONGO_URI
 export const PORT = process.env.PORT
 export const NODE_ENV = process.env.NODE_ENV
+export const COOKIE_EXPIRES_IN = parseInt(process.env.COOKIE_EXPIRES_IN!)
 
 export const S3_ENDPOINT = process.env.S3_ENDPOINT
 export const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY

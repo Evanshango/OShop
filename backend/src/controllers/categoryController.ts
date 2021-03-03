@@ -1,26 +1,29 @@
 import {Request, Response} from "express";
 import {Category} from "../models/category";
 import {NotFoundError} from "../errors/not-found-error";
-import {UserRole} from "../helpers/constants";
-import {NotAuthorizedError} from "../errors/not-authorized-error";
 import {BadRequestError} from "../errors/bad-request-error";
+import {Section} from "../models/section";
+import mongoose from "mongoose";
 
 const checkCategory = async (req: Request) => {
-    const {slug} = req.params
-    return Category.findOne({slug});
+    const {id} = req.params
+    if (!mongoose.Types.ObjectId.isValid(id)) throw new BadRequestError('Invalid category ID')
+    return Category.findById(id);
 }
 
 export const addCategory = async (req: Request, res: Response) => {
-    const {name} = req.body
-    if (req.user!.role !== UserRole.ADMIN) throw new NotAuthorizedError()
+    const {name, section} = req.body
+
+    if (!mongoose.Types.ObjectId.isValid(section)) throw new BadRequestError('Please select a section')
 
     const existingCategory = await Category.findOne({name})
     if (existingCategory) throw new BadRequestError('Category already exists')
 
-    const category = Category.build({name})
+    const category = Category.build({name, section})
 
     await category.save()
-    return res.status(201).send(category)
+    const newCategory = await Category.findById(category.id)
+    return res.status(201).send(newCategory)
 }
 
 export const fetchCategories = async (req: Request, res: Response) => {
@@ -51,9 +54,21 @@ export const deleteCategory = async (req: Request, res: Response) => {
     const category = await checkCategory(req)
     if (!category) throw new NotFoundError('Category')
 
-    await Category.findOneAndDelete(category.id)
+    await Category.findByIdAndDelete(category.id)
 
     return res.status(204).send({
         message: 'Category deleted'
     })
+}
+
+export const fetchCategoriesBySectionId = async (req: Request, res: Response) => {
+    const {sectionId} = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(sectionId)) throw new BadRequestError('Invalid section ID')
+
+    const section = await Section.findById(sectionId)
+    const category = await Category.find({section: sectionId})
+
+    if (!section) throw new NotFoundError('Section')
+    return res.send(category)
 }
