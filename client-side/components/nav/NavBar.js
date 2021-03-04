@@ -2,32 +2,16 @@ import React, {useState} from 'react';
 import Link from 'next/link'
 import styles from './NavBar.module.css'
 import {AiOutlineClose, AiOutlineMenu, AiOutlineShoppingCart, AiOutlineUser} from "react-icons/ai";
+import {useSelector} from "react-redux";
 
 const NavBar = () => {
 
-    // const {user} = useSelector(state => state.user)
+    const {products: cart} = useSelector(state => state.cart)
     const [click, setClick] = useState(false)
-    // const [button, setButton] = useState(true)
 
     const handleClick = () => setClick(!click)
 
     const closeMobileMenu = () => setClick(false)
-
-    // const showButton = () => {
-    //     if (window.innerWidth <= 960) {
-    //         setButton(false)
-    //     } else {
-    //         setButton(true)
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     showButton()
-    //     window.addEventListener('resize', showButton)
-    //     return () => {
-    //         window.removeEventListener('resize', showButton)
-    //     }
-    // }, [])
 
     return (
         <nav className={styles.nav}>
@@ -73,7 +57,9 @@ const NavBar = () => {
                         <li className={styles.nav_icon}>
                             <Link href={'/cart'}>
                                 <a className={styles.nav_links} onClick={closeMobileMenu}>
-                                    <AiOutlineShoppingCart size={26}/>
+                                    <span className={styles.cart}>
+                                        <AiOutlineShoppingCart size={26}/><h4>{cart.length}</h4>
+                                    </span>
                                 </a>
                             </Link>
                         </li>

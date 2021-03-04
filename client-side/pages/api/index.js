@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {authError, authRequest, authSuccess} from "../../redux/actions/authActions";
+import {addToCart, removeCartItem} from "../../redux/cart/cartActions";
 
 const BASE_URL = process.env.BASE_URL
 
@@ -26,4 +27,16 @@ export const loginUser = user => async dispatch => {
 
 export const currentUser = user => async dispatch => {
     dispatch(authSuccess(user))
+}
+
+export const addItemToCart = product => {
+    return (dispatch) => {
+        dispatch(addToCart(product))
+    }
+}
+
+export const deleteCartItem = id => {
+    return (dispatch) => {
+        dispatch(removeCartItem(id))
+    }
 }

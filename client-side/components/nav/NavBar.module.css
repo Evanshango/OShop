@@ -91,6 +91,31 @@
     display: none;
 }
 
+.cart{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.cart h4{
+    position: absolute;
+    top: -1rem;
+    right: -2rem;
+    background: red;
+    font-size: 15px;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cart:hover{
+    color: #ffffff;
+}
+
 @media only screen and (max-width: 1376px) {
     .navigation {
         width: 90%;

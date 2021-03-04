@@ -52,8 +52,6 @@ const Products = () => {
 
     }, [sects])
 
-    console.log(cats)
-
     return (
         <div className={styles.content}>
             {/*Categories area*/}
