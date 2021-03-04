@@ -5,7 +5,7 @@ import Main from "./main/Main";
 import {useDispatch} from "react-redux";
 import {fetchCategories, fetchProducts, fetchSections} from "../api";
 
-function Content() {
+function Content({user}) {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const dispatch = useDispatch()
 
@@ -22,17 +22,14 @@ function Content() {
         }
     }, [])
 
-    const openSidebar = () => {
-        setSidebarOpen(true)
-    }
+    const openSidebar = () => setSidebarOpen(true)
 
-    const closeSidebar = () => {
-        setSidebarOpen(false)
-    }
+
+    const closeSidebar = () => setSidebarOpen(false)
 
     return (
         <div className='container'>
-            <Navbar openSidebar={openSidebar} sidebarOpen={sidebarOpen}/>
+            <Navbar openSidebar={openSidebar} sidebarOpen={sidebarOpen} user={user}/>
             <Main/>
             <Sidebar closeSidebar={closeSidebar} sidebarOpen={sidebarOpen}/>
         </div>

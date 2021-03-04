@@ -19,3 +19,9 @@ export const authError = errors => {
         payload: errors
     }
 }
+
+export const signOut = () => {
+    return {
+        type: AUTH.SIGNOUT_USER
+    }
+}

@@ -21,14 +21,37 @@
 
 .navbar_right{
     margin-left: auto;
+    border-radius: 5px;
+    border: 1px solid gainsboro;
+    padding: .5rem 1rem;
 }
 
-.navbar_right svg{
-    background: red;
-    border-radius: 50%;
-    padding: .5rem;
-    font-size: 2.5rem;
+.navbar_right p{
+    display: flex;
+    align-items: center;
+}
+
+.navbar_right:hover{
+    cursor: pointer;
+}
+
+.cancel,
+.ok {
+    border-radius: 2rem;
+    padding: .5rem 2rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
     color: #ffffff;
+    text-transform: uppercase;
+}
+
+.cancel{
+    background: #ff0000;
+}
+
+.ok{
+    background: #008000;
 }
 
 @media only screen and (max-width: 978px){

@@ -1,7 +1,9 @@
 export const AUTH = {
     AUTH_REQUEST: 'AUTH_REQUEST',
     AUTH_SUCCESS: 'AUTH_SUCCESS',
-    AUTH_ERROR: 'AUTH_ERROR'
+    AUTH_ERROR: 'AUTH_ERROR',
+
+    SIGNOUT_USER: 'SIGNOUT_USER'
 }
 
 export const SECTIONS = {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {authError, authRequest, authSuccess} from "../redux/auth/authActions";
+import {authError, authRequest, authSuccess, signOut} from "../redux/auth/authActions";
 import {
     addSectionError, addSectionRequest, addSectionSuccess, clearSectionErrors, deleteSectionError, sectionsError,
     deleteSectionSuccess, sectionsRequest, sectionsSuccess
@@ -9,15 +9,8 @@ import {
     categoriesSuccess, clearCategoryErrors, deleteCategoryError, deleteCategorySuccess
 } from "../redux/categories/categoryActions";
 import {
-    addProductError,
-    addProductRequest,
-    addProductSuccess,
-    clearProductErrors,
-    deleteProductError,
-    deleteProductSuccess,
-    productsError,
-    productsRequest,
-    productsSuccess
+    addProductError, addProductRequest, addProductSuccess, clearProductErrors, deleteProductError,
+    deleteProductSuccess, productsError, productsRequest, productsSuccess
 } from "../redux/products/productActions";
 
 // const BASE_URL = 'http://localhost:5000/api/v1'
@@ -26,6 +19,14 @@ const BASE_URL = process.env.REACT_APP_BASE_URL
 const dispatchError = (dispatch, err, method) => {
     const {response: {data}} = err
     dispatch(method(data.errors))
+}
+
+export const signOutUser = () => {
+    return (dispatch) => {
+        sessionStorage.removeItem('oshop')
+        delete axios.defaults.headers.common['Authorization']
+        dispatch(signOut())
+    }
 }
 
 const setAuthHeader = token => {

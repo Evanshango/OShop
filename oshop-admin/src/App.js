@@ -7,9 +7,12 @@ import jwtDecode from "jwt-decode"
 import axios from "axios";
 import store from "./redux/store";
 import {AUTH} from "./redux/types";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 function App() {
+
+    const [user, setUser] = useState({})
+    const token = useSelector(state => state.user.token)
 
     useEffect(() => {
         const existingToken = sessionStorage.getItem('oshop')
@@ -25,18 +28,22 @@ function App() {
                     payload: existingToken
                 })
                 axios.defaults.headers['common']['Authorization'] = existingToken
+
+                const {email, id, role} = decodedToken
+
+                userProps({email, id, role})
             }
         }
-    })
+    }, [])
 
-    const token = useSelector(state => state.user.token)
+    const userProps = decodeToken => setUser(decodeToken)
 
     return (
         <Router>
             {!token ? (
                 <Signin/>
             ) : (
-                <Content/>
+                <Content user={user}/>
             )}
         </Router>
     );
