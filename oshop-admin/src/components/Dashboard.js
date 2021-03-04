@@ -64,6 +64,7 @@ const customers = [
 function Dashboard() {
 
     const {sections} = useSelector(state => state.sections)
+    const {products} = useSelector(state => state.products)
 
     const cards = [
         {
@@ -73,7 +74,7 @@ function Dashboard() {
         },
         {
             name: 'Products',
-            value: 10,
+            value: products.length,
             color: '#4caf50'
         },
         {

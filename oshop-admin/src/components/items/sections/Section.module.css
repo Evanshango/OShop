@@ -45,7 +45,8 @@
 
 .items_table {
     margin-top: 1rem;
-    width: 100%
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .items_table tr th {
@@ -64,11 +65,13 @@
 .items_table tr th:last-child,
 .items_table tr td:last-child {
     border-right: 1px solid gainsboro;
+
 }
 
 .items_table tr:last-child th,
 .items_table tr:last-child td {
     border-bottom: 1px solid gainsboro;
+
 }
 
 .items_table tr td {
@@ -76,17 +79,18 @@
 }
 
 .action_buttons {
+    text-align: center;
+}
+
+.prod_actions{
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 .action_buttons span {
     cursor: pointer;
     padding: 0 .3rem;
     position: relative;
-    border: 1px solid gainsboro;
-    border-radius: .5rem;
 }
 
 .action_buttons span:not(:last-child) {
@@ -180,6 +184,13 @@
     padding: 1rem;
     color:#ff0000;
     border-radius: 5px;
+}
+
+.data_image{
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover;
 }
 
 @media screen and (max-width: 898px) {

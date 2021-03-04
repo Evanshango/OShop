@@ -8,26 +8,22 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 
 function SectionCategoryDialog({title, dt}) {
     const [open, setOpen] = useState(false)
-    const [sec, setSec] = useState('')
-    const [name, setName] = useState('')
+    const [sec, setSec] = useState(dt && dt.section ? dt.section.name : '')
+    const [name, setName] = useState(dt ? dt.name : '')
 
     const {sections, errors: secErrors} = useSelector(state => state.sections)
     const {errors: catErrors} = useSelector(state => state.categories)
     const dispatch = useDispatch()
 
     const clearInputs = () => {
-        setName('')
-        setSec('')
+        !dt && setName('')
+        !dt && setSec('')
     }
 
     const closeDialog = () => {
-        if (secErrors.length > 0) {
-            dispatch(clearSectErrors())
-        }
+        if (secErrors.length > 0) dispatch(clearSectErrors())
 
-        if (catErrors.length > 0) {
-            dispatch(clearCatErrors())
-        }
+        if (catErrors.length > 0) dispatch(clearCatErrors())
 
         clearInputs()
         setOpen(false)
@@ -63,18 +59,28 @@ function SectionCategoryDialog({title, dt}) {
             {title.match(/^Category/) ? (renderOptions(null)) : (data?.section && (renderOptions(data)))}
             <p>Name*</p>
             <input name='name' placeholder='Name' onChange={e => setName(e.currentTarget.value)}
-                   value={dt ? dt.name : name}/>
+                   value={name}/>
             {renderErrors}
         </>
     )
 
     const renderOptions = (data) => (
+        // <>
+        //     <p>Section*</p>
+        //     <select defaultValue={data ? data.section?.name : 'Select...'} name='section'
+        //             onChange={e => setSec(e.target.value)}>
+        //         <option value={data ? data.section?.name : 'Select...'} disabled
+        //                 hidden>{data ? data.section?.name : 'Select...'}</option>
+        //         {sections.length > 0 && (sections.map(section => (
+        //                 <option value={section.id} key={section.id}>{section.name}</option>
+        //             ))
+        //         )}
+        //     </select>
+        // </>
         <>
             <p>Section*</p>
-            <select defaultValue={data ? data.section?.name : 'Select...'} name='section'
-                    onChange={e => setSec(e.target.value)}>
-                <option value={data ? data.section?.name : 'Select...'} disabled
-                        hidden>{data ? data.section?.name : 'Select...'}</option>
+            <select defaultValue={data && sec !== '' ? sec : 'Select...'} name='section' onChange={e => setSec(e.target.value)}>
+                <option value={sec !== '' ? sec : 'Select...'} disabled hidden>{sec !== '' ? sec : 'Select...'}</option>
                 {sections.length > 0 && (sections.map(section => (
                         <option value={section.id} key={section.id}>{section.name}</option>
                     ))
@@ -83,14 +89,11 @@ function SectionCategoryDialog({title, dt}) {
         </>
     )
 
-
     return (
         <>
-            {dt ? (
-                <span onClick={() => setOpen(true)}><EditOutlinedIcon/> <h5>Edit</h5></span>
-            ) : (
-                <button onClick={() => setOpen(true)}>Add New <span><AddOutlinedIcon/></span></button>
-            )}
+            {dt ? (<span onClick={() => setOpen(true)}><EditOutlinedIcon/> <h5>Edit</h5></span>) :
+                (<button onClick={() => setOpen(true)}>Add New <span><AddOutlinedIcon/></span></button>)
+            }
 
             <Dialog open={open} fullWidth maxWidth='sm'>
                 <DialogTitle>

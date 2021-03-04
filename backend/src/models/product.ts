@@ -84,6 +84,9 @@ productSchema.pre(/^find/, function (next: HookNextFunction) {
     this.populate({
         path: 'category',
         select: 'name'
+    }).populate({
+        path: 'createdBy',
+        select: 'email'
     })
     next()
 })

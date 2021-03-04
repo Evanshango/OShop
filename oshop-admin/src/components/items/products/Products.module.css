@@ -21,6 +21,26 @@
 
 .search_products {
     padding: 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%;
+    margin: auto;
+}
+
+.search_products input {
+    padding: .8rem;
+    border-radius: 5px;
+    width: 100%;
+    border: 1px solid gainsboro;
+}
+
+.search_products input:focus {
+    outline: none;
+}
+
+.search_products input {
+    margin-right: 1rem;
 }
 
 .sec_cat_area {
@@ -86,7 +106,7 @@
 }
 
 .product_description {
-    margin: 2rem 0;
+    margin: 2rem 0 1rem 0;
 }
 
 .product_description h5 {
@@ -157,14 +177,14 @@
     margin: auto;
 }
 
-.preview_container p {
+.preview_images p {
     color: #ff0000;
     text-align: center;
-    padding: 2rem 0 1rem 0;
+    padding: 1rem 0 0 0;
 }
 
-.cancel, .save {
-    border-radius: 1rem;
+.cancel, .save, .upload_button button {
+    border-radius: 2rem;
     border: none;
     outline: none;
     cursor: pointer;
@@ -181,7 +201,37 @@
 }
 
 .products_table {
+    overflow-x: auto;
+}
 
+.errors {
+    background: rgb(248, 215, 218);
+    margin: 1rem 0;
+    padding: 1rem;
+    color: #ff0000;
+    border-radius: 5px;
+}
+
+.upload_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload_button button{
+    background: #3ea175;
+    display: flex;
+    align-items: center;
+}
+
+.upload_button button span{
+    margin-left: .5rem;
+}
+.no_image{
+    text-align: center;
+    color: #ff0000;
+    font-weight: normal;
+    padding: 1rem;
 }
 
 @media screen and (max-width: 720px) {
@@ -190,6 +240,10 @@
         grid-template-columns: 1fr 1fr;
         grid-gap: 1rem;
         margin: 1rem 0;
+    }
+
+    .search_products {
+        width: 90%;
     }
 }
 
@@ -217,6 +271,11 @@
 
     .row_one, .row_two {
         grid-template-columns: 1fr;
+    }
+
+    .search_products {
+        width: 100%;
+        padding: 1rem 0 0 0;
     }
 }
 

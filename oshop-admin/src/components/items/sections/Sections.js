@@ -16,7 +16,9 @@ function Sections() {
                    <SectionCategoryDialog title={'Section'}/>
                 </div>
                 <hr/>
-                <DataTable data={sections} headers={['Name', 'Actions']}/>
+                <div style={{overflowX: 'auto'}}>
+                    <DataTable data={sections} headers={['Name', 'Actions']}/>
+                </div>
             </div>
             <div className={styles.categories}>
                 <div className={styles.header_area}>
@@ -24,7 +26,9 @@ function Sections() {
                     <SectionCategoryDialog title={'Category'}/>
                 </div>
                 <hr/>
-                <DataTable data={categories} headers={['Name', 'Section', 'Actions']}/>
+                <div style={{overflowX: 'auto'}}>
+                    <DataTable data={categories} headers={['Name', 'Section', 'Actions']}/>
+                </div>
             </div>
         </div>
     );

@@ -21,6 +21,9 @@ export const addProduct = async (req: Request, res: Response) => {
         name, price, stock, section, category, discount, discountPrice, finalPrice, description
     } = JSON.parse(JSON.stringify(req.body))
 
+    if (!mongoose.Types.ObjectId.isValid(section)) throw new BadRequestError('Please select a section')
+    if (!mongoose.Types.ObjectId.isValid(category)) throw new BadRequestError('Please select a category')
+
     if (req.files.length === 0) throw new BadRequestError('Product images not found')
     const createdBy = req['user']!.id
     const images = await FileHandler.upload(req.files, name)
@@ -29,7 +32,8 @@ export const addProduct = async (req: Request, res: Response) => {
         name, price, stock, section, category, discount, discountPrice, finalPrice, description, images, createdBy
     })
     await product.save()
-    return res.send(product)
+    const newProduct = await Product.findById(product.id)
+    return res.send(newProduct)
 }
 
 export const fetchProduct = async (req: Request, res: Response) => {

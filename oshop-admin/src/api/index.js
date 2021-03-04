@@ -9,8 +9,15 @@ import {
     categoriesSuccess, clearCategoryErrors, deleteCategoryError, deleteCategorySuccess
 } from "../redux/categories/categoryActions";
 import {
-    addProductError, addProductRequest, addProductSuccess, deleteProductError, deleteProductSuccess, productsError,
-    productsRequest, productsSuccess
+    addProductError,
+    addProductRequest,
+    addProductSuccess,
+    clearProductErrors,
+    deleteProductError,
+    deleteProductSuccess,
+    productsError,
+    productsRequest,
+    productsSuccess
 } from "../redux/products/productActions";
 
 // const BASE_URL = 'http://localhost:5000/api/v1'
@@ -145,5 +152,5 @@ export const deleteProduct = id => async dispatch => {
 }
 
 export const clearProdErrors = () => dispatch => {
-    dispatch(clearProdErrors())
+    dispatch(clearProductErrors())
 }

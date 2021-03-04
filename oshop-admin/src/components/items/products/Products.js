@@ -11,10 +11,13 @@ function Products() {
             <h3>Products</h3>
             <ProductDialog/>
             <div className={styles.search_products}>
-                Search Products
+                <input placeholder='Search Products...'/>
+                <button>Search</button>
             </div>
             <div className={styles.products_table}>
-                <DataTable data={products} headers={['Name', 'Image', 'Category', 'Price', 'Status', 'Discount', 'Stock', 'Actions']}/>
+                <DataTable data={products} tag={'products'}
+                           headers={['Name', 'Image', 'Category', 'Price', 'Status', 'Discount(%)',
+                               'Discount Price(Ksh)', 'Final Price(Ksh)', 'Stock', 'Owner', 'Actions']}/>
             </div>
         </div>
     );
