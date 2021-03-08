@@ -12,6 +12,7 @@ interface ISectionModel extends Model<ISectionDoc> {
 interface ISectionDoc extends Document {
     name: string
     slug: string
+    categoryCount: number
 }
 
 const sectionSchema = new Schema({
@@ -21,6 +22,10 @@ const sectionSchema = new Schema({
     slug: {
         type: String
     },
+    categoryCount: {
+        type: Number,
+        default: 0
+    }
 }, {
     timestamps: true,
     toJSON: {

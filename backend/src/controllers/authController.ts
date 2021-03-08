@@ -46,14 +46,12 @@ export const signinUser = async (req: Request, res: Response) => {
     const {email, password} = req.body
 
     const existingUser = await User.findOne({email})
-    if (!existingUser) {
-        throw new BadRequestError('Invalid credentials')
-    }
+    if (!existingUser) throw new BadRequestError('Invalid credentials')
+
+    if (!existingUser.password) throw new BadRequestError('Invalid credentials')
 
     const passMatch = await PasswordManager.compare(existingUser.password, password)
-    if (!passMatch) {
-        throw new BadRequestError('Invalid credentials')
-    }
+    if (!passMatch) throw new BadRequestError('Invalid credentials')
 
     await userResponse(existingUser, req, res, 200)
 }

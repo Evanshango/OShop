@@ -1,10 +1,12 @@
+import React, {useEffect} from "react";
 import styles from './../styles/Home.module.css'
 import Slider from "../components/slider/Slider";
 import Featured from "../components/products/Featured";
 import Latest from "../components/products/Latest";
 import Content from "../components/Content";
 import Link from "next/link";
-import React from "react";
+import {useDispatch} from "react-redux";
+import {fetchSections} from "./api";
 
 const images = [
     '/img_1.jpg',
@@ -13,7 +15,8 @@ const images = [
     '/img_home.jpg'
 ]
 
-const Home = ({userInfo}) => {
+const Home = () => {
+
     const handleSubmit = e => {
         e.preventDefault()
     }

@@ -2,8 +2,8 @@ import {AUTH} from "../types";
 
 const initialState = {
     loading: false,
-    user: {},
-    errors: {}
+    token: '',
+    errors: []
 }
 
 const authReducer = (state = initialState, action) => {
@@ -14,11 +14,15 @@ const authReducer = (state = initialState, action) => {
             }
         case AUTH.AUTH_SUCCESS:
             return {
-                ...state, loading: false, user: action.payload, errors: {}
+                ...state, loading: false, token: action.payload, errors: {}
             }
         case AUTH.AUTH_ERROR:
             return {
-                ...state, loading: false, user: {}, errors: action.payload
+                ...state, loading: false, token: '', errors: action.payload
+            }
+        case AUTH.CLEAR_AUTH_ERRORS:
+            return {
+                ...state, errors: []
             }
         default:
             return state

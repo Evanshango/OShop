@@ -1,20 +1,31 @@
 import Link from "next/link";
 import styles from './Cart.module.css'
-import {useSelector} from "react-redux";
-import {AiOutlinePlus, AiOutlineMinus} from 'react-icons/ai'
+import {useDispatch, useSelector} from "react-redux";
+import {AiOutlineMinus, AiOutlinePlus} from 'react-icons/ai'
+import {deleteCartItem, updateCartUnits} from "./api";
 
 const Cart = () => {
+    const dispatch = useDispatch()
     const {products: cart} = useSelector(state => state.cart)
 
-    const totalPrice = cart.reduce((acc, curr) => acc + curr.subTotal, 0) //Get total items price
+    const totalPrice = cart.reduce((acc, curr) => acc + (curr.units * curr.product.finalPrice), 0) //Get total items price
 
-    const addItemUnits = (prod, e) => {
-
+    const addItemUnits = prod => {
+        dispatch(updateCartUnits(prod.id, prod.units + 1))
+    }
+    const reduceCartUnits = prod => {
+        if (prod.units !== 1) {
+            dispatch(updateCartUnits(prod.id, prod.units - 1))
+        }
     }
 
-    const reduceCartUnits = (prod, e) => {
-
+    const removeItem = prod => {
+        dispatch(deleteCartItem(prod.id))
     }
+
+    const showImage = (images) => (
+        <img src={images[Math.floor(Math.random() * images.length)]} alt=""/>
+    )
 
     return (
         <div className={styles.cart}>
@@ -36,20 +47,21 @@ const Cart = () => {
                                 <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td className={styles.prod_info}>
-                                        <img src={prod.image} alt={prod.name}/>
+                                        {prod.product.images.length > 0 && showImage(prod.product.images)}
                                         <div className={styles.prod_desc}>
-                                            <h4>{prod.name}</h4>
-                                            <h6>{prod.price.toLocaleString()}</h6>
+                                            <h4>{prod.product.name}</h4>
+                                            <h6>{prod.product.finalPrice.toLocaleString()}</h6>
+                                            <button onClick={() => removeItem(prod)}>Remove</button>
                                         </div>
                                     </td>
-                                    <td>{prod.units} * {prod.price.toLocaleString()}</td>
+                                    <td>{prod.units} * {prod.product.finalPrice.toLocaleString()}</td>
                                     <td>
-                                       <div className={styles.actions}>
-                                           <AiOutlinePlus onClick={e => addItemUnits(prod, e)}/>
-                                           <AiOutlineMinus onClick={e => reduceCartUnits(prod, e)}/>
-                                       </div>
+                                        <div className={styles.actions}>
+                                            <AiOutlinePlus onClick={() => addItemUnits(prod)}/>
+                                            <AiOutlineMinus onClick={() => reduceCartUnits(prod)}/>
+                                        </div>
                                     </td>
-                                    <td>{(prod.units * prod.price).toLocaleString()}</td>
+                                    <td>{(prod.units * prod.product.finalPrice).toLocaleString()}</td>
                                 </tr>
                             ))}
                             </tbody>

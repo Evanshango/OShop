@@ -15,6 +15,7 @@ import {userRouter} from "./routes/userRoutes";
 import {categoryRouter} from "./routes/categoryRoutes";
 import {productRouter} from "./routes/productRoutes";
 import {sectionRouter} from "./routes/sectionRoutes";
+import {cartRouter} from "./routes/cartRoutes";
 
 const app = express()
 const upload = multer()
@@ -24,7 +25,7 @@ app.use(upload.any())
 
 const corsConfig = {
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'http://localhost:3001']
 };
 
 // Setup swagger
@@ -49,6 +50,7 @@ app.use('/api/v1', userRouter)
 app.use('/api/v1', categoryRouter)
 app.use('/api/v1', sectionRouter)
 app.use('/api/v1', productRouter)
+app.use('/api/v1', cartRouter)
 
 app.all('*', async () => {
     throw new NotFoundError('Route')

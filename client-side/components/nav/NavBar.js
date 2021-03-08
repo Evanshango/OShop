@@ -48,7 +48,7 @@ const NavBar = () => {
                     </ul>
                     <div className={styles.nav_icons}>
                         <li className={styles.nav_icon}>
-                            <Link href={'/cart'}>
+                            <Link href={'/account'}>
                                 <a className={styles.nav_links} onClick={closeMobileMenu}>
                                     <AiOutlineUser size={26}/>
                                 </a>

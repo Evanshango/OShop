@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import styles from './Products.module.css'
-import {categories, products, sections} from "../mocks/product-list";
+import {categories} from "../mocks/product-list";
 import Product from "../components/product/Product";
 import Pagination from "../components/pagination/Pagination";
 import {AiOutlineSearch} from "react-icons/ai";
+import {useSelector} from "react-redux";
 
 const Products = () => {
     const [page, setPage] = useState(1)
@@ -12,6 +13,9 @@ const Products = () => {
     const [sects, setSects] = useState([])
     const [cats, setCats] = useState([])
     const [oldCategories, setOldCategories] = useState([])
+
+    const {sections} = useSelector(state => state.sections)
+    const {products} = useSelector(state => state.products)
 
     let sectionCategories = []
 
@@ -60,13 +64,13 @@ const Products = () => {
                     <h2>Sections</h2>
                 </div>
                 <ul>
-                    {sections.map(section => (
+                    {sections.length > 0 && sections.map(section => (
                         <li key={section.id}>
                             <input type="checkbox" name="section" id="section"
                                    onChange={() => handleSectionChange(section.name)}/>
                             <label htmlFor="section">
                                 <span>{section.name}</span>
-                                <small>({section.count})</small>
+                                <small>({section.categoryCount})</small>
                             </label>
                         </li>
                     ))}
@@ -115,7 +119,7 @@ const Products = () => {
                     </div>
                 </div>
                 <div className={styles.product_items}>
-                    {products.map(product => (
+                    {products.length > 0 && products.map(product => (
                         <Product product={product} key={product.id}/>
                     ))}
                 </div>

@@ -1,5 +1,6 @@
 import mongoose, {Document, HookNextFunction, model, Model, Schema} from "mongoose";
 import slugify from "slugify";
+import {Category} from "./category";
 
 interface IProductAttrs {
     name: string
@@ -57,7 +58,8 @@ const productSchema = new Schema({
         type: Number, default: 0
     },
     finalPrice: {
-        type: Number
+        type: Number,
+        required: true
     },
     rating: {
         type: Number, default: 0
@@ -80,6 +82,29 @@ const productSchema = new Schema({
 
 productSchema.statics.build = (attrs: IProductAttrs) => (new Product(attrs))
 
+productSchema.statics.countSections = async function (categoryId){
+    const ct = await this.aggregate([
+        {
+            $match: {category: categoryId}
+        },
+        {
+            $group: {
+                _id: '$category',
+                nCount: {$sum: 1},
+            }
+        }
+    ])
+    if (ct.length > 0) {
+        await Category.findByIdAndUpdate(categoryId, {
+            productCount: ct[0].nCount
+        })
+    } else {
+        await Category.findByIdAndUpdate(categoryId, {
+            productCount: 0
+        })
+    }
+}
+
 productSchema.pre(/^find/, function (next: HookNextFunction) {
     this.populate({
         path: 'category',
@@ -97,6 +122,11 @@ productSchema.pre('save', async function (next: HookNextFunction) {
     next()
 })
 
+productSchema.post('save', function (doc, next) {
+    // @ts-ignore
+    this.constructor.countSections(this.category)
+    next()
+})
 
 const Product = model<IProductDoc, IProductModel>('Product', productSchema)
 

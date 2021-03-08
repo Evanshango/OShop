@@ -79,8 +79,8 @@
 .nav_icons {
     display: flex;
     color: #ffffff;
-    justify-content: flex-end;
     align-items: center;
+    margin-right: auto;
 }
 
 .nav_icon {
@@ -91,28 +91,28 @@
     display: none;
 }
 
-.cart{
+.cart {
     display: flex;
     position: relative;
     justify-content: center;
     align-items: center;
 }
 
-.cart h4{
+.cart h4 {
     position: absolute;
     top: -1rem;
-    right: -2rem;
+    right: -1.5rem;
     background: red;
     font-size: 15px;
-    width: 2rem;
-    height: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.cart:hover{
+.cart:hover {
     color: #ffffff;
 }
 

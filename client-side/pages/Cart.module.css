@@ -65,6 +65,7 @@
     font-size: 12px;
     margin-top: .2rem;
     outline: none;
+    cursor: pointer;
 }
 
 .no_items {

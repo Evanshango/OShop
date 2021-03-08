@@ -10,9 +10,9 @@ const Featured = () => {
                 <h5>Featured Products</h5>
             </div>
             <div className={styles.product_center}>
-                {products.length > 4 && products.slice(0, 4).map(product => (
-                    <Product product={product} key={product.id}/>
-                ))}
+                {/*{products.length > 4 && products.slice(0, 4).map(product => (*/}
+                {/*    <Product product={product} key={product.id}/>*/}
+                {/*))}*/}
             </div>
         </Content>
     )

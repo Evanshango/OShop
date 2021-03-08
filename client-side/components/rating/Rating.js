@@ -9,17 +9,18 @@ const Rating = ({rating}) => {
     let stars = []
     for (let i = 1; i <= 5; i++) {
         if (i <= rating) {
-            stars.push(<AiFillStar size={18} key={i}/>)
+            stars.push(<AiFillStar size={15} key={i}/>)
         } else if (i === Math.ceil(rating) && !Number.isInteger(rating)){
-           stars.push(<RiStarHalfLine size={18} key={i}/>)
+           stars.push(<RiStarHalfLine size={15} key={i}/>)
         } else {
-            stars.push(<RiStarLine size={18} key={i}/>)
+            stars.push(<RiStarLine size={15} key={i}/>)
         }
     }
+
     return(
-        <>
-            {stars} ({formatRating()})
-        </>
+        <small style={{display: 'flex', alignItems: 'center'}}>
+            {stars} {rating > 0 ? `(${formatRating()})`: ' No ratings'}
+        </small>
     )
 }
 

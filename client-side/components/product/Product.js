@@ -4,7 +4,8 @@ import {MdAddShoppingCart} from 'react-icons/md'
 import {AiOutlineEye, AiOutlineHeart} from "react-icons/ai";
 import Rating from "../rating/Rating";
 import {useDispatch} from "react-redux";
-import {addItemToCart} from "../../pages/api";
+import {addCartItem} from "../../pages/api";
+import {useState} from "react";
 
 const Product = ({product}) => {
     const dispatch = useDispatch()
@@ -14,15 +15,18 @@ const Product = ({product}) => {
 
     const addToCart = (prod, e) => {
         e.preventDefault()
-        const item = {...prod, units: 1, subTotal: prod.price}
-        dispatch(addItemToCart(item))
+        const item = {product: prod.id, units: 1}
+        dispatch(addCartItem(item))
     }
 
+    const showImage = (images) => (
+        <img src={images[Math.floor(Math.random() * images.length)]} alt=""/>
+    )
     return (
         <div className={styles.product}>
             <div className={styles.product_header}>
                 <div className={styles.offer}>30% off</div>
-                <img src={product.image} alt=""/>
+                {product.images && showImage(product.images)}
                 <ul className={styles.icons}>
                     <Link href={'/products/[id]'} as={`/products/${product.id}`}>
                         <h3><AiOutlineEye/></h3>
@@ -36,11 +40,11 @@ const Product = ({product}) => {
                     <a>
                         <h5>{truncate(product.name, 20)}</h5>
                         <div className={styles.ratings}>
-                            <Rating rating={product.ratings}/>
+                            <Rating rating={product.rating}/>
                         </div>
                         <h5 className={styles.price}>
-                            <span>Ksh. {product.oldPrice.toLocaleString()}</span> |
-                            Ksh. {product.price.toLocaleString()}
+                            <span>Ksh. {product.price.toLocaleString()}</span> |
+                            Ksh. {product.finalPrice.toLocaleString()}
                         </h5>
                     </a>
                 </Link>
