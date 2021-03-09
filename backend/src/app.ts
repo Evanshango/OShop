@@ -16,6 +16,7 @@ import {categoryRouter} from "./routes/categoryRoutes";
 import {productRouter} from "./routes/productRoutes";
 import {sectionRouter} from "./routes/sectionRoutes";
 import {cartRouter} from "./routes/cartRoutes";
+import {orderRouter} from "./routes/orderRoutes";
 
 const app = express()
 const upload = multer()
@@ -51,6 +52,7 @@ app.use('/api/v1', categoryRouter)
 app.use('/api/v1', sectionRouter)
 app.use('/api/v1', productRouter)
 app.use('/api/v1', cartRouter)
+app.use('/api/v1', orderRouter)
 
 app.all('*', async () => {
     throw new NotFoundError('Route')

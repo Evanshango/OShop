@@ -41,19 +41,17 @@ components:
           type: string
         slug:
           type: string
-      example:
-        name: Art
-        slug: art
     Category:
       type: object
       properties:
         name:
           type: string
+        section:
+          $ref: '#/components/schemas/Section'
         slug:
           type: string
-      example:
-        name: Kitchen Ware
-        slug: kitchen-ware
+        productCount:
+          type: number
     Product:
       type: object
       properties:
@@ -65,8 +63,8 @@ components:
           type: number
         price:
           type: number
-        section:
-          type: string
+        category:
+          $ref: '#/components/schemas/Category'
         brand:
           type: string
         description:
@@ -77,34 +75,33 @@ components:
             type: string
         createdBy:
           type: string
-    ProductBody:
+    Cart:
       type: object
       properties:
-        name:
-          type: string
-        price:
+        product:
+          $ref: '#/components/schemas/Product'
+        units:
           type: number
-        stock:
+        customer:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            id:
+              type: string
+        createdAt:
+          type: string
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        amount:
           type: number
-        description:
+        createdAt:
           type: string
-        section:
-          type: string
-        brand:
-          type: string
-        images:
-          type: array
-          items:
-            format: binary
-            type: file
-      required:
-        - name
-        - price
-        - stock
-        - description
-        - section
-        - brand
-        - images
 
 paths:
   /auth/signup:
@@ -397,8 +394,6 @@ paths:
               properties:
                 name:
                   type: string
-              example:
-                name: Art
       responses:
         200:
           description: Section updated successfully
@@ -454,9 +449,6 @@ paths:
                   type: string
                 sectionId:
                   type: string
-              example:
-                name: Laptops
-                sectionId: random_key
       responses:
         201:
           description: Category created successfully
@@ -609,7 +601,32 @@ paths:
           multipart/form-data:
             schema:
               type: object
-              $ref: '#/components/schemas/ProductBody'
+              properties:
+                name:
+                  type: string
+                price:
+                  type: number
+                stock:
+                  type: number
+                section:
+                  type: string
+                category:
+                  type: string
+                description:
+                  type: string
+                images:
+                  type: array
+                  items:
+                    format: binary
+                    type: file
+              required:
+                - name
+                - price
+                - stock
+                - description
+                - section
+                - category
+                - images
       responses:
         201:
           description: Product created successfully
@@ -718,3 +735,127 @@ paths:
           description: Not found
         500:
           description: Bad request
+
+  /cart:
+    post:
+      tags:
+        - cart
+      summary: Add cart item
+      description: Add a product to cart
+      security:
+        - tokenAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product:
+                  type: string
+                units:
+                  type: number
+              example:
+                product: random_product_id
+                units: 1
+      responses:
+        201:
+          description: Product added to cart
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized request
+
+    get:
+      tags:
+        - cart
+      summary: Get cart items
+      description: Retrieves currently signed in user cart items
+      security:
+        - tokenAuth: [ ]
+      responses:
+        200:
+          description: A list of signed in user cart items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+
+  /cart/{id}:
+    patch:
+      tags:
+        - cart
+      summary: Update cart item
+      descritption: Update a specific cart item for the currently signed in user
+      security:
+        - tokenAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The cart item id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                units:
+                  type: number
+      responses:
+        200:
+          description: Cart updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        401:
+          description: Unauthorized request
+        404:
+          description: Not found
+    delete:
+      tags:
+        - cart
+      summary: Delete a cart item
+      description: Delete a specific cart item belonging to the currently signed in user
+      security:
+        - tokenAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The cart item id
+          schema:
+            type: string
+      responses:
+        204:
+          description: Cart item deleted successfully
+        400:
+          description: Invalid id
+        401:
+          description: Unauthorized request
+        404:
+          description: Not found
+
+  /orders:
+    get:
+      tags:
+        - orders
+      summary: Fetch orders
+      description: Fetch a list of orders by admin
+      security:
+        - tokenAuth: []
+      responses:
+        200:
+          description: A list of orders made
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'

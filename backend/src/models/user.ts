@@ -1,6 +1,6 @@
 import {Document, Model, model, Schema} from 'mongoose'
 import {PasswordManager} from '../helpers/password-manager'
-import {AuthMethod, UserRole} from '../helpers/constants'
+import {AUTH_METHOD, USER_ROLE} from '../helpers/constants'
 
 interface IUserAttrs {
     email: string
@@ -9,8 +9,8 @@ interface IUserAttrs {
     fullName: string
     avatar?: string
     verified: boolean
-    method: AuthMethod
-    role?: UserRole
+    method: AUTH_METHOD
+    role?: USER_ROLE
     password?: string
 }
 
@@ -25,8 +25,8 @@ interface IUserDoc extends Document {
     fullName: string
     avatar?: string
     verified: boolean
-    method: AuthMethod
-    role?: UserRole
+    method: AUTH_METHOD
+    role?: USER_ROLE
     password?: string
 }
 
@@ -50,10 +50,10 @@ const userSchema = new Schema({
         type: Boolean, required: true
     },
     method: {
-        type: String, enum: Object.values(AuthMethod), required: true
+        type: String, enum: Object.values(AUTH_METHOD), required: true
     },
     role: {
-        type: String, enum: Object.values(UserRole), default: UserRole.USER
+        type: String, enum: Object.values(USER_ROLE), default: USER_ROLE.USER
     },
     password: {
         type: String

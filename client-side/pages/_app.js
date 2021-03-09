@@ -1,44 +1,46 @@
 import '../styles/globals.css'
 import Layout from "../components/Layout";
 import {wrapper} from "../redux/store";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {fetchCartItems, fetchProducts, fetchSections} from "./api";
+import {fetchCartItems, fetchProducts, fetchSections, setAuthenticationHeader} from "./api";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import store from "../../oshop-admin/src/redux/store";
-import {AUTH} from "../../oshop-admin/src/redux/types";
+import {authSuccess} from "../redux/auth/authActions";
 
 const AppComponent = ({Component, pageProps}) => {
     const dispatch = useDispatch()
     const [user, setUser] = useState({})
 
+    const {token} = useSelector(state => state.user)
+
     useEffect(() => {
-        const token = sessionStorage.getItem('oshop')
-
         if (token) {
-            const decodedTkn = jwtDecode(token.split(' ')[1])
-            if (decodedTkn.exp * 1000 < Date.now()) {
-                sessionStorage.removeItem('oshop')
-                delete axios.defaults.headers['common']['Authorization']
-            } else {
-                store.dispatch({
-                    type: AUTH.AUTH_SUCCESS,
-                    payload: token
-                })
-                axios.defaults.headers['common']['Authorization'] = token
-
-                const {email, id, role} = decodedTkn
-
-                userProperties({email, id, role})
-            }
+            setDecodeToken(token)
+        } else {
+            const storedToken = sessionStorage.getItem('oshop')
+            setDecodeToken(storedToken && storedToken.split(' ')[1])
         }
         dispatch(fetchSections())
         dispatch(fetchProducts())
-        user.id !== '' && dispatch(fetchCartItems(user.id))
-    }, [])
 
-    const userProperties = decoded => setUser(decoded)
+        token && dispatch(fetchCartItems(user.id))
+    }, [token])
+
+    const setDecodeToken = token => {
+        const decoded = token && jwtDecode(token)
+        if (decoded) {
+            if (decoded.exp * 1000 < Date.now()) {
+                sessionStorage.removeItem('oshop')
+                delete axios.defaults.headers['common']['Authorization']
+            } else {
+                dispatch(authSuccess(token))
+                setAuthenticationHeader(token)
+                const {email, id, role} = decoded
+                setUser({email, id, role})
+            }
+        }
+    }
 
     return (
         <Layout>

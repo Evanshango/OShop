@@ -3,11 +3,16 @@ import {authError, authRequest, authSuccess, removeAuthErrors} from "../../redux
 import {fetchSectionsError, fetchSectionsRequest, fetchSectionsSuccess} from "../../redux/sections/sectionActions";
 import {
     addToCartError, addToCartRequest, addToCartSuccess, deleteCartError, deleteCartRequest, deleteCartSuccess,
-    fetchCartError, fetchCartRequest, fetchCartSuccess, updateCartError, updateCartRequest, updateCartSuccess
+    fetchCartError, fetchCartRequest, fetchCartSuccess, updateCartError, updateCartRequest, updateCartSuccess,
+    clearCartError
 } from "../../redux/cart/cartActions";
 import {
     clearProductErrors, fetchProductsError, fetchProductsRequest, fetchProductsSuccess
 } from "../../redux/products/productActions";
+import {
+    addOrderError, addOrderRequest, addOrderSuccess, clearOrderError, fetchOrdersError, fetchOrdersRequest,
+    fetchOrdersSuccess
+} from "../../redux/orders/orderActions";
 
 const BASE_URL = process.env.BASE_URL
 
@@ -17,7 +22,7 @@ const dispatchError = (dispatch, err, method) => {
     dispatch(method(err.response?.data?.errors))
 }
 
-const setAuthenticationHeader = token => {
+export const setAuthenticationHeader = token => {
     sessionStorage.setItem('oshop', `Bearer ${token}`)
     axios.defaults.headers["common"]['Authorization'] = `Bearer ${token}`
 }
@@ -74,10 +79,10 @@ export const fetchProducts = () => async dispatch => {
 
 export const clearProdErrors = () => dispatch => dispatch(clearProductErrors())
 
-export const fetchCartItems = userId => async dispatch => {
+export const fetchCartItems = () => async dispatch => {
     dispatch(fetchCartRequest())
     try {
-        const {data} = await axios.get(`${BASE_URL}/cart`, {id: userId})
+        const {data} = await axios.get(`${BASE_URL}/cart`)
         dispatch(fetchCartSuccess(data))
     } catch (err){
         dispatchError(dispatch, err, fetchCartError)
@@ -113,3 +118,27 @@ export const deleteCartItem = id => async dispatch => {
         dispatchError(dispatch, err, deleteCartError)
     }
 }
+
+export const clearCartErrors = () => dispatch => dispatch(clearCartError())
+
+export const fetchOrderItems = () => async dispatch => {
+    dispatch(fetchOrdersRequest())
+    try {
+        const {data} = await axios.get(`${BASE_URL}/orders`)
+        dispatch(fetchOrdersSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, fetchOrdersError)
+    }
+}
+
+export const addOrder = order => async dispatch => {
+    dispatch(addOrderRequest())
+    try {
+        const {data} = await axios.post(`${BASE_URL}/orders`, order)
+        dispatch(addOrderSuccess(data))
+    } catch (err){
+        dispatchError(dispatch, err, addOrderError)
+    }
+}
+
+export const clearOrderErrors = () => dispatch => dispatch(clearOrderError())

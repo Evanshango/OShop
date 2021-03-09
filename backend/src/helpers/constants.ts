@@ -15,18 +15,30 @@ export const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY
 export const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY
 export const BUCKET_NAME = process.env.BUCKET_NAME
 
-export enum AuthMethod {
+export enum AUTH_METHOD {
     GOOGLE = 'GOOGLE',
     LOCAL = 'LOCAL'
 }
 
-export enum UserRole {
+export enum USER_ROLE {
     USER = 'USER',
     ADMIN = 'ADMIN',
     VENDOR = 'VENDOR'
 }
 
-export enum ItemVisibility{
-    ACTIVE = 'ACTIVE',
-    INACTIVE = 'INACTIVE'
+export enum PAYMENT_STATUS {
+    PENDING = 'PENDING',
+    COMPLETED = 'COMPLETED',
+}
+
+export enum PAYMENT_METHOD {
+    CASH = 'CASH',
+    MPESA = 'MPESA',
+    VISA = 'VISA'
+}
+
+export enum ORDER_STATUS {
+    ORDERED = 'ORDERED',
+    SHIPPED = 'SHIPPED',
+    DELIVERED = 'DELIVERED'
 }

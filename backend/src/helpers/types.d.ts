@@ -1,9 +1,9 @@
-import {UserRole} from "./constants";
+import {USER_ROLE} from "./constants";
 
 export interface IPayload {
     id: string
     email: string
-    role: UserRole
+    role: USER_ROLE
 }
 
 declare global {

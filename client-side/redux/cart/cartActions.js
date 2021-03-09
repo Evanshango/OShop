@@ -80,7 +80,7 @@ export const deleteCartError = errors => {
     }
 }
 
-export const clearCartErrors = () => {
+export const clearCartError = () => {
     return{
         type: CART.CLEAR_CART_ERRORS
     }

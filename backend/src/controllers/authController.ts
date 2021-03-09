@@ -3,7 +3,7 @@ import {TokenManager} from "../helpers/token-manager";
 import gravatar from "gravatar";
 import {User} from "../models/user";
 import {BadRequestError} from "../errors/bad-request-error";
-import {AuthMethod, COOKIE_EXPIRES_IN, GOOGLE_CLIENT_ID, NODE_ENV} from "../helpers/constants";
+import {AUTH_METHOD, COOKIE_EXPIRES_IN, GOOGLE_CLIENT_ID, NODE_ENV} from "../helpers/constants";
 import {PasswordManager} from "../helpers/password-manager";
 import {OAuth2Client} from "google-auth-library";
 
@@ -36,7 +36,7 @@ export const signupUser = async (req: Request, res: Response) => {
     }
 
     const user = User.build({
-        email, firstName, lastName, fullName, verified: false, method: AuthMethod.LOCAL, password, avatar
+        email, firstName, lastName, fullName, verified: false, method: AUTH_METHOD.LOCAL, password, avatar
     })
     await user.save()
     await userResponse(user, req, res, 201)
@@ -70,7 +70,7 @@ export const googleOAuth = async (req: Request, res: Response) => {
     } else {
         const user = User.build({
             email, firstName: given_name, lastName: family_name, fullName: name, avatar: picture,
-            verified: email_verified, method: AuthMethod.GOOGLE
+            verified: email_verified, method: AUTH_METHOD.GOOGLE
         })
         await user.save()
         await userResponse(user, req, res, 201)

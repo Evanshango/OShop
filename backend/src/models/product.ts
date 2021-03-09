@@ -58,8 +58,7 @@ const productSchema = new Schema({
         type: Number, default: 0
     },
     finalPrice: {
-        type: Number,
-        required: true
+        type: Number
     },
     rating: {
         type: Number, default: 0

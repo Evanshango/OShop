@@ -1,7 +1,7 @@
 .cart {
     min-height: 50vh;
     display: flex;
-    width: 60%;
+    width: 50%;
     margin: auto;
     flex-direction: column;
     align-items: center;
@@ -73,7 +73,7 @@
     text-align: center;
 }
 
-.no_items h3{
+.no_items h3 {
     font-size: 25px;
     color: #838383;
 }
@@ -82,12 +82,12 @@
     margin: 2rem;
 }
 
-.no_items li:hover{
+.no_items li:hover {
     transform: scale(1.2);
 }
 
 .no_items li a {
-    padding: .8rem 2rem;
+    padding: .5rem 1rem;
     border-radius: 2rem;
     background: #fbb419;
     color: #ffffff;
@@ -109,19 +109,6 @@
     align-items: center;
 }
 
-.sub_total button {
-    margin: 2rem 0;
-    width: 100%;
-    background: #fbb419;
-    border-radius: 2rem;
-    padding: .8rem;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: #ffffff;
-    text-transform: uppercase;
-}
-
 .actions {
     display: flex;
     justify-content: space-between;
@@ -135,17 +122,17 @@
     border-radius: 2rem;
 }
 
-.actions svg:hover{
+.actions svg:hover {
     cursor: pointer;
     transform: scale(1.1);
 }
 
-.actions svg:not(:last-child){
+.actions svg:not(:last-child) {
     background: cornflowerblue;
     color: #ffffff;
 }
 
-.actions svg:last-child{
+.actions svg:last-child {
     background: #ff0000;
     color: #ffffff;
 }
@@ -180,6 +167,34 @@
 
 .sub_total h4 span {
     font-size: 12px;
+}
+
+.action_buttons {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.signin {
+    background: transparent!important;
+    border: 1px solid #dcdcdc!important;
+    color: #838383!important;
+}
+
+.sub_total li{
+    margin-top: 4rem;
+}
+
+.sub_total li a{
+    width: 100%;
+    background: #fbb419;
+    border-radius: .5rem;
+    padding: .8rem 5rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #ffffff;
+    text-transform: uppercase;
 }
 
 @media screen and (max-width: 1088px) {
@@ -226,5 +241,11 @@
 
     .prod_desc {
         margin: 0;
+    }
+}
+
+@media screen and (max-width: 441px) {
+    .action_buttons{
+        flex-direction: column;
     }
 }

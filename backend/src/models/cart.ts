@@ -41,7 +41,7 @@ cartSchema.statics.build = (attrs: ICartAttrs) => (new Cart(attrs))
 cartSchema.pre(/^find/, function (next: HookNextFunction) {
     this.populate({
         path: 'customer',
-        select: 'name'
+        select: 'firstName lastName'
     }).populate({
         path: 'product'
     })
