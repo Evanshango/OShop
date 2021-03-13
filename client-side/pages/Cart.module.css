@@ -1,15 +1,52 @@
 .cart {
     min-height: 50vh;
     display: flex;
-    width: 50%;
-    margin: auto;
+    width: 60%;
+    margin: 1rem auto;
     flex-direction: column;
     align-items: center;
 }
 
-.table_area {
-    overflow-x: auto;
+.cart_area {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr;
+    grid-gap: 1rem;
     width: 100%;
+    align-items: flex-start;
+    margin-top: 2rem;
+}
+
+.cart_area hr {
+    border: 1px solid #dcdcdc;
+}
+
+.cart_right, .cart_left {
+    box-shadow: 0 .4rem 1.2rem rgba(0, 0, 0, .2);
+    border-radius: 5px;
+}
+
+.cart_item {
+    padding: 1rem;
+    align-items: center;
+    display: flex;
+}
+
+.cart_item img {
+    border-radius: 5px;
+    object-fit: cover;
+    width: 5rem;
+    height: 6rem;
+}
+
+.prod_desc p {
+    padding: .5rem 0;
+}
+
+.cart_header {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .cart_table {
@@ -51,7 +88,7 @@
 }
 
 .prod_desc h4 {
-    font-weight: lighter;
+    font-weight: 500;
 }
 
 .prod_desc button {
@@ -111,9 +148,31 @@
 
 .actions {
     display: flex;
-    justify-content: space-between;
-    height: 100%;
-    padding: 0 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.actions span {
+    border: 1px solid #dcdcdc;
+    margin: 0 .7rem;
+    width: 2rem;
+    height: 2.3rem;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.actions input {
+    width: 30px;
+    padding: .5rem;
+    border: 1px solid #dcdcdc;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.actions input:focus {
+    outline: none;
 }
 
 .actions svg {
@@ -141,6 +200,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    padding: 1rem;
 }
 
 .sub_total p {
@@ -176,16 +236,16 @@
 }
 
 .signin {
-    background: transparent!important;
-    border: 1px solid #dcdcdc!important;
-    color: #838383!important;
+    background: transparent !important;
+    border: 1px solid #dcdcdc !important;
+    color: #838383 !important;
 }
 
-.sub_total li{
+.sub_total li {
     margin-top: 4rem;
 }
 
-.sub_total li a{
+.sub_total li a {
     width: 100%;
     background: #fbb419;
     border-radius: .5rem;
@@ -193,6 +253,28 @@
     border: none;
     outline: none;
     cursor: pointer;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.item_actions {
+    padding: .6rem 0;
+}
+
+.item_actions span {
+    border: 1px solid gainsboro;
+    margin-right: 2rem;
+    padding: .3rem 2rem;
+    border-radius: 2px;
+}
+
+.buy_now {
+    margin: 2rem auto;
+    width: 90%;
+    text-align: center;
+    background: #fbb419;
+    padding: 1rem;
+    border-radius: 3px;
     color: #ffffff;
     text-transform: uppercase;
 }
@@ -245,7 +327,7 @@
 }
 
 @media screen and (max-width: 441px) {
-    .action_buttons{
+    .action_buttons {
         flex-direction: column;
     }
 }

@@ -10,17 +10,18 @@ const steps = ['Billing', 'Shipping', 'Payment']
 function Checkout() {
     const [order, setOrder] = useState({})
     const [open, setOpen] = useState(false)
-    const {products: cart} = useSelector(state => state.cart)
+    const {products} = useSelector(state => state.cart)
 
-    const totalPrice = cart.reduce((acc, curr) => acc + (curr.units * curr.product.finalPrice), 0)
+    const total = Object.values(products).reduce((acc, curr) => acc + (curr.units * curr.finalPrice), 0)
 
     useEffect(() => {
+
         let orders = []
-        cart.forEach(({id, units, product}) => orders.push({
-            id, units, product: product.id, price: product.finalPrice, totalPrice: units * product.finalPrice
+        Object.values(products).forEach(({id, units, finalPrice}) => orders.push({
+            id, units, price: finalPrice, totalPrice: units * finalPrice
         }))
-        setOrder({amount: totalPrice, orders})
-    }, [])
+        setOrder({amount: total, orders})
+    }, [products])
 
     const submitOrder = e => {
         e.preventDefault()
@@ -39,8 +40,6 @@ function Checkout() {
             }
         })()
     )
-
-    console.log(open)
 
     return (
         <div className={styles.checkout_container}>
@@ -62,18 +61,18 @@ function Checkout() {
                         <h3>Order summary</h3>
                         <span>Edit</span>
                     </div>
-                    {cart && cart.map(c => (
+                    {products && Object.values(products).map(c => (
                         <div className={styles.items} key={c.id}>
-                            <h5>{c.product.name}</h5>
+                            <h5>{c.name}</h5>
                             <h5>x{c.units}</h5>
-                            <h5>{c.product.finalPrice.toFixed(2)}</h5>
+                            <h5>{c.finalPrice.toFixed(2)}</h5>
                         </div>
                     ))}
                     <hr/>
                     <h4>Shipping charges and taxes will be calculated when an address is provided</h4>
                     <div className={styles.total}>
                         <h3>Total</h3>
-                        <h4><small>Ksh.</small> {totalPrice.toFixed(2)}</h4>
+                        <h4><small>Ksh.</small> {total.toFixed(2)}</h4>
                     </div>
                 </div>
             </div>

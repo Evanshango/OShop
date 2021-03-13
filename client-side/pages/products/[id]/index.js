@@ -1,17 +1,39 @@
-import {products} from "../../../mocks/product-list";
 import Content from "../../../components/Content";
 import styles from './Product.module.css'
 import Rating from "../../../components/rating/Rating";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {AiOutlineShoppingCart} from "react-icons/ai";
+import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
+import {addCartItem} from "../../api";
 
 const Product = ({product}) => {
-    const [image, setImage] = useState(product.image)
-    const [qty, setQty] = useState(1)
+    const dispatch = useDispatch()
+    const {products: cart} = useSelector(state => state.cart)
+    const {token} = useSelector(state => state.user)
+    const [inCart, setInCart] = useState(false)
+    const [image, setImage] = useState('')
 
-    const handleClick = (e, image) => {
-        e.preventDefault()
-        setImage(image)
+    console.log(token)
+
+    useEffect(() => {
+        if (cart[product.id]) {
+            setInCart(true)
+        }
+    }, [cart[product.id]])
+
+    const handleCartClick = () => {
+        if (inCart) {
+            // dispatch(deleteCartItem(product.id))
+            console.log('deleting item')
+        } else {
+            const {name, images, finalPrice, id} = product
+            dispatch(addCartItem({id, name, images, finalPrice}, 1, token))
+        }
+    }
+
+    const addToWishlist = () => {
+        console.log('adding to wishlist')
     }
 
     return (
@@ -22,61 +44,44 @@ const Product = ({product}) => {
                     <div className={styles.product_images}>
                         <div className={styles.image_display}>
                             <div className={styles.image_showcase}>
-                                <img src={image} alt={product.name}/>
+                                <img src={image ? image : product.images[0]} alt={product.name}/>
                             </div>
                         </div>
                         <div className={styles.image_select}>
-                            <div className={styles.image_item} onClick={e => handleClick(e, '/img_1.jpg')}>
-                                <a href="#" data-id='1'>
-                                    <img src={'/img_1.jpg'} alt={product.name}/>
-                                </a>
-                            </div>
-                            <div className={styles.image_item} onClick={e => handleClick(e, '/img_2.jpg')}>
-                                <a href="#" data-id='2'>
-                                    <img src={'/img_2.jpg'} alt={product.name}/>
-                                </a>
-                            </div>
-                            <div className={styles.image_item} onClick={e => handleClick(e, '/img_4.jpg')}>
-                                <a href="#" data-id='3'>
-                                    <img src={'/img_4.jpg'} alt={product.name}/>
-                                </a>
-                            </div>
-                            <div className={styles.image_item} onClick={e => handleClick(e, '/img_6.jpg')}>
-                                <a href="#" data-id='4'>
-                                    <img src={'/img_6.jpg'} alt={product.name}/>
-                                </a>
-                            </div>
+                            {product.images.map((img, index) => (
+                                <div className={styles.image_item} onClick={() => setImage(img)} key={index}>
+                                    <a href="#" data-id='1'>
+                                        <img src={img} alt={product.name}/>
+                                    </a>
+                                </div>
+                            ))}
                         </div>
                     </div>
                     {/*Card right*/}
                     <div className={styles.product_content}>
                         <h2 className={styles.product_title}>{product.name}</h2>
                         <div className={styles.product_rating}>
-                            <Rating rating={product.ratings}/>
+                            <Rating rating={product.rating}/>
                         </div>
+                        {product.discount > 0 && <span className={styles.discount}>{`${product.discount}% off`}</span>}
                         <div className={styles.product_price}>
-                            <p className={styles.new_price}>Ksh. {product.price.toLocaleString()}</p>
-                            <p className={styles.old_price}>Ksh. {product.oldPrice.toLocaleString()}</p>
+                            <p className={styles.new_price}>Ksh. {product.finalPrice.toLocaleString()}</p>
+                            <p className={styles.old_price}>Ksh. {product.price.toLocaleString()}</p>
                         </div>
                         <div className={styles.product_detail}>
                             <ul>
-                                <li>Color: <span>Black</span></li>
-                                <li>Availability: <span>in stock</span></li>
-                                <li>Category: <span>Shoes</span></li>
+                                <li>Availability: <span>{product.stock > 0 ? 'in stock' : 'out of stock'}</span></li>
+                                <li>Category: <span>{product.category.name}</span></li>
                             </ul>
                             <div className={styles.purchase_info}>
-                                Quantity:
-                                <span>
-                                    <select name="quantity" id="quantity" onChange={e => setQty(e.currentTarget.value)}
-                                            value={qty}>
-                                        {[...Array(10)].map((_, index) => (
-                                            <option value={index + 1} key={index}>{index + 1}</option>
-                                        ))}
-                                    </select>
-                                </span>
-                                <button type='button' className={styles.btn}>
-                                    <span> Add to Cart<AiOutlineShoppingCart size={20}/></span>
-                                </button>
+                                <div className={styles.info}>
+                                    <button onClick={addToWishlist}>Save for later</button>
+                                    <button className={!inCart ? `${styles.add_btn}` : `${styles.remove_btn}`}
+                                            onClick={handleCartClick}>
+                                        <span>{inCart ? 'Remove from' : 'Add to'}</span>
+                                        <AiOutlineShoppingCart size={20}/>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -84,14 +89,7 @@ const Product = ({product}) => {
                 <div className={styles.product_desc}>
                     <h2>Product description</h2>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam aperiam asperiores
-                        excepturi facilis nisi, quae repellat sed similique! Corporis, ipsum! Lorem ipsum dolor
-                        sit amet, consectetur adipisicing elit. Aliquam aperiam asperiores
-                        excepturi facilis nisi, quae repellat sed similique! Corporis, ipsum!
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam aperiam asperiores
-                        excepturi facilis nisi, quae repellat sed similique! Corporis, ipsum! Lorem ipsum dolor
-                        sit amet, consectetur adipisicing elit. Aliquam aperiam asperiores
-                        excepturi facilis nisi, quae repellat sed similique! Corporis, ipsum!
+                        {product.description}
                     </p>
                 </div>
                 <hr className={styles.divider}/>
@@ -102,14 +100,20 @@ const Product = ({product}) => {
 }
 
 export const getStaticProps = async context => {
+    const BASE_URL = process.env.BASE_URL
     const id = context.params.id
-    const product = products.find(p => p.id === +id)
+    const {data} = await axios.get(`${BASE_URL}/products/${id}`)
     return {
-        props: {product}
+        props: {
+            product: data,
+        }
     }
 }, getStaticPaths = async () => {
-    const ids = products.map(prod => prod.id.toString())
-    const paths = ids.map(id => ({params: {id: id.toString()}}))
+    const BASE_URL = process.env.BASE_URL
+    // const {data} = products.map(prod => prod.id.toString())
+    const {data: products} = await axios.get(`${BASE_URL}/products`)
+
+    const paths = products.map(({id}) => ({params: {id: id.toString()}}))
     return {paths, fallback: false}
 }
 

@@ -7,10 +7,10 @@ import orderReducer from "./orders/orderReducer";
 
 const rootReducer = combineReducers({
     user: authReducer,
-    sections: sectionReducer,
-    products: productReducer,
+    section: sectionReducer,
+    product: productReducer,
     cart: cartReducer,
-    orders: orderReducer
+    order: orderReducer
 })
 
 export default rootReducer

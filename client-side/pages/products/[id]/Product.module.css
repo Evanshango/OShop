@@ -83,7 +83,17 @@
 
 .product_rating {
     color: #ffc107;
-    padding: 1rem 0 0 0;
+    padding: 1rem 0;
+}
+
+.discount {
+    text-transform: uppercase;
+    background: #008000;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: .4rem 2rem;
+    margin-top: 10rem;
+    font-weight: bold;
 }
 
 .product_price {
@@ -130,53 +140,57 @@
 }
 
 .purchase_info {
-    margin: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 2rem;
 }
 
-.purchase_info .btn {
-    cursor: pointer;
-    background: #256eff;
-    color: #ffffff;
+.info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+}
+
+.info span select:focus{
     outline: none;
 }
 
-.purchase_info .btn:hover {
-    opacity: .9;
-}
-
-.purchase_info select,
-.purchase_info .btn {
-    border: 1px solid #ddd;
+.info button {
+    width: 100%;
     border-radius: 20px;
-    text-align: center;
-    padding: .45rem .8rem;
-    outline: 0;
-    margin-right: .2rem;
-    margin-bottom: 1rem;
-}
-
-.purchase_info span{
-    margin-left: 5px;
-}
-
-.btn span{
-    display: flex;
+    padding: .6rem;
     align-items: center;
+    justify-content: center;
+    display: flex;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    cursor: pointer;
 }
 
-.btn span svg{
+.info button:not(:last-child){
+    background: #fbb419;
+}
+
+.info button span{
     margin-left: 2px;
 }
 
-.purchase_info select {
-    width: 80px;
+.purchase_info .add_btn {
+    background: #256eff;
 }
 
-.divider{
+.remove_btn {
+    background: #ff0000;
+}
+
+.divider {
     margin: 1rem 0;
 }
 
-.similar{
+.similar {
     margin: 1rem 0;
     font-size: 2rem;
     display: inline-block;
@@ -189,8 +203,26 @@
     border-bottom-right-radius: 2rem;
 }
 
+.label{
+    padding: 0 1rem 0 0;
+}
+
 @media screen and (max-width: 1078px) {
     .card {
         grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 554px) {
+    .info{
+        grid-template-columns: 1fr;
+    }
+
+    .info button {
+        padding: .7rem;
+    }
+
+    .label{
+        display: none;
     }
 }

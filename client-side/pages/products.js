@@ -6,7 +6,7 @@ import Pagination from "../components/pagination/Pagination";
 import {AiOutlineSearch} from "react-icons/ai";
 import {useSelector} from "react-redux";
 
-const Products = () => {
+const Products = ({user}) => {
     const [page, setPage] = useState(1)
     const [sort, setSort] = useState('')
     const [order, setOrder] = useState('')
@@ -14,8 +14,9 @@ const Products = () => {
     const [cats, setCats] = useState([])
     const [oldCategories, setOldCategories] = useState([])
 
-    const {sections} = useSelector(state => state.sections)
-    const {products} = useSelector(state => state.products)
+    const {sections} = useSelector(state => state.section)
+    const {products} = useSelector(state => state.product)
+    const {token} = useSelector(state => state.user)
 
     let sectionCategories = []
 
@@ -38,11 +39,6 @@ const Products = () => {
         currIndex < 0 ? checkedCats.push(name) : checkedCats.splice(currIndex, 1)
         setCats(checkedCats)
     }
-    // let newCats = []
-    // sects.forEach(sec => newCats.push(...categories.filter(cat => cat.section === sec)))
-    // sectionCategories.push(...newCats)
-
-    // if (sects.length === 0) cats.length = 0
 
     const handleFilter = () => {
         console.log(cats)
@@ -120,7 +116,7 @@ const Products = () => {
                 </div>
                 <div className={styles.product_items}>
                     {products.length > 0 && products.map(product => (
-                        <Product product={product} key={product.id}/>
+                        <Product product={product} key={product.id} token={token}/>
                     ))}
                 </div>
                 <div className={styles.pagination}>

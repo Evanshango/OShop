@@ -5,23 +5,22 @@ import {AiOutlineEye, AiOutlineHeart} from "react-icons/ai";
 import Rating from "../rating/Rating";
 import {useDispatch} from "react-redux";
 import {addCartItem} from "../../pages/api";
-import {useState} from "react";
 
-const Product = ({product}) => {
+const Product = ({product, token}) => {
     const dispatch = useDispatch()
+
     const truncate = (word, n) => {
         return word?.length > n ? `${word.substr(0, n - 1)}...` : word
     }
 
     const addToCart = (prod, e) => {
         e.preventDefault()
-        const item = {product: prod.id, units: 1}
-        dispatch(addCartItem(item))
+        const {name, images, finalPrice, id} = prod
+        dispatch(addCartItem({id, name, images, finalPrice}, 1, token))
     }
 
-    const showImage = (images) => (
-        <img src={images[Math.floor(Math.random() * images.length)]} alt=""/>
-    )
+    const showImage = (images) => <img src={images[Math.floor(Math.random() * images.length)]} alt=""/>
+
     return (
         <div className={styles.product}>
             <div className={styles.product_header}>

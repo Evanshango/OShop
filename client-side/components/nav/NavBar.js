@@ -58,7 +58,8 @@ const NavBar = () => {
                             <Link href={'/cart'}>
                                 <a className={styles.nav_links} onClick={closeMobileMenu}>
                                     <span className={styles.cart}>
-                                        <AiOutlineShoppingCart size={26}/><h4>{cart.length}</h4>
+                                        <AiOutlineShoppingCart size={26}/>
+                                        <h4>{cart ? Object.keys(cart).length : 0}</h4>
                                     </span>
                                 </a>
                             </Link>

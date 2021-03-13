@@ -6,10 +6,10 @@ export const fetchCartRequest = () => {
     }
 }
 
-export const fetchCartSuccess = products => {
+export const fetchCartSuccess = item => {
     return {
         type: CART.FETCH_CART_SUCCESS,
-        payload: products
+        payload: item
     }
 }
 
@@ -26,10 +26,10 @@ export const addToCartRequest = () => {
     }
 }
 
-export const addToCartSuccess = product => {
+export const addToCartSuccess = products => {
     return {
         type: CART.ADD_ITEM_TO_CART_SUCCESS,
-        payload: product
+        payload: products
     }
 }
 
@@ -61,7 +61,7 @@ export const updateCartError = errors => {
 }
 
 export const deleteCartRequest = () => {
-    return{
+    return {
         type: CART.DELETE_CART_ITEM_REQUEST
     }
 }
@@ -81,7 +81,7 @@ export const deleteCartError = errors => {
 }
 
 export const clearCartError = () => {
-    return{
+    return {
         type: CART.CLEAR_CART_ERRORS
     }
 }

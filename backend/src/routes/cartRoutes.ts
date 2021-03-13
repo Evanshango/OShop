@@ -7,10 +7,11 @@ import {body} from "express-validator";
 const router = express.Router()
 
 router.get('/cart', requireAuth, fetchCart)
-router.post('/cart', [
-    body('product').not().isEmpty().withMessage('Product is required'),
-    body('units').not().isEmpty().withMessage('Item units is required'),
+router.post('/cart',[
+    body('items.*.id').not().isEmpty().withMessage('Product is required'),
+    body('items.*.units').not().isEmpty().withMessage('Item units is required'),
 ], validateRequest, requireAuth, addToCart)
+
 router.patch('/cart/:id', requireAuth, updateCart)
 router.delete('/cart/:id', requireAuth, deleteCart)
 

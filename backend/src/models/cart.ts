@@ -1,16 +1,23 @@
 import mongoose, {Document, HookNextFunction, model, Model, Schema} from "mongoose";
 
 interface ICartAttrs {
-    product: string
-    units: number
     customer: string
+    items: [
+        {
+            product: string
+            units: number
+        }
+    ]
 }
 
 interface ICartDoc extends Document {
-    product: string,
-    units: number
     customer: string
-    createdAt: string
+    items: [
+        {
+            product: string
+            units: number
+        }
+    ]
 }
 
 interface ICartModel extends Model<ICartDoc> {
@@ -18,12 +25,14 @@ interface ICartModel extends Model<ICartDoc> {
 }
 
 const cartSchema = new Schema({
-    product: {type: mongoose.Schema.Types.ObjectId, ref: 'Product'},
     customer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    units: {
-        type: Number,
-        default: 1
-    }
+    items: [
+        {
+            product: {type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true},
+            units: {type: Number, default: 1},
+            _id: false
+        }
+    ]
 }, {
     timestamps: true,
     toJSON: {
@@ -40,10 +49,8 @@ cartSchema.statics.build = (attrs: ICartAttrs) => (new Cart(attrs))
 
 cartSchema.pre(/^find/, function (next: HookNextFunction) {
     this.populate({
-        path: 'customer',
-        select: 'firstName lastName'
-    }).populate({
-        path: 'product'
+        path: 'items.product',
+        select: 'images finalPrice name -category -createdBy'
     })
     next()
 })

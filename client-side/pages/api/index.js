@@ -2,9 +2,8 @@ import axios from 'axios'
 import {authError, authRequest, authSuccess, removeAuthErrors} from "../../redux/auth/authActions";
 import {fetchSectionsError, fetchSectionsRequest, fetchSectionsSuccess} from "../../redux/sections/sectionActions";
 import {
-    addToCartError, addToCartRequest, addToCartSuccess, deleteCartError, deleteCartRequest, deleteCartSuccess,
-    fetchCartError, fetchCartRequest, fetchCartSuccess, updateCartError, updateCartRequest, updateCartSuccess,
-    clearCartError
+    addToCartError, addToCartRequest, addToCartSuccess, clearCartError, deleteCartError, deleteCartRequest,
+    deleteCartSuccess, fetchCartError, fetchCartRequest, fetchCartSuccess
 } from "../../redux/cart/cartActions";
 import {
     clearProductErrors, fetchProductsError, fetchProductsRequest, fetchProductsSuccess
@@ -13,6 +12,7 @@ import {
     addOrderError, addOrderRequest, addOrderSuccess, clearOrderError, fetchOrdersError, fetchOrdersRequest,
     fetchOrdersSuccess
 } from "../../redux/orders/orderActions";
+import _ from 'lodash'
 
 const BASE_URL = process.env.BASE_URL
 
@@ -34,8 +34,7 @@ export const authUser = idToken => async dispatch => {
         dispatch(authSuccess(data.user))
 
     } catch (err) {
-        // dispatch(authError({error: 'Error getting auth token'}))
-        dispatchError(dispatch, err, null)
+        dispatchError(dispatch, err, authError)
     }
 }
 
@@ -62,7 +61,7 @@ export const fetchSections = () => async dispatch => {
     try {
         const {data} = await axios.get(`${BASE_URL}/sections`)
         dispatch(fetchSectionsSuccess(data))
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, fetchSectionsError)
     }
 }
@@ -72,40 +71,43 @@ export const fetchProducts = () => async dispatch => {
     try {
         const {data} = await axios.get(`${BASE_URL}/products`)
         dispatch(fetchProductsSuccess(data))
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, fetchProductsError)
     }
 }
 
 export const clearProdErrors = () => dispatch => dispatch(clearProductErrors())
 
-export const fetchCartItems = () => async dispatch => {
-    dispatch(fetchCartRequest())
+export const uploadCart = cart => async dispatch => {
     try {
-        const {data} = await axios.get(`${BASE_URL}/cart`)
+        const {data} = await axios.post(`${BASE_URL}/cart`, {items: Object.values(cart), sync: true})
         dispatch(fetchCartSuccess(data))
-    } catch (err){
-        dispatchError(dispatch, err, fetchCartError)
-    }
-}
-
-export const addCartItem = product => async dispatch => {
-    dispatch(addToCartRequest())
-    try {
-        const {data} = await axios.post(`${BASE_URL}/cart`, product)
-        dispatch(addToCartSuccess(data))
     } catch (err){
         dispatchError(dispatch, err, addToCartError)
     }
 }
 
-export const updateCartUnits = (id, units) => async dispatch => {
-    dispatch(updateCartRequest())
+export const fetchCartItems = () => async dispatch => {
+    dispatch(fetchCartRequest())
     try {
-        const {data} = await axios.patch(`${BASE_URL}/cart/${id}`, {units})
-        dispatch(updateCartSuccess(data))
-    } catch (err){
-        dispatchError(dispatch, err, updateCartError)
+        const {data} = await axios.get(`${BASE_URL}/cart`)
+        dispatch(fetchCartSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, fetchCartError)
+    }
+}
+
+export const addCartItem = (item, qty = 1, token) => async dispatch => {
+    if (token){
+        dispatch(addToCartRequest())
+        try {
+            const {data} = await axios.post(`${BASE_URL}/cart`, {items: [{...item, units: qty}]})
+            !_.isEmpty(data) && dispatch(addToCartSuccess({...item, units: qty}))
+        } catch (err) {
+            dispatchError(dispatch, err, addToCartError)
+        }
+    } else {
+        dispatch(addToCartSuccess({...item, units: qty}))
     }
 }
 
@@ -114,9 +116,14 @@ export const deleteCartItem = id => async dispatch => {
     try {
         await axios.delete(`${BASE_URL}/cart/${id}`)
         dispatch(deleteCartSuccess(id))
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, deleteCartError)
     }
+}
+
+export const updateCart = () => dispatch => {
+    const cart = localStorage.getItem('oshopCart') ? JSON.parse(localStorage.getItem('oshopCart')) : null
+    if (cart) dispatch(fetchCartSuccess(cart))
 }
 
 export const clearCartErrors = () => dispatch => dispatch(clearCartError())
@@ -136,7 +143,7 @@ export const addOrder = order => async dispatch => {
     try {
         const {data} = await axios.post(`${BASE_URL}/orders`, order)
         dispatch(addOrderSuccess(data))
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, addOrderError)
     }
 }
