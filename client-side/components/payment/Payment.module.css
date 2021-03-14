@@ -1,0 +1,23 @@
+.payment{
+    padding: 1rem;
+}
+.active{
+    display: block;
+}
+
+.inactive{
+    display: none;
+}
+
+.payment button {
+    padding: 1rem;
+    text-transform: uppercase;
+    width: 100%;
+    background: #fbb419;
+    color: #ffffff;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-top: 1rem;
+}

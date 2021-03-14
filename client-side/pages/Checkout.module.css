@@ -18,8 +18,12 @@
     border-radius: 3px;
 }
 
-.billing hr{
-    margin: 2rem 0;
+.active{
+    display: block;
+}
+
+.inactive{
+    display: none;
 }
 
 .step_number {
@@ -44,8 +48,10 @@
     justify-content: space-between;
     position: relative;
     padding: 1rem;
+    cursor: pointer;
 }
 
+.step hr,
 .summary hr {
     border: 1px solid #dcdcdc;
 }
@@ -95,45 +101,6 @@
     align-items: center;
 }
 
-.billing {
-    padding: 1rem;
-}
-
-.input {
-    width: 100%;
-    padding: .7rem;
-    margin-bottom: 1rem;
-    border-radius: 5px;
-    border: 1px solid #dcdcdc;
-}
-
-.input:focus {
-    outline: none;
-}
-
-.checkbox input {
-    margin-right: 1rem;
-}
-
-.billing button {
-    width: 100%;
-    background: #fbb419;
-    color: #ffffff;
-    border-radius: 3px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    margin-top: 1rem;
-    padding: 1rem;
-    text-transform: uppercase;
-}
-
-.inputs{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 1rem;
-}
-
 @media screen and (max-width: 1348px) {
     .checkout_container {
         width: 80%;
@@ -150,12 +117,5 @@
     .checkout_container {
         grid-template-columns: 1fr;
         width: 95%;
-    }
-}
-
-@media screen and (max-width: 522px) {
-    .inputs{
-        grid-template-columns: 1fr;
-        grid-gap: 0;
     }
 }

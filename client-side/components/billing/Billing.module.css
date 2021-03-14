@@ -1,0 +1,57 @@
+.billing {
+    padding: 1rem;
+}
+
+.active{
+    display: block;
+}
+
+.inactive{
+    display: none;
+}
+
+.billing hr{
+    margin: 2rem 0;
+}
+
+.billing button {
+    width: 100%;
+    background: #fbb419;
+    color: #ffffff;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-top: 1rem;
+    padding: 1rem;
+    text-transform: uppercase;
+}
+
+.inputs{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+}
+
+.input {
+    width: 100%;
+    padding: .7rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+}
+
+.input:focus {
+    outline: none;
+}
+
+.checkbox input {
+    margin-right: 1rem;
+}
+
+@media screen and (max-width: 522px) {
+    .inputs{
+        grid-template-columns: 1fr;
+        grid-gap: 0;
+    }
+}

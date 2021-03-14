@@ -1,13 +1,8 @@
-import styles from './../../pages/Checkout.module.css'
+import styles from './Billing.module.css'
 
-function Billing({open, setOpen}) {
-
-    const handleClick = () => {
-        setOpen(true)
-    }
-
+function Billing({selected, activateNext, index}) {
     return (
-        <div className={styles.billing}>
+        <div className={selected.active ? `${styles.billing} ${styles.active}` : `${styles.inactive}`}>
             <div className={styles.inputs}>
                 <span>
                     <p>Full name*</p>
@@ -37,7 +32,7 @@ function Billing({open, setOpen}) {
                 <input type="checkbox" name='shippingAddress' id='shippingAddress'/>
                 <label htmlFor="shippingAddress">Use a different shipping address</label>
             </div>
-            <button onClick={handleClick}>Proceed</button>
+            <button onClick={() => activateNext(selected, index)}>Proceed</button>
         </div>
     );
 }
