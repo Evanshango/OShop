@@ -1,38 +1,41 @@
 import styles from './Billing.module.css'
+import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {loginUser} from "../../pages/api";
+import _ from 'lodash'
 
-function Billing({selected, activateNext, index}) {
+function Billing({selected, activateNext, index, user}) {
+
+    const dispatch = useDispatch()
+    const [newUser, setNewUSer] = useState({email: '', password: ''})
+
+    const handleChange = e => {
+        setNewUSer({...newUser, [e.target.name]: e.currentTarget.value})
+    }
+
+    const handleSignin = () => {
+        dispatch(loginUser(newUser))
+    }
+
     return (
         <div className={selected.active ? `${styles.billing} ${styles.active}` : `${styles.inactive}`}>
             <div className={styles.inputs}>
                 <span>
-                    <p>Full name*</p>
-                    <input className={styles.input}/>
-                </span>
-                <span>
                     <p>Email*</p>
-                    <input type='email' className={styles.input}/>
-                </span>
-            </div>
-            <div className={styles.inputs}>
-                <span>
-                    <p>Address*</p>
-                    <input className={styles.input}/>
+                    <input type='email' name='email' className={styles.input} value={newUser.email}
+                           onChange={handleChange}/>
                 </span>
                 <span>
-                    <p>Phone*</p>
-                    <input type='number' className={styles.input}/>
+                    <p>Password*</p>
+                    <input type='password' name='password' className={styles.input} value={newUser.password}
+                           onChange={handleChange}/>
                 </span>
             </div>
-            <div className={styles.checkbox}>
-                <input type="checkbox" name='addAddress' id='addAddress'/>
-                <label htmlFor="addAddress">I do not see my address</label>
-            </div>
-            <hr/>
-            <div className={styles.checkbox}>
-                <input type="checkbox" name='shippingAddress' id='shippingAddress'/>
-                <label htmlFor="shippingAddress">Use a different shipping address</label>
-            </div>
-            <button onClick={() => activateNext(selected, index)}>Proceed</button>
+            <span className={styles.signin_btn} onClick={handleSignin}>Signin</span>
+            <button disabled={_.isEmpty(user)} onClick={() => activateNext(selected, index)}
+                    className={_.isEmpty(user) ? `${styles.disabled}` : `${styles.enabled}`}>
+                Proceed
+            </button>
         </div>
     );
 }

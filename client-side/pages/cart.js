@@ -17,7 +17,8 @@ const Cart = ({user}) => {
     }, [cart])
 
     //Get total items price
-    const totalPrice = Object.values(cartItems).reduce((acc, curr) => acc + (curr.units * curr.finalPrice), 0)
+    const totalPrice = cartItems && Object.values(cartItems)
+        .reduce((acc, curr) => acc + (curr.units * curr.finalPrice), 0)
 
     const incrementQty = (prod) => updateCartUnits(prod, 1)
 

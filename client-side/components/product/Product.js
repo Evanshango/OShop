@@ -16,7 +16,8 @@ const Product = ({product, token}) => {
     const addToCart = (prod, e) => {
         e.preventDefault()
         const {name, images, finalPrice, id} = prod
-        dispatch(addCartItem({id, name, images, finalPrice}, 1, token))
+        const item = {id, name, images, finalPrice}
+        dispatch(addCartItem(item, 1, token))
     }
 
     const showImage = (images) => <img src={images[Math.floor(Math.random() * images.length)]} alt=""/>

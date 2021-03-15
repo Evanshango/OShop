@@ -65,7 +65,8 @@
 
 .nav_item {
     text-transform: uppercase;
-    padding: 0 2rem;
+    font-size: 15px;
+    padding: 0 1.5rem;
 }
 
 .nav_links:hover {

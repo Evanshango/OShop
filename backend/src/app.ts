@@ -17,6 +17,7 @@ import {productRouter} from "./routes/productRoutes";
 import {sectionRouter} from "./routes/sectionRoutes";
 import {cartRouter} from "./routes/cartRoutes";
 import {orderRouter} from "./routes/orderRoutes";
+import {addressRouter} from "./routes/addressRoutes";
 
 const app = express()
 const upload = multer()
@@ -51,6 +52,7 @@ app.use('/api/v1', userRouter)
 app.use('/api/v1', categoryRouter)
 app.use('/api/v1', sectionRouter)
 app.use('/api/v1', productRouter)
+app.use('/api/v1', addressRouter)
 app.use('/api/v1', cartRouter)
 app.use('/api/v1', orderRouter)
 

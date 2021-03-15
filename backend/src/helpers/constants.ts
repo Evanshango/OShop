@@ -42,3 +42,8 @@ export enum ORDER_STATUS {
     SHIPPED = 'SHIPPED',
     DELIVERED = 'DELIVERED'
 }
+
+export enum ADDRESS_TYPE {
+    HOME = 'HOME',
+    WORK = 'WORK'
+}

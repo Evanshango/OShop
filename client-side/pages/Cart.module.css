@@ -124,7 +124,7 @@
 }
 
 .no_items li a {
-    padding: .5rem 1rem;
+    padding: .5rem 2rem;
     border-radius: 2rem;
     background: #fbb419;
     color: #ffffff;
@@ -133,7 +133,6 @@
     cursor: pointer;
     text-decoration: none;
     text-transform: uppercase;
-    font-weight: bold;
 }
 
 .sub_total {

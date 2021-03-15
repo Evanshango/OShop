@@ -3,7 +3,16 @@ import Layout from "../components/Layout";
 import {wrapper} from "../redux/store";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {fetchCartItems, fetchProducts, fetchSections, setAuthenticationHeader, updateCart, uploadCart} from "./api";
+import {
+    addCheckOutParam,
+    fetchCartItems, fetchOrderItems,
+    fetchProducts,
+    fetchSections,
+    fetchUserAddresses,
+    setAuthenticationHeader,
+    updateCart,
+    uploadCart
+} from "./api";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import {authSuccess} from "../redux/auth/authActions";
@@ -15,6 +24,7 @@ const AppComponent = ({Component, pageProps}) => {
 
     const {products: cart} = useSelector(state => state.cart)
     const {token} = useSelector(state => state.user)
+    const {checkout} = useSelector(state => state.checkout)
 
     useEffect(() => {
         dispatch(updateCart())
@@ -23,7 +33,10 @@ const AppComponent = ({Component, pageProps}) => {
     useEffect(() => {
         if (token) {
             setDecodeToken(token)
+            dispatch(fetchUserAddresses())
             dispatch(fetchCartItems())
+            dispatch(fetchOrderItems())
+            dispatch(addCheckOutParam({...checkout, signedIn: true}))
             !_.isEmpty(cart) && dispatch(uploadCart(cart))
         } else {
             const storedToken = sessionStorage.getItem('oshop')

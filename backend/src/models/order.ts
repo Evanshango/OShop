@@ -4,7 +4,7 @@ import {ORDER_STATUS, PAYMENT_METHOD, PAYMENT_STATUS} from "../helpers/constants
 interface IOrderAttrs {
     customer: string
     amount: number
-    phone: number
+    address: string
     items: [
         {
             product: string
@@ -15,12 +15,13 @@ interface IOrderAttrs {
     ]
     paymentStatus: PAYMENT_STATUS
     paymentMethod: PAYMENT_METHOD
+    orderStatus?: ORDER_STATUS
 }
 
 interface IOrderDoc extends Document {
     customer: string,
     amount: number
-    phone: number
+    address: string
     items: [
         {
             product: string
@@ -31,6 +32,7 @@ interface IOrderDoc extends Document {
     ]
     paymentStatus: PAYMENT_STATUS
     paymentMethod: PAYMENT_METHOD
+    orderStatus: ORDER_STATUS
     createdAt: string
 }
 
@@ -44,12 +46,9 @@ const orderSchema = new Schema({
         required: true
     },
     address: {
-        type: String, required: true
+        type: mongoose.Schema.Types.ObjectId, ref: 'Address', required: true
     },
     amount: {
-        type: Number, required: true
-    },
-    phone: {
         type: Number, required: true
     },
     items: [
@@ -63,7 +62,8 @@ const orderSchema = new Schema({
             },
             totalPrice: {
                 type: Number, required: true
-            }
+            },
+            _id: false
         }
     ],
     paymentStatus: {
@@ -74,22 +74,9 @@ const orderSchema = new Schema({
         type: String,
         enum: Object.values(PAYMENT_METHOD), required: true
     },
-    orderStatus: [
-        {
-            type: {
-                String,
-                enum: Object.values(ORDER_STATUS),
-                default: ORDER_STATUS.ORDERED
-            },
-            date: {
-                type: Date
-            },
-            isCompleted: {
-                type: Boolean,
-                default: false
-            }
-        }
-    ],
+    orderStatus: {type: String, enum: Object.values(ORDER_STATUS), default: ORDER_STATUS.ORDERED},
+    isCompleted: {type: Boolean, default: false},
+
 }, {
     timestamps: true,
     toJSON: {
@@ -107,10 +94,13 @@ orderSchema.statics.build = (attrs: IOrderAttrs) => (new Order(attrs))
 orderSchema.pre(/^find/, function (next: HookNextFunction) {
     this.populate({
         path: 'customer',
-        select: 'firstName lastName'
+        select: 'fullName'
     }).populate({
         path: 'items.product',
         select: 'name images description createdBy'
+    }).populate({
+        path: 'address',
+        select: '-user -createdAt'
     })
     next()
 })

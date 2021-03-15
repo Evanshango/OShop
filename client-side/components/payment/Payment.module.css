@@ -1,11 +1,22 @@
-.payment{
+.payment {
     padding: 1rem;
 }
-.active{
+
+.options {
+    display: flex;
+    padding: 1rem;
+    justify-content: space-between;
+}
+
+.options span label{
+    margin-left: .5rem;
+}
+
+.active {
     display: block;
 }
 
-.inactive{
+.inactive {
     display: none;
 }
 
@@ -20,4 +31,14 @@
     outline: none;
     cursor: pointer;
     margin-top: 1rem;
+}
+
+@media screen and (max-width: 458px){
+    .options{
+        flex-direction: column;
+    }
+
+    .options span{
+        margin: .5rem 0;
+    }
 }

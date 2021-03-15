@@ -16,7 +16,6 @@
 
 .billing button {
     width: 100%;
-    background: #fbb419;
     color: #ffffff;
     border-radius: 3px;
     border: none;
@@ -25,6 +24,14 @@
     margin-top: 1rem;
     padding: 1rem;
     text-transform: uppercase;
+}
+
+.enabled{
+    background: #fbb419;
+}
+
+.disabled{
+    background: #dddddd;
 }
 
 .inputs{
@@ -39,6 +46,16 @@
     margin-bottom: 1rem;
     border-radius: 5px;
     border: 1px solid #dcdcdc;
+}
+
+.signin_btn{
+    padding: .5rem 2rem;
+    background: #6495ed;
+    text-align: center;
+    color: #ffffff;
+    border-radius: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
 }
 
 .input:focus {

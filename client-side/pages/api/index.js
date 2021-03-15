@@ -13,6 +13,15 @@ import {
     fetchOrdersSuccess
 } from "../../redux/orders/orderActions";
 import _ from 'lodash'
+import {
+    addAddressError,
+    addAddressRequest, addAddressSuccess,
+    clearAddressErrors,
+    fetchAddressesError,
+    fetchAddressesRequest,
+    fetchAddressesSuccess
+} from "../../redux/address/addressActions";
+import {checkoutParams} from "../../redux/checkout/checkoutActions";
 
 const BASE_URL = process.env.BASE_URL
 
@@ -128,11 +137,36 @@ export const updateCart = () => dispatch => {
 
 export const clearCartErrors = () => dispatch => dispatch(clearCartError())
 
+export const fetchUserAddresses = () => async dispatch => {
+    dispatch(fetchAddressesRequest())
+    try {
+        const {data} = await axios.get(`${BASE_URL}/addresses`)
+        dispatch(fetchAddressesSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, fetchAddressesError)
+    }
+}
+
+export const addAddress = address => async dispatch => {
+    dispatch(addAddressRequest())
+    try {
+        const {data} = await axios.post(`${BASE_URL}/addresses`, address)
+        dispatch(addAddressSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, addAddressError)
+    }
+}
+
+export const clearAddressError = () => dispatch => dispatch(clearAddressErrors())
+
+export const addCheckOutParam = checkout => dispatch => dispatch(checkoutParams(checkout))
+
 export const fetchOrderItems = () => async dispatch => {
     dispatch(fetchOrdersRequest())
     try {
-        const {data} = await axios.get(`${BASE_URL}/orders`)
+        const {data} = await axios.get(`${BASE_URL}/orders/user`)
         dispatch(fetchOrdersSuccess(data))
+        clearCart()
     } catch (err) {
         dispatchError(dispatch, err, fetchOrdersError)
     }
@@ -149,3 +183,8 @@ export const addOrder = order => async dispatch => {
 }
 
 export const clearOrderErrors = () => dispatch => dispatch(clearOrderError())
+
+const clearCart = () => async dispatch => {
+    const {data} = await axios.get(`${BASE_URL}/cart`)
+    dispatch(fetchCartSuccess(data))
+}
