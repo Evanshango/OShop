@@ -7,7 +7,7 @@ import multer from 'multer'
 
 import {NotFoundError} from "./errors/not-found-error";
 import {errorHandler} from "./middlewares/error-handler";
-import {NODE_ENV} from "./helpers/constants";
+import {NODE_ENV, ORIGIN_1, ORIGIN_2} from "./helpers/constants";
 import {serve, setup} from 'swagger-ui-express'
 import yaml from 'yamljs'
 import {authRouter} from "./routes/authRoutes";
@@ -26,9 +26,13 @@ const upload = multer()
 app.use(json())
 app.use(upload.any())
 
+if (!ORIGIN_1) throw new Error('ORIGIN_1 should be defined')
+if (!ORIGIN_2) throw new Error('ORIGIN_2 should be defined')
+
 const corsConfig = {
     credentials: true,
-    origin: ['http://localhost:3000', 'http://localhost:3001']
+    // origin: ['http://localhost:3000', 'http://localhost:3001']
+    origin: [ORIGIN_1, ORIGIN_2]
 };
 
 // Setup swagger

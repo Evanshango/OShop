@@ -13,6 +13,9 @@ export const PORT = process.env.PORT
 export const NODE_ENV = process.env.NODE_ENV
 export const COOKIE_EXPIRES_IN = parseInt(process.env.COOKIE_EXPIRES_IN!)
 
+export const ORIGIN_1 = process.env.ORIGIN_1
+export const ORIGIN_2 = process.env.ORIGIN_2
+
 export const S3_ENDPOINT = process.env.S3_ENDPOINT
 export const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY
 export const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY
