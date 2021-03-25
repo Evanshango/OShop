@@ -1,12 +1,17 @@
-.shipping{
-    padding: 1rem;
+.shipping {
+    padding: 0;
 }
 
-.active{
+.shipping hr {
+    margin: 0 !important;
+    border: 1px solid #dcdcdc;
+}
+
+.active {
     display: block;
 }
 
-.inactive{
+.inactive {
     display: none;
 }
 
@@ -23,21 +28,27 @@
     margin-top: 1rem;
 }
 
-.address_container{
-    padding: 1rem 0;
+.address_container {
+    padding: 1rem;
     display: flex;
     align-items: center;
 }
 
-.address_container span{
+.address_container span {
     margin-left: 1rem;
 }
 
-.address_container span p{
+.address_container span p {
     padding: .5rem 0;
 }
 
-.edit{
+.selected_address{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit {
     margin-left: auto;
     background: #fbb419;
     color: #ffffff;
@@ -50,14 +61,14 @@
     cursor: pointer;
 }
 
-.button_area{
+.button_area {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
 }
 
 .add_new,
-.cancel{
+.cancel {
     padding: .6rem 2rem;
     border: 1px solid #dcdcdc;
     cursor: pointer;
@@ -66,23 +77,23 @@
     font-size: 12px;
 }
 
-.add_new:focus{
+.add_new:focus {
     outline: none;
 }
 
-.add_address{
+.add_address {
     padding: 1rem;
     background: #f3f4f6;
     margin-top: 1rem;
 }
 
-.form_inputs{
+.form_inputs {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
 }
 
-.form_inputs input{
+.form_inputs input {
     padding: .7rem;
     border: 1px solid #dcdcdc;
     border-radius: 5px;
@@ -90,26 +101,26 @@
     margin-top: .5rem;
 }
 
-.address_input{
+.address_input {
     width: 100%;
 }
 
-.form_inputs input:focus{
+.form_inputs input:focus {
     outline: none;
 }
 
-.types{
+.types {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
     margin-top: .5rem;
 }
 
-.types input{
+.types input {
     margin-right: .5rem;
 }
 
-.add_address button{
+.add_address button {
     border-radius: 5px;
     border: none;
     cursor: pointer;
@@ -120,41 +131,60 @@
     text-transform: uppercase;
 }
 
-.address_info{
+.address_info {
     margin-left: 1rem;
 }
 
-.address_info div{
+.address_info div {
     display: flex;
     align-items: center;
 }
 
 .full_name,
-.address_type{
+.address_type {
     margin-right: 1rem;
 }
 
-.full_name{
+.full_name {
     font-weight: bold;
 }
 
-.address_type{
+.address_type {
     background: #dddddd;
     padding: .1rem .5rem;
     font-size: 12px;
     border-radius: 2px;
 }
 
-.address_phone{
-    font-size: 14px;
+.add_address_area{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.add_address button:focus{
+.add_address_area button{
+    background: #fbb419;
+    color: #ffffff;
+    padding: .5rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.add_address_area button:focus{
     outline: none;
 }
 
-@media screen and (max-width: 524px){
-    .form_inputs{
+.address_phone {
+    font-size: 14px;
+}
+
+.add_address button:focus {
+    outline: none;
+}
+
+@media screen and (max-width: 524px) {
+    .form_inputs {
         grid-template-columns: 1fr;
     }
 }

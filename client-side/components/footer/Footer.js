@@ -1,6 +1,5 @@
 import styles from './Footer.module.css'
-import {FaFacebook as Facebook} from "react-icons/fa";
-import {FaInstagram as Instagram} from "react-icons/fa";
+import {FaFacebook as Facebook, FaInstagram as Instagram} from "react-icons/fa";
 import {AiOutlineTwitter as Twitter} from "react-icons/ai";
 
 const Footer = () => {
@@ -48,7 +47,7 @@ const Footer = () => {
                             <Twitter/>
                         </a>
                     </div>
-                    <p>OShop Inclusive © {new Date().getFullYear()}</p>
+                    <p>© Copyright {new Date().getFullYear()} <b>OShop</b>. All Rights Reserved</p>
                 </div>
             </div>
         </footer>

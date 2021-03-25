@@ -10,8 +10,15 @@ import {
 } from "../redux/categories/categoryActions";
 import {
     addProductError, addProductRequest, addProductSuccess, clearProductErrors, deleteProductError,
-    deleteProductSuccess, productsError, productsRequest, productsSuccess
+    deleteProductSuccess, productsError, productsRequest, productsSuccess, editProductRequest, editProductSuccess
 } from "../redux/products/productActions";
+import {
+    fetchOrdersError, fetchOrdersRequest, fetchOrdersSuccess, clearOrderErrors
+} from "../redux/orders/orderActions";
+import {
+    addOfferError, addOfferRequest, addOfferSuccess, clearOfferErrors, deleteOfferError, deleteOfferRequest,
+    deleteOfferSuccess, fetchOffersError, fetchOffersRequest, fetchOffersSuccess
+} from "../redux/offers/offerActions";
 
 // const BASE_URL = 'http://localhost:5000/api/v1'
 const BASE_URL = process.env.REACT_APP_BASE_URL
@@ -119,9 +126,7 @@ export const deleteCategory = id => async dispatch => {
     }
 }
 
-export const clearCatErrors = () => dispatch => {
-    dispatch(clearCategoryErrors())
-}
+export const clearCatErrors = () => dispatch => dispatch(clearCategoryErrors())
 
 export const fetchProducts = () => async dispatch => {
     dispatch(productsRequest())
@@ -143,6 +148,16 @@ export const addProduct = product => async dispatch => {
     }
 }
 
+export const updateProduct = product => async dispatch => {
+    dispatch(editProductRequest())
+    try{
+        const {data} = await axios.patch(`${BASE_URL}/products/${product.id}`, product)
+        dispatch(editProductSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, addProductError)
+    }
+}
+
 export const deleteProduct = id => async dispatch => {
     try{
         await axios.delete(`${BASE_URL}/products/${id}`)
@@ -155,3 +170,48 @@ export const deleteProduct = id => async dispatch => {
 export const clearProdErrors = () => dispatch => {
     dispatch(clearProductErrors())
 }
+
+export const fetchOrders = () => async dispatch => {
+    dispatch(fetchOrdersRequest())
+    try{
+        const {data} = await axios.get(`${BASE_URL}/orders`)
+        dispatch(fetchOrdersSuccess(data))
+    } catch (err){
+        dispatchError(dispatch, err, fetchOrdersError)
+    }
+}
+
+export const clearOrderError = () => dispatch => dispatch(clearOrderErrors())
+
+export const fetchOffers = () => async dispatch => {
+    dispatch(fetchOffersRequest())
+    try{
+        const {data} = await axios.get(`${BASE_URL}/offers`)
+        dispatch(fetchOffersSuccess(data))
+    } catch (err){
+        dispatchError(dispatch, err, fetchOffersError)
+    }
+}
+
+export const addOffer = offer => async dispatch => {
+    dispatch(addOfferRequest())
+    try{
+        const {data} = await axios.post(`${BASE_URL}/offers`, offer)
+        dispatch(addOfferSuccess(data))
+        return data.id
+    } catch (err) {
+        dispatchError(dispatch, err, addOfferError)
+    }
+}
+
+export const deleteOffer = id => async dispatch => {
+    dispatch(deleteOfferRequest())
+    try{
+        const {data} = await axios.delete(`${BASE_URL}/offers/${id}`)
+        dispatch(deleteOfferSuccess(data))
+    } catch (err){
+        dispatchError(dispatch, err, deleteOfferError)
+    }
+}
+
+export const clearOffersError = () => dispatch => dispatch(clearOfferErrors())

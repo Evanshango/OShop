@@ -1,31 +1,32 @@
 import Content from "../../../components/Content";
 import styles from './Product.module.css'
 import Rating from "../../../components/rating/Rating";
-import {useEffect, useState} from "react";
-import {AiOutlineShoppingCart} from "react-icons/ai";
+import React, {useEffect, useState} from "react";
+import {AiOutlineShoppingCart, AiOutlineHeart} from "react-icons/ai";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {addCartItem} from "../../api";
+import {addCartItem, deleteCartItem} from "../../api";
+import Link from "next/link";
 
 const Product = ({product}) => {
     const dispatch = useDispatch()
-    const {products: cart} = useSelector(state => state.cart)
+    const {products} = useSelector(state => state.cart)
     const {token} = useSelector(state => state.user)
     const [inCart, setInCart] = useState(false)
     const [image, setImage] = useState('')
 
-    console.log(token)
-
     useEffect(() => {
-        if (cart[product.id]) {
+        const item = Object.values(products).find(c => c.id === product.id)
+        if (item){
             setInCart(true)
+        } else {
+            setInCart(false)
         }
-    }, [cart[product.id]])
+    }, [Object.values(products)])
 
     const handleCartClick = () => {
         if (inCart) {
-            // dispatch(deleteCartItem(product.id))
-            console.log('deleting item')
+            dispatch(deleteCartItem(product.id))
         } else {
             const {name, images, finalPrice, id} = product
             dispatch(addCartItem({id, name, images, finalPrice}, 1, token))
@@ -70,19 +71,36 @@ const Product = ({product}) => {
                         </div>
                         <div className={styles.product_detail}>
                             <ul>
-                                <li>Availability: <span>{product.stock > 0 ? 'in stock' : 'out of stock'}</span></li>
+                                <li>Availability:
+                                    <span className={styles.availability}>
+                                        {product.stock > 0 ? 'in stock' : 'out of stock'}
+                                    </span>
+                                </li>
                                 <li>Category: <span>{product.category.name}</span></li>
                             </ul>
                             <div className={styles.purchase_info}>
                                 <div className={styles.info}>
-                                    <button onClick={addToWishlist}>Save for later</button>
-                                    <button className={!inCart ? `${styles.add_btn}` : `${styles.remove_btn}`}
-                                            onClick={handleCartClick}>
-                                        <span>{inCart ? 'Remove from' : 'Add to'}</span>
-                                        <AiOutlineShoppingCart size={20}/>
+                                    <button className={styles.wishlist} onClick={addToWishlist}>
+                                        <span>Save for later</span><AiOutlineHeart size={20}/>
                                     </button>
+                                    {product.stock > 0 && (
+                                        <button className={!inCart ? `${styles.add_btn}` : `${styles.remove_btn}`}
+                                                onClick={handleCartClick}>
+                                            <span>{inCart ? 'Remove from' : 'Add to'}</span>
+                                            <AiOutlineShoppingCart size={20}/>
+                                        </button>
+                                    )}
                                 </div>
                             </div>
+                            {inCart && (
+                                <li>
+                                    <Link href={'/cart'}>
+                                        <a>
+                                            <div className={styles.view_cart}>View Cart</div>
+                                        </a>
+                                    </Link>
+                                </li>
+                            )}
                         </div>
                     </div>
                 </div>

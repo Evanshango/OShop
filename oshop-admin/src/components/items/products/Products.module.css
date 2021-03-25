@@ -45,22 +45,22 @@
 
 .sec_cat_area {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 1rem;
 }
 
-.section p, .category p {
+.section p, .category p, .featured p {
     padding: .5rem 0;
 }
 
-.section select, .category select {
+.section select, .category select, .featured select {
     padding: .6rem .8rem;
     width: 100%;
     border-radius: .3rem;
     border: 1px solid #a5aaad;
 }
 
-.section select:focus, .category select:focus {
+.section select:focus, .category select:focus, .featured select:focus {
     outline: none;
 }
 
@@ -81,26 +81,13 @@
     margin: 1rem 0;
 }
 
-.row_one, .row_two {
+.top_row{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 1rem;
     margin: 1rem 0;
 }
 
-.row_one span h5, .row_two span h5 {
-    padding: .5rem 0;
-}
-
-.row_one span input, .row_two span input {
-    width: 100%;
-    padding: .6rem .2rem;
-    border-radius: .3rem;
-    border: 1px solid #a5aaad;
-}
-
-.row_one span input:focus,
-.row_two span input:focus,
 .product_description textarea:focus {
     outline: none;
 }
@@ -171,7 +158,7 @@
 .preview_images img {
     width: 10rem;
     object-fit: cover;
-    height: 8rem;
+    height: 5rem;
     border-radius: .5rem;
     flex-wrap: wrap;
     margin: auto;
@@ -183,13 +170,23 @@
     padding: 1rem 0 0 0;
 }
 
-.cancel, .save, .upload_button button {
+.upload_button button{
+    border-radius: 2rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: .4rem 3rem;
+    color: #ffffff;
+}
+
+.cancel, .save {
     border-radius: 2rem;
     border: none;
     outline: none;
     cursor: pointer;
     padding: .6rem 3rem;
     color: #ffffff;
+    margin-bottom: 1rem;
 }
 
 .cancel {
@@ -235,11 +232,8 @@
 }
 
 @media screen and (max-width: 720px) {
-    .row_one, .row_two {
-        display: grid;
+    .top_row {
         grid-template-columns: 1fr 1fr;
-        grid-gap: 1rem;
-        margin: 1rem 0;
     }
 
     .search_products {
@@ -269,7 +263,7 @@
         width: 90%;
     }
 
-    .row_one, .row_two {
+    .top_row {
         grid-template-columns: 1fr;
     }
 

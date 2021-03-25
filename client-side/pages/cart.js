@@ -5,10 +5,12 @@ import _ from 'lodash'
 import React, {useEffect, useState} from "react";
 import CartItem from "../components/cart/CartItem";
 import {addCartItem} from "./api";
+import {MdHourglassEmpty} from "react-icons/md";
 
 const Cart = ({user}) => {
     const dispatch = useDispatch()
     const {products: cart} = useSelector(state => state.cart)
+    const {products} = useSelector(state => state.product)
     const {token} = useSelector(state => state.user)
     const [cartItems, setCartItems] = useState(cart)
 
@@ -30,6 +32,26 @@ const Cart = ({user}) => {
         dispatch(addCartItem(item, qty, token))
     }
 
+    const showCheckOutBtn = () => ((() => {
+        let itemsArray = []
+        Object.values(cart).forEach(item => {
+            const prod = products.find(p => p.id === item.id)
+            prod && itemsArray.push(prod)
+        })
+        const prods = itemsArray.filter(pr => pr.stock < 1)
+        return prods.length > 0 ? (
+            <p className={styles.warning}>Please remove items that are out of stock before checkout</p>
+        ) : (
+            <li>
+                <Link href={'/checkout'}>
+                    <a>
+                        <div className={styles.buy_now}>Checkout</div>
+                    </a>
+                </Link>
+            </li>
+        )
+    })())
+
     return (
         <div className={styles.cart}>
             {Object.keys(cartItems).length > 0 ? (
@@ -37,24 +59,20 @@ const Cart = ({user}) => {
                     <div className={styles.cart_right}>
                         <div className={styles.cart_header}>
                             <h4>My Cart</h4>
-                            <h4>Delivery</h4>
+                            <h4>Availability</h4>
                         </div>
                         <hr/>
                         {Object.keys(cartItems).map((key, index) => (
-                            <CartItem product={cartItems[key]} key={index} incQty={incrementQty} decQty={decrementQty}/>
+                            <div key={index}>
+                                <CartItem product={cartItems[key]} incQty={incrementQty} decQty={decrementQty}/>
+                                {index + 1 !== Object.keys(cartItems).length && <hr/>}
+                            </div>
                         ))}
-                        <li>
-                            <Link href={'/checkout'}>
-                                <a>
-                                    <div className={styles.buy_now}>By Now</div>
-                                </a>
-                            </Link>
-                        </li>
+                        {showCheckOutBtn()}
                     </div>
                     <div className={styles.cart_left}>
                         <div className={styles.cart_header}>
-                            <h4>Product</h4>
-                            <h4>Delivered to</h4>
+                            <h4 style={{textAlign: 'center'}}>Total Amount</h4>
                         </div>
                         <hr/>
                         <div className={styles.sub_total_info}>
@@ -65,11 +83,12 @@ const Cart = ({user}) => {
                 </div>
             ) : (
                 <div className={styles.no_items}>
+                    <MdHourglassEmpty/>
                     <h3>You don't have any items in your cart...</h3>
                     <div className={styles.action_buttons}>
                         <li>
                             <Link href={'/products'}>
-                                <a>Click to Shop</a>
+                                <a>View Products</a>
                             </Link>
                         </li>
                         {_.isEmpty(user) && (

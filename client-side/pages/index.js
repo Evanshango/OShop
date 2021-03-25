@@ -1,12 +1,12 @@
-import React, {useEffect} from "react";
+import React from "react";
 import styles from './../styles/Home.module.css'
 import Slider from "../components/slider/Slider";
 import Featured from "../components/products/Featured";
 import Latest from "../components/products/Latest";
 import Content from "../components/Content";
 import Link from "next/link";
-import {useDispatch} from "react-redux";
-import {fetchSections} from "./api";
+import Search from "../components/search/Search";
+import {useSelector} from "react-redux";
 
 const images = [
     '/img_1.jpg',
@@ -16,6 +16,9 @@ const images = [
 ]
 
 const Home = () => {
+
+    const {offers} = useSelector(state => state.offer)
+    const showImage = (images) => images[Math.floor(Math.random() * images.length)]
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -39,14 +42,21 @@ const Home = () => {
                     </div>
                 </div>
             </Slider>
+            <div className={styles.search}>
+                <Search/>
+            </div>
             <Featured/>
             <Latest/>
-            <div className={styles.banner} style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, .4), rgba(0, 0, 0, .4)), url(${'/img_9.jpg'})`}}>
-                <div className={styles.banner_right}>
-                    <div className={styles.content}>
+            <div className={styles.banner}>
+                <div className={styles.banner_content}>
+                    <div className={styles.banner_left}>
+                        <img src={'/img_1.jpg'} alt="image"/>
+                    </div>
+                    <div className={styles.banner_right}>
+                        <h2>Smartphone</h2>
                         <h3><span className={styles.discount}>70%</span> sale off</h3>
                         <h2>Hurry while stocks last</h2>
-                        <Link href={'/'} passHref>
+                        <Link href={'/products'} passHref>
                             <a className={styles.btn}>
                                 <button>Shop Now</button>
                             </a>
@@ -59,8 +69,16 @@ const Home = () => {
                     <div className={styles.title}>
                         <h5>Offers</h5>
                     </div>
-                    <div>
-                        **********something here*****
+                    <div className={styles.offer_cards}>
+                        {offers && offers.map(offer => (
+                            <div className={styles.card} key={offer.id} style={{
+                                backgroundImage: `linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), 
+                                url(${showImage(offer.product.images)})`
+                            }}>
+                                <h2>{offer.product.name}</h2>
+                                <h1 style={{color: '#fbb419'}}>{`${offer.product.discount}% off`}</h1>
+                            </div>
+                        ))}
                     </div>
                 </div>
                 <div className={styles.newsletter}>

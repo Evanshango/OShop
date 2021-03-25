@@ -29,6 +29,7 @@
     border-radius: .5rem;
     object-fit: cover;
     width: 100%;
+    border: 1px solid #dcdcdc;
 }
 
 .image_display {
@@ -52,7 +53,7 @@
 .image_item img {
     border-radius: .3rem;
     height: 6rem;
-    width: 30rem;
+    border: 1px solid #dcdcdc;
     object-fit: cover;
 }
 
@@ -83,23 +84,24 @@
 
 .product_rating {
     color: #ffc107;
-    padding: 1rem 0;
+    padding: .9rem 0;
 }
 
 .discount {
     text-transform: uppercase;
-    background: #008000;
+    background: #838383;
     color: #ffffff;
-    border-radius: 5px;
-    padding: .4rem 2rem;
-    margin-top: 10rem;
+    border-radius: 10px;
+    padding: .2rem 2rem;
+    margin-top: 3rem;
     font-weight: bold;
+    font-size: 12px;
 }
 
 .product_price {
     margin: 1rem 0;
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 600;
     text-transform: uppercase;
 }
 
@@ -139,6 +141,16 @@
     font-weight: 400;
 }
 
+.availability{
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 12px;
+    background: #32cd32;
+    padding: .2rem 1rem;
+    margin-left: 1rem;
+    border-radius: 5rem;
+}
+
 .purchase_info {
     display: flex;
     align-items: center;
@@ -157,7 +169,7 @@
     outline: none;
 }
 
-.info button {
+.info button, .view_cart {
     width: 100%;
     border-radius: 20px;
     padding: .6rem;
@@ -168,14 +180,16 @@
     outline: none;
     color: #ffffff;
     cursor: pointer;
+    text-transform: uppercase;
+    font-size: 12px;
 }
 
-.info button:not(:last-child){
-    background: #fbb419;
+.wishlist{
+    background: #838383;
 }
 
 .info button span{
-    margin-left: 2px;
+    margin-right: .2rem;
 }
 
 .purchase_info .add_btn {
@@ -205,6 +219,14 @@
 
 .label{
     padding: 0 1rem 0 0;
+}
+
+.view_cart{
+    background: rgb(241, 196, 15);
+    background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
+    margin-top: 2rem;
+    font-weight: bold;
+    font-size: 1rem!important;
 }
 
 @media screen and (max-width: 1078px) {

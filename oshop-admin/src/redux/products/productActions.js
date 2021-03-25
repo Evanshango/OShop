@@ -40,6 +40,19 @@ export const addProductError = errors => {
     }
 }
 
+export const editProductRequest = () => {
+    return{
+        type: PRODUCTS.EDIT_PRODUCT_REQUEST
+    }
+}
+
+export const editProductSuccess = product => {
+    return{
+        type: PRODUCTS.EDIT_PRODUCT_SUCCESS,
+        payload: product
+    }
+}
+
 export const deleteProductSuccess = id => {
     return{
         type: PRODUCTS.DELETE_PRODUCT_SUCCESS,

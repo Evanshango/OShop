@@ -45,9 +45,9 @@
 }
 
 .content{
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-gap: 1rem;
+    /*display: grid;*/
+    /*grid-template-columns: 2fr 1fr;*/
+    /*grid-gap: 1rem;*/
     margin: 1rem 0;
 }
 
@@ -58,6 +58,22 @@
     box-shadow: 0 .4rem 1.2rem rgba(0, 0, 0, .15);
     border-radius: .5rem;
     padding: 1rem;
+    overflow-x: auto;
+}
+
+.recent_orders_top{
+    display: flex;
+    justify-content: space-between;
+}
+
+.view_all_button{
+    padding: .5rem 1rem;
+    background: #fbb419;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 2rem;
 }
 
 .orders_table, .user_data{
@@ -70,13 +86,17 @@
 
 .orders_table tr th{
     text-align: left;
-    border: 1px solid #a5aaad;
-    background: #a5aaad;
+    border: 1px solid #dcdcdc;
+    background: #dcdcdc;
 }
 
-.orders_table tr th,
-.orders_table tr td{
+.orders_table tr th{
     padding: .5rem;
+    border-right: 1px solid #f3f4f6;
+}
+
+.orders_table tr td{
+    padding: 1rem;
     border-top: 1px solid gainsboro;
     border-left: 1px solid gainsboro;
 }
@@ -97,6 +117,26 @@
 
 .orders_table tr th {
     font-weight: 700;
+}
+
+.orders_table tr th:nth-child(2){
+    width: 8rem;
+}
+
+.orders_table tr th:nth-child(3){
+    width: 5rem;
+}
+
+.orders_table tr th:nth-child(4){
+    min-width: 6rem;
+}
+
+.orders_table tr th:nth-child(6){
+    width: 8rem;
+}
+
+.orders_table tr th:nth-child(7){
+    min-width: 8rem;
 }
 
 .order_status{
@@ -144,6 +184,25 @@
     grid-gap: 1rem;
 }
 
+.pay_complete small,
+.pay_pending small{
+    padding: .2rem .3rem;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    border-radius: 1rem;
+    align-items: center;
+    font-size: 12px;
+}
+
+.pay_complete small{
+    background: #32cd32;
+}
+
+.pay_pending small{
+    background: #ff0000;
+}
+
 .actions button, .top_area button{
     border-radius: .5rem;
     padding: .5rem 1rem;
@@ -174,6 +233,12 @@
 
     .content{
         grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 858px){
+    .orders_table tr th:nth-child(5){
+        min-width: 8rem;
     }
 }
 

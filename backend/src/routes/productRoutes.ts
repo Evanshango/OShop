@@ -17,7 +17,10 @@ router.post('/products',[
     body('description').not().isEmpty().withMessage('Product description is required')
 ], validateRequest, requireAuth, isAdmin, addProduct)
 router.get('/products/:id', fetchProduct)
-router.patch('/products/:id', requireAuth, isAdmin, updateProduct)
+router.patch('/products/:id', [
+    body('section').not().isEmpty().withMessage('Section is required'),
+    body('category').not().isEmpty().withMessage('Category is required'),
+], validateRequest, requireAuth, isAdmin, updateProduct)
 router.delete('/products/:id', requireAuth, isAdmin, deleteProduct)
 
 export {router as productRouter}

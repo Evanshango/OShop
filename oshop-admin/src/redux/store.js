@@ -5,15 +5,19 @@ import authReducer from "./auth/authReducer";
 import sectionReducer from "./sections/sectionReducer";
 import categoryReducer from "./categories/categoryReducer";
 import productReducer from "./products/productReducer";
+import orderReducer from "./orders/orderReducer";
+import offerReducer from "./offers/offerReducer";
 
 const initialState = {}
 const middleware = [thunk]
 
 const rootReducer = combineReducers({
     user: authReducer,
-    sections: sectionReducer,
-    categories: categoryReducer,
-    products: productReducer
+    section: sectionReducer,
+    category: categoryReducer,
+    product: productReducer,
+    order: orderReducer,
+    offer: offerReducer
 })
 
 const store = createStore(rootReducer, initialState, composeWithDevTools(applyMiddleware(...middleware)))

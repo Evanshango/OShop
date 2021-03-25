@@ -113,22 +113,40 @@
     color: #242424;
 }
 
+.search{
+    display: none;
+    justify-content: center;
+    width: 40%;
+    margin: 3rem auto 0 auto;
+}
+
 .banner {
     display: flex;
     height: 25rem;
+    background: #dcdcdc;
+}
+
+.banner_content{
+    display: grid;
     width: 70%;
     margin: auto;
-    border-radius: 1rem;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    overflow-x: hidden;
-    justify-content: center;
+    height: 100%;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
     align-items: center;
 }
 
+.banner_left{
+    height: 100%;
+    align-items: center;
+    display: flex;
+    margin: auto;
+    width: 100%;
+    justify-content: center;
+}
+
 .banner_left img {
-    height: 22rem;
+    height: 23rem;
     object-fit: cover;
     width: 100%;
     border-radius: 10px;
@@ -142,13 +160,7 @@
     padding: 1.3rem;
 }
 
-.content {
-    display: flex;
-    flex-direction: column;
-    color: white;
-}
-
-.content h3 {
+.banner_right h3 {
     color: #fbb419;
     font-size: 2rem;
     font-weight: 700;
@@ -156,10 +168,8 @@
     margin-bottom: 1rem;
 }
 
-.content h2 {
-    margin-bottom: 1rem;
-    font-weight: 800;
-    font-size: 2.5rem;
+.banner_right h2{
+    text-transform: uppercase;
 }
 
 .discount {
@@ -169,11 +179,13 @@
 .btn button {
     text-transform: uppercase;
     background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
-    padding: 1rem 2rem;
+    padding: .7rem 2rem;
     color: #ffffff;
     border: none;
     border-radius: 3px;
     cursor: pointer;
+    margin-top: 1rem;
+    white-space: nowrap;
 }
 
 .btn button:focus {
@@ -182,7 +194,7 @@
 }
 
 .title {
-    margin: 4rem 0;
+    margin: 2rem 0 4rem 0;
     text-align: center;
 }
 
@@ -210,6 +222,45 @@
     font-weight: bold;
 }
 
+.offer_cards{
+    display: flex;
+    grid-gap: 2rem;
+}
+
+.card{
+    padding: 1rem;
+    flex-grow: 1;
+    border-radius: .5rem;
+    height: 9rem;
+    border: 1px solid #dcdcdc;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    color: #dcdcdc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.card img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: .5rem;
+}
+
+.card:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1162px){
+    .search{
+        width: 50%;
+    }
+}
+
 @media screen and (max-width: 996px) {
     .contact_left h1 {
         font-size: 1.8rem;
@@ -218,6 +269,20 @@
     .contact_right button {
         padding: .6rem 1rem;
         top: .6rem;
+    }
+
+    .search{
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 858px) {
+    .card h2{
+        font-size: 15px;
+    }
+
+    .card h1{
+        font-size: 20px;
     }
 }
 
@@ -237,6 +302,9 @@
 }
 
 @media screen and (max-width: 768px) {
+    .featured_container{
+        display: none;
+    }
     .contact_right input {
         width: 100%;
     }
@@ -245,16 +313,28 @@
         right: 1rem;
     }
 
-    .banner {
-        width: 85%;
-    }
-
-    .content h3 {
-        font-size: 3rem;
-    }
-
     .title{
         margin: 1rem 0;
+    }
+
+    .banner_content{
+        width: 100%;
+        grid-gap: .5rem;
+        padding: 0 1rem;
+    }
+
+    .banner_right h2{
+        font-size: 1.2rem;
+    }
+
+    .btn button{
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 698px) {
+    .search{
+        width: 70%;
     }
 }
 
@@ -262,5 +342,34 @@
     .newsletter {
         padding: 1rem;
     }
+
+    .banner{
+        height: 15rem;
+    }
+
+    .banner_left img{
+        height: 13rem;
+    }
+
+    .banner_right h3 {
+        color: #fbb419;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+    }
 }
 
+@media screen and (max-width: 530px) {
+    .search{
+        display: flex;
+    }
+
+    .offer_cards{
+        flex-direction: column;
+    }
+
+    .card{
+        height: 7rem;
+    }
+}

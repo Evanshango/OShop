@@ -1,17 +1,23 @@
 import React, {useState} from 'react';
 import Link from 'next/link'
 import styles from './NavBar.module.css'
-import {AiOutlineClose, AiOutlineMenu, AiOutlineShoppingCart, AiOutlineUser} from "react-icons/ai";
+import {AiOutlineClose, AiOutlineMenu, AiOutlineShoppingCart} from "react-icons/ai";
 import {useSelector} from "react-redux";
+import Search from "../search/Search";
 
 const NavBar = () => {
 
     const {products: cart} = useSelector(state => state.cart)
     const [click, setClick] = useState(false)
+    const {token} = useSelector(state => state.user)
 
     const handleClick = () => setClick(!click)
 
     const closeMobileMenu = () => setClick(false)
+
+    const handleSubmit = e => {
+        e.preventDefault()
+    }
 
     return (
         <nav className={styles.nav}>
@@ -24,15 +30,13 @@ const NavBar = () => {
                             </a>
                         </Link>
                     </div>
+                    <div className={styles.search_area}>
+                        <Search/>
+                    </div>
                     <ul className={click ? `${styles.nav_menu} ${styles.active}` : `${styles.nav_menu}`}>
                         <li className={styles.nav_item}>
                             <Link href={'/'}>
                                 <a className={styles.nav_links} onClick={closeMobileMenu}>Home</a>
-                            </Link>
-                        </li>
-                        <li className={styles.nav_item}>
-                            <Link href={'/featured'}>
-                                <a className={styles.nav_links} onClick={closeMobileMenu}>Featured</a>
                             </Link>
                         </li>
                         <li className={styles.nav_item}>
@@ -41,32 +45,28 @@ const NavBar = () => {
                             </Link>
                         </li>
                         <li className={styles.nav_item}>
-                            <Link href={'/about'}>
-                                <a className={styles.nav_links} onClick={closeMobileMenu}>About Us</a>
-                            </Link>
-                        </li>
-                    </ul>
-                    <div className={styles.nav_icons}>
-                        <li className={styles.nav_icon}>
                             <Link href={'/account'}>
                                 <a className={styles.nav_links} onClick={closeMobileMenu}>
-                                    <AiOutlineUser size={26}/>
+                                    {token ? 'Account' : (
+                                        <>
+                                            <span>Signin</span>
+                                            <hr/>
+                                            <span>Signup</span>
+                                        </>
+                                    )}
                                 </a>
                             </Link>
                         </li>
                         <li className={styles.nav_icon}>
                             <Link href={'/cart'}>
-                                <a className={styles.nav_links} onClick={closeMobileMenu}>
-                                    <span className={styles.cart}>
-                                        <AiOutlineShoppingCart size={26}/>
-                                        <h4>{cart ? Object.keys(cart).length : 0}</h4>
-                                    </span>
-                                </a>
+                                <button className={styles.nav_links} onClick={closeMobileMenu}>
+                                    <AiOutlineShoppingCart/> {cart ? Object.keys(cart).length : 0}
+                                </button>
                             </Link>
                         </li>
-                        <div className={styles.menu_icon} onClick={handleClick}>
-                            {click ? <AiOutlineClose/> : <AiOutlineMenu/>}
-                        </div>
+                    </ul>
+                    <div className={styles.menu_icon} onClick={handleClick}>
+                        {click ? <AiOutlineClose/> : <AiOutlineMenu/>}
                     </div>
                 </div>
             </div>

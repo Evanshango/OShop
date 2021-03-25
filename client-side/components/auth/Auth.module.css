@@ -1,0 +1,130 @@
+.auth_container {
+    margin: auto;
+}
+
+.button {
+    margin: auto;
+}
+
+.auth_button {
+    background: #6495ed;
+}
+
+.dialog_header {
+    position: relative;
+    padding: 1rem 3rem;
+}
+
+.dialog_content form{
+    width: 90%;
+    margin: auto;
+    padding-bottom: 1rem;
+}
+
+.input_field{
+    width: 100%;
+    outline: none;
+    height: 50px;
+    border: 1px solid rgba(200, 200, 200, .5);
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 0 10px;
+}
+
+.dialog_header span {
+    position: absolute;
+    cursor: pointer;
+    font-size: 1.5rem;
+    right: 1rem;
+    top: .5rem;
+    color: #838383;
+}
+
+.dialog_content span:hover {
+    transform: scale(1.1);
+}
+
+.errors {
+    background: rgb(248, 215, 218);
+    margin: .5rem auto;
+    padding: .5rem 1rem;
+    color: #ff0000;
+    border-radius: 5px;
+    width: 95%;
+    text-align: left!important;
+}
+
+.errors li{
+    list-style: inherit;
+}
+
+.forgot_password {
+    padding: 1rem;
+    text-align: right;
+}
+
+.forgot_password a {
+    color: #fbb419;
+    font-weight: bold;
+}
+
+.options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin: auto;
+    width: 95%;
+}
+
+.divider {
+    width: 100%;
+    border: 1px solid rgba(200, 200, 200, .5);
+}
+
+.google_button {
+    background: #ffffff;
+    color: #6495ed!important;
+    border-radius: 5px;
+    border: 1px solid #6495ed!important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem!important;
+}
+
+.google_button:focus {
+    border: 1px solid #6495ed;
+    outline: none;
+}
+
+.google_button > span {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.dialog_content form button {
+    width: 100%;
+    background: rgb(241, 196, 15);
+    background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
+    cursor: pointer;
+    transition: all, 240ms ease-in-out;
+    text-transform: uppercase;
+    border: none;
+    padding: 1rem;
+    border-radius: 5px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.dialog_content form button:focus{
+    outline: none;
+}
+
+@media screen and (max-width: 978px){
+    .google_button > span {
+        font-weight: 500;
+        font-size: 13px;
+    }
+}

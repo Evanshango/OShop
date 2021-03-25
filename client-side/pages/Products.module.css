@@ -3,11 +3,12 @@
     margin: 2rem auto;
     display: grid;
     grid-template-columns: 1fr 3fr;
-    grid-gap: 2rem;
+    grid-gap: 1rem;
+    align-items: flex-start;
 }
 
 .categories {
-    /*border: 1px solid #dddddd;*/
+    border: 1px solid #dddddd;
     display: flex;
     flex-direction: column;
     border-radius: .5rem;
@@ -43,6 +44,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
 }
 
 .filter_header button {
@@ -72,34 +74,17 @@
 }
 
 .filter_area {
-    width: 90%;
-    /*justify-content: center;*/
+    width: 80%;
     display: grid;
     align-items: center;
     grid-template-columns: 1fr 1fr;
 }
 
-.search_area form {
-    position: relative;
-}
-
-.search_icon{
-    position: absolute;
-    padding: 1rem;
-    right: -1rem;
-    cursor: pointer;
-}
-
-.search_area input {
-    padding: 1rem 0;
-    border-radius: .5rem;
+.search_area {
+    display: none;
+    justify-content: center;
     width: 100%;
-    text-indent: 1rem;
-    border: 1px solid #dddddd;
-}
-
-.search_area input:focus {
-    outline: none;
+    margin: 0 auto .5rem auto;
 }
 
 .options {
@@ -134,11 +119,11 @@
 }
 
 .product_items {
-    margin: 2rem 0;
+    margin: 0 0 2rem 0;
     width: 90%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 2rem;
+    grid-gap: 1rem;
 }
 
 .pagination {
@@ -153,8 +138,7 @@
 @media screen and (max-width: 1680px) {
     .filter_area {
         grid-template-columns: 1fr;
-        grid-gap: 2rem;
-        width: 100%;
+        grid-gap: 1rem;
     }
 
     .options {
@@ -164,12 +148,44 @@
     }
 }
 
-@media screen and (max-width: 1120px) {
-    .product_items {
-        grid-template-columns: 1fr 1fr;
+@media screen and (max-width: 1540px){
+    .content{
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 1420px) {
+    .content {
+        width: 80%;
+    }
+
+    .product_items{
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .content{
+        grid-template-columns: 1fr 3fr;
+    }
+
+    .product_items{
         width: 100%;
     }
 }
+
+@media screen and (max-width: 1135px){
+    .search_area form {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 1120px) {
+    .product_items {
+        width: 100%;
+    }
+}
+
 
 @media screen and (max-width: 900px) {
     .content {
@@ -192,8 +208,17 @@
 }
 
 @media screen and (max-width: 563px) {
+    .filter_area{
+        width: 100%;
+    }
     .product_items {
         grid-template-columns: 1fr 1fr;
         width: 100%;
+    }
+}
+
+@media screen and (max-width: 530px){
+    .search_area{
+        display: flex;
     }
 }

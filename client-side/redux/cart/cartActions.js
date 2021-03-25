@@ -85,3 +85,9 @@ export const clearCartError = () => {
         type: CART.CLEAR_CART_ERRORS
     }
 }
+
+export const clearCartItems = () => {
+    return{
+        type: CART.CLEAR_CART_ITEMS
+    }
+}

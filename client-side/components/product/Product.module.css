@@ -1,7 +1,7 @@
 .product {
     border-radius: .4rem;
-    height: 18rem;
-    box-shadow: 0 .4rem 1.2rem rgba(0, 0, 0, .15);
+    height: 20rem;
+    background: #f3f4f6;
     text-align: center;
     transition: all 300ms ease-in-out;
 }
@@ -11,12 +11,15 @@
 }
 
 .product_header {
-    height: 11rem;
+    height: 13rem;
     background-color: #f6f2f1;
     z-index: 0;
     border-top-left-radius: .4rem;
     border-top-right-radius: .4rem;
     position: relative;
+    border-top: 1px solid #dcdcdc;
+    border-right: 1px solid #dcdcdc;
+    border-left: 1px solid #dcdcdc;
     transition: all 300ms ease-in-out;
 }
 
@@ -30,6 +33,25 @@
     z-index: 100;
     border-top-left-radius: .4rem;
     border-bottom-right-radius: 1rem;
+}
+
+.in_stock, .out_stock{
+    position: absolute;
+    right: 0;
+    text-transform: uppercase;
+    font-size: 10px;
+    color: #ffffff;
+    padding: .1rem .5rem;
+    border-top-left-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+}
+
+.in_stock{
+    background: #32cd32;
+}
+
+.out_stock{
+    background: #838383;
 }
 
 .product_header img {
@@ -114,7 +136,9 @@
     height: 100%;
     left: 0;
     top: 0;
-    border-radius: .4rem;
+    /*border-radius: .4rem;*/
+    border-top-left-radius: .4rem;
+    border-top-right-radius: .4rem;
     background-color: rgba(0, 0, 0, .5);
     z-index: 1;
     transition: all 500ms ease-in-out;
@@ -132,12 +156,12 @@
 }
 
 @media screen and (max-width: 768px) {
-    .product {
-        height: 14rem;
+    .product_header {
+        height: 10rem;
     }
 
-    .product_header {
-        height: 8rem;
+    .product_header .icons h3 {
+        padding: .2rem;
     }
 
     .product_footer h5 {
@@ -159,5 +183,11 @@
 
     .price span {
         font-size: .8rem;
+    }
+}
+
+@media screen and (max-width: 778px) {
+    .product_footer h5{
+        margin-top: .4rem;
     }
 }

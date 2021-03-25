@@ -32,6 +32,16 @@ const productReducer = (state = initialState, action) => {
             return {
                 ...state, errors: action.payload, loading: false
             }
+        case PRODUCTS.EDIT_PRODUCT_REQUEST:
+            return {
+                ...state, loading: true
+            }
+        case PRODUCTS.EDIT_PRODUCT_SUCCESS:
+            let index = state.products.findIndex(prod => prod.id === action.payload.id)
+            state.products[index] = action.payload
+            return {
+                ...state, loading: false, errors: []
+            }
         case PRODUCTS.DELETE_PRODUCT_SUCCESS:
             return {
                 ...state, products: state.products.filter(product => product.id !== action.payload), errors: []

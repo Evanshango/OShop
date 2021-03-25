@@ -9,9 +9,7 @@ import {addCartItem} from "../../pages/api";
 const Product = ({product, token}) => {
     const dispatch = useDispatch()
 
-    const truncate = (word, n) => {
-        return word?.length > n ? `${word.substr(0, n - 1)}...` : word
-    }
+    const truncate = (word, n) => word?.length > n ? `${word.substr(0, n - 1)}...` : word
 
     const addToCart = (prod, e) => {
         e.preventDefault()
@@ -25,15 +23,18 @@ const Product = ({product, token}) => {
     return (
         <div className={styles.product}>
             <div className={styles.product_header}>
-                <div className={styles.offer}>30% off</div>
+                <div className={styles.offer}>{`${product.discount} % off`}</div>
                 {product.images && showImage(product.images)}
                 <ul className={styles.icons}>
                     <Link href={'/products/[id]'} as={`/products/${product.id}`}>
                         <h3><AiOutlineEye/></h3>
                     </Link>
-                    <h3 onClick={event => addToCart(product, event)}><MdAddShoppingCart/></h3>
+                    {product.stock > 0 && <h3 onClick={event => addToCart(product, event)}><MdAddShoppingCart/></h3>}
                     <h3><AiOutlineHeart onClick={() => console.log('Adding to Wishlist')}/></h3>
                 </ul>
+                <div className={product.stock > 0 ? `${styles.in_stock}` : `${styles.out_stock}`}>
+                    {product.stock > 0 ? 'in stock' : 'out of stock'}
+                </div>
             </div>
             <div className={styles.product_footer}>
                 <Link href={'/products/[id]'} as={`/products/${product.id}`}>

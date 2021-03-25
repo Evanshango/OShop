@@ -11,8 +11,8 @@ function SectionCategoryDialog({title, dt}) {
     const [sec, setSec] = useState(dt && dt.section ? dt.section.name : '')
     const [name, setName] = useState(dt ? dt.name : '')
 
-    const {sections, errors: secErrors} = useSelector(state => state.sections)
-    const {errors: catErrors} = useSelector(state => state.categories)
+    const {sections, errors: secErrors} = useSelector(state => state.section)
+    const {errors: catErrors} = useSelector(state => state.category)
     const dispatch = useDispatch()
 
     const clearInputs = () => {

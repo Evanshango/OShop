@@ -1,0 +1,79 @@
+.content{
+    padding: 0;
+    width: 100%;
+}
+
+.orders_table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.orders_table tr th {
+    text-align: left;
+    border: 1px solid #a5aaad;
+    background: #dcdcdc;
+}
+
+.orders_table tr th,
+.orders_table tr td {
+    padding: .5rem;
+    border-top: 1px solid gainsboro;
+    border-left: 1px solid gainsboro;
+}
+
+.orders_table tr th:last-child,
+.orders_table tr td:last-child {
+    border-right: 1px solid gainsboro;
+
+}
+
+.orders_table tr:last-child th,
+.orders_table tr:last-child td {
+    border-bottom: 1px solid gainsboro;
+}
+
+.orders_table tr td {
+    font-size: 14px;
+}
+
+.orders_table tr td:nth-child(1) {
+    width: 9rem;
+}
+
+.orders_table tr td:nth-child(2) {
+    width: 9rem;
+}
+
+.orders_table tr td:nth-child(3) {
+    width: 8rem;
+    text-align: center;
+}
+
+.orders_table tr th:nth-child(4) {
+    width: 5rem;
+    text-align: center;
+}
+
+.orders_table tr td:nth-child(4) {
+    width: 5rem;
+    text-align: center;
+}
+
+.view_button{
+    background: transparent;
+    color: #232323;
+    outline: none;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid #dcdcdc;
+    padding: .2rem .5rem;
+}
+
+.pagination {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    margin-top: auto;
+}

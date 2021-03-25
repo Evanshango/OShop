@@ -11,9 +11,15 @@ const s3 = new S3({
     credentials: new Credentials(AWS_ACCESS_KEY!, AWS_SECRET_KEY!)
 })
 
+const folderName = (name: string) => truncate(name.replace(' ', '').toLowerCase(), 10)
+
+const truncate = (name: string, n: number) => name?.length > n ? name.substr(0, n - 1) : name
+
 export class FileHandler {
     static async upload(files: any, name: string) {
-        let folder = name.replace(' ', '').toLowerCase()
+        let folder = folderName(name)
+        console.log(folder)
+
         let urls: string[] = []
         const results = await Promise.all(files.map(async (file: any) => {
             const single = file.originalname.split('.')
@@ -21,7 +27,7 @@ export class FileHandler {
                 Bucket: BUCKET_NAME!,
                 Key: `oshop/${folder}/${randomBytes(15).toString('hex')}.${single[single.length - 1]}`,
                 ContentType: file.mimetype,
-                Body: await sharp(file.buffer).resize(500, 500).toBuffer(),
+                Body: await sharp(file.buffer).resize(300, 300).toBuffer(),
                 ACL: 'public-read'
             }
             return s3.upload(params).promise()
@@ -31,7 +37,8 @@ export class FileHandler {
     }
 
     static async delete(urls: string[], name: string) {
-        let folder = name.replace(' ', '').toLowerCase()
+        let folder = folderName(name)
+
         let results: any = await Promise.all(urls.map((url: string) => {
             const urlParts = url.split('/')
             const params: DeleteObjectRequest = {

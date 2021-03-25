@@ -1,5 +1,6 @@
 import mongoose, {Document, HookNextFunction, model, Model, Schema} from "mongoose";
 import {ORDER_STATUS, PAYMENT_METHOD, PAYMENT_STATUS} from "../helpers/constants";
+import {Product} from "./product";
 
 interface IOrderAttrs {
     customer: string
@@ -101,6 +102,15 @@ orderSchema.pre(/^find/, function (next: HookNextFunction) {
     }).populate({
         path: 'address',
         select: '-user -createdAt'
+    })
+    next()
+})
+
+orderSchema.post('save', function (doc:Document, next: HookNextFunction){
+    // @ts-ignore
+    this.items.forEach(async (item: any) => {
+        const prod = await Product.findById(item.product)
+        await Product.findByIdAndUpdate(prod.id, {stock: prod.stock - item.units})
     })
     next()
 })

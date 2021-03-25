@@ -59,6 +59,7 @@ export const signinUser = async (req: Request, res: Response) => {
 export const googleOAuth = async (req: Request, res: Response) => {
     const client = new OAuth2Client(GOOGLE_CLIENT_ID)
     const {idToken} = req.body
+    if (!idToken) throw new BadRequestError('Request cancelled by user')
     // @ts-ignore
     const {payload} = await client.verifyIdToken({idToken, audience: GOOGLE_CLIENT_ID})
 

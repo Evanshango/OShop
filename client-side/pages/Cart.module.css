@@ -23,6 +23,8 @@
 .cart_right, .cart_left {
     box-shadow: 0 .4rem 1.2rem rgba(0, 0, 0, .2);
     border-radius: 5px;
+    max-height: 85vh;
+    overflow-y: auto;
 }
 
 .cart_item {
@@ -36,6 +38,11 @@
     object-fit: cover;
     width: 5rem;
     height: 6rem;
+    border: 1px solid #dcdcdc;
+}
+
+.prod_desc{
+    width: 100%;
 }
 
 .prod_desc p {
@@ -47,6 +54,39 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.availability{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.out_stock, .in_stock{
+    color: #ffffff;
+    padding: .1rem 1rem;
+    border-radius: 1rem;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+.out_stock{
+    background: #83838390;
+}
+
+.in_stock{
+    background: #fbb419;
+}
+
+.warning{
+    text-align: center;
+    padding: 1rem;
+    width: 90%;
+    margin: 1rem auto;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    color: #f64749;
 }
 
 .cart_table {
@@ -110,9 +150,14 @@
     text-align: center;
 }
 
+.no_items svg{
+    color: #fbb419;
+    font-size: 3rem;
+}
+
 .no_items h3 {
     font-size: 25px;
-    color: #838383;
+    color: #232323;
 }
 
 .no_items li {
@@ -265,6 +310,7 @@
     margin-right: 2rem;
     padding: .3rem 2rem;
     border-radius: 2px;
+    cursor: pointer;
 }
 
 .buy_now {
@@ -279,12 +325,18 @@
 }
 
 @media screen and (max-width: 1088px) {
+    .cart{
+        width: 70%;
+    }
     .sub_total {
         width: 50%;
     }
 }
 
 @media screen and (max-width: 868px) {
+    .cart{
+        width: 80%;
+    }
     .cart_table tr td:nth-child(2) {
         min-width: 10rem;
     }
@@ -304,8 +356,23 @@
         width: 90%;
     }
 
+    .cart_area{
+        grid-template-columns: 1fr;
+    }
+
     .sub_total {
         width: 52%;
+    }
+}
+
+@media screen and (max-width: 612px) {
+    .cart_item img {
+        margin-right: .5rem;
+    }
+
+    .item_actions span {
+        font-size: 12px;
+        padding: .3rem 1rem;
     }
 }
 
@@ -328,5 +395,12 @@
 @media screen and (max-width: 441px) {
     .action_buttons {
         flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 310px) {
+    .cart_item img {
+        width: 3rem;
+        height: 4rem;
     }
 }

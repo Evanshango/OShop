@@ -1,6 +1,6 @@
 import express from "express";
 import {requireAuth} from "../middlewares/require-auth";
-import {addToCart, deleteCart, fetchCart, updateCart} from "../controllers/cartController";
+import {addToCart, deleteCart, fetchCart} from "../controllers/cartController";
 import {validateRequest} from "../middlewares/validate-request";
 import {body} from "express-validator";
 
@@ -12,7 +12,6 @@ router.post('/cart',[
     body('items.*.units').not().isEmpty().withMessage('Item units is required'),
 ], validateRequest, requireAuth, addToCart)
 
-router.patch('/cart/:id', requireAuth, updateCart)
 router.delete('/cart/:id', requireAuth, deleteCart)
 
 export {router as cartRouter}

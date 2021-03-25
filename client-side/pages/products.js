@@ -5,6 +5,7 @@ import Product from "../components/product/Product";
 import Pagination from "../components/pagination/Pagination";
 import {AiOutlineSearch} from "react-icons/ai";
 import {useSelector} from "react-redux";
+import Search from "../components/search/Search";
 
 const Products = ({user}) => {
     const [page, setPage] = useState(1)
@@ -54,6 +55,9 @@ const Products = ({user}) => {
 
     return (
         <div className={styles.content}>
+            <div className={styles.search_area}>
+                <Search/>
+            </div>
             {/*Categories area*/}
             <div className={styles.categories}>
                 <div className={styles.filter_header}>
@@ -91,29 +95,6 @@ const Products = ({user}) => {
             </div>
             {/*Products area*/}
             <div className={styles.products}>
-                <div className={styles.filter_area}>
-                    <div className={styles.search_area}>
-                        <form onSubmit={handleSubmit}>
-                            <input type="text" placeholder='Products, Categories, Brands'/>
-                            <span className={styles.search_icon}>
-                                <AiOutlineSearch size={20}/>
-                            </span>
-                        </form>
-                    </div>
-                    <div className={styles.options}>
-                        <select name="sort" id="sort">
-                            <option value="">Sort By</option>
-                            <option value="name">Name</option>
-                            <option value="price">Price</option>
-                        </select>
-                        <select name="order" id="order">
-                            <option value="">Order</option>
-                            <option value="asc">DESC</option>
-                            <option value="desc">ASC</option>
-                        </select>
-                        <button>Apply</button>
-                    </div>
-                </div>
                 <div className={styles.product_items}>
                     {products.length > 0 && products.map(product => (
                         <Product product={product} key={product.id} token={token}/>

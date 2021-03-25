@@ -5,7 +5,7 @@ import DataTable from "../../DataTable";
 import {useSelector} from "react-redux";
 
 function Products() {
-    const {products} = useSelector(state => state.products)
+    const {products} = useSelector(state => state.product)
     return (
         <div className={styles.products_container}>
             <h3>Products</h3>
@@ -17,7 +17,7 @@ function Products() {
             <div className={styles.products_table}>
                 <DataTable data={products} tag={'products'}
                            headers={['Name', 'Image', 'Category', 'Price', 'Status', 'Discount(%)',
-                               'Discount Price(Ksh)', 'Final Price(Ksh)', 'Stock', 'Owner', 'Actions']}/>
+                               'Discount Price(Ksh)', 'Final Price(Ksh)', 'Featured', 'Stock', 'Owner', 'Actions']}/>
             </div>
         </div>
     );

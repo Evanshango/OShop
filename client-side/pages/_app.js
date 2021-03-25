@@ -5,7 +5,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {
     addCheckOutParam,
-    fetchCartItems, fetchOrderItems,
+    fetchCartItems,
+    fetchOffers,
+    fetchOrderItems,
     fetchProducts,
     fetchSections,
     fetchUserAddresses,
@@ -36,7 +38,7 @@ const AppComponent = ({Component, pageProps}) => {
             dispatch(fetchUserAddresses())
             dispatch(fetchCartItems())
             dispatch(fetchOrderItems())
-            dispatch(addCheckOutParam({...checkout, signedIn: true}))
+            dispatch(addCheckOutParam({...checkout, signedIn: 'signedIn', address: '', payment: ''}))
             !_.isEmpty(cart) && dispatch(uploadCart(cart))
         } else {
             const storedToken = sessionStorage.getItem('oshop')
@@ -44,6 +46,7 @@ const AppComponent = ({Component, pageProps}) => {
         }
         dispatch(fetchSections())
         dispatch(fetchProducts())
+        dispatch(fetchOffers())
     }, [token])
 
     const setDecodeToken = token => {
@@ -55,8 +58,8 @@ const AppComponent = ({Component, pageProps}) => {
             } else {
                 dispatch(authSuccess(token))
                 setAuthenticationHeader(token)
-                const {email, id, role} = decoded
-                setUser({email, id, role})
+                const {email, id, role, name} = decoded
+                setUser({email, id, role, name})
             }
         }
     }

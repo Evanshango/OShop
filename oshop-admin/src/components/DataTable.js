@@ -5,9 +5,9 @@ import {useDispatch} from "react-redux";
 import {deleteCategory, deleteProduct, deleteSection} from "../api";
 import SectionCategoryDialog from "./items/sections/SectionCategoryDialog";
 import ProductDialog from "./items/products/ProductDialog";
+import OfferDialog from "./items/offers/OfferDialog";
 
 function DataTable({data, headers, tag}) {
-
     const dispatch = useDispatch()
 
     const handleDelete = (item, string) => {
@@ -40,18 +40,22 @@ function DataTable({data, headers, tag}) {
                                 </td>
                                 <td>{dt.category !== null ? dt.category.name : 'Undefined'}</td>
                                 <td>{dt.price.toFixed(2)}</td>
-                                <td>{dt.stock > 0 ? 'Available' : 'Unavailable'}</td>
+                                <td className={dt.stock > 0 ? `${styles.in_stock}` : `${styles.out_stock}`}>
+                                    <small>{dt.stock > 0 ? 'In Stock' : 'Out of Stock'}</small>
+                                </td>
                                 <td>{dt.discount}</td>
                                 <td>{dt.discountPrice.toFixed(2)}</td>
                                 <td>{dt.finalPrice.toFixed(2)}</td>
+                                <td>{dt.featured ? 'true' : 'false'}</td>
                                 <td>{dt.stock}</td>
                                 <td>{dt.createdBy.email}</td>
                                 <td className={styles.action_buttons}>
                                    <div className={styles.prod_actions}>
-                                       <ProductDialog data={dt}/>
+                                       <ProductDialog data={dt.id}/>
                                        <span onClick={() => handleDelete(dt, 'product')}>
                                             <DeleteForeverOutlinedIcon/><h5>Delete</h5>
                                         </span>
+                                       <OfferDialog productId={dt.id}/>
                                    </div>
                                 </td>
                             </>

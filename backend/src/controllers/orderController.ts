@@ -11,7 +11,7 @@ export const fetchOrders = async (req: Request, res: Response) => {
 
 export const fetchUserOrders = async (req: Request, res: Response) => {
     const {user} = req
-    const orders = await Order.find({customer: user.id})
+    const orders = await Order.find({customer: user.id}).sort('-createdAt')
     return res.send(orders)
 }
 

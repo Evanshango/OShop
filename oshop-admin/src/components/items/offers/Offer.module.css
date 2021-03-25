@@ -1,0 +1,39 @@
+.offer_button{
+    background: #838383;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 0 .5rem;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.product_info{
+    display: flex;
+    justify-content: space-between;
+}
+
+.offer_duration{
+    width: 100%;
+    margin: 1rem 0;
+    padding: 1rem;
+    outline: none;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+}
+
+.duration_label{
+    margin-top: 1rem;
+}
+
+.save_button{
+    background: cornflowerblue;
+    color: #ffffff;
+    padding: .6rem 2rem;
+    margin: 0 1rem;
+    border: none;
+    border-radius: 2rem;
+    outline: none;
+    cursor: pointer;
+}

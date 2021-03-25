@@ -1,0 +1,14 @@
+.input_area p {
+    padding: .5rem 0;
+}
+
+.input_area input {
+    width: 100%;
+    padding: .6rem .2rem;
+    border-radius: .3rem;
+    border: 1px solid #a5aaad;
+}
+
+.input_area input:focus {
+    outline: none;
+}

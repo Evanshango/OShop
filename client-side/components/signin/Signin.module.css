@@ -1,5 +1,10 @@
 .billing {
-    padding: 1rem;
+    padding: 0;
+}
+
+.billing hr{
+    margin: 0!important;
+    border: 1px solid #dcdcdc;
 }
 
 .active{
@@ -66,8 +71,24 @@
     margin-right: 1rem;
 }
 
+
+.auth_buttons{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
 @media screen and (max-width: 522px) {
     .inputs{
+        grid-template-columns: 1fr;
+        grid-gap: 0;
+    }
+}
+
+@media screen and (max-width: 498px){
+    .auth_buttons{
         grid-template-columns: 1fr;
         grid-gap: 0;
     }

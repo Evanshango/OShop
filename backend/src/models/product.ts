@@ -5,14 +5,15 @@ import {Category} from "./category";
 interface IProductAttrs {
     name: string
     price: number
-    stock: number
-    section: string
-    category: string
-    discount: number
-    discountPrice: number
-    finalPrice: number
-    description: string
+    stock?: number
+    section?: string
+    category?: string
+    discount?: number
+    discountPrice?: number
+    finalPrice?: number
+    description?: string
     images: string[]
+    featured?: boolean
     createdBy: string
 }
 
@@ -27,6 +28,7 @@ interface IProductDoc extends Document {
     finalPrice: number
     description: string
     images: string[]
+    featured: boolean
     createdBy: string
 }
 
@@ -63,7 +65,10 @@ const productSchema = new Schema({
     rating: {
         type: Number, default: 0
     },
-    category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
+    featured: {
+        type: Boolean, default: false
+    },
+    category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true},
     section: {type: mongoose.Schema.Types.ObjectId, ref: 'Section'},
     createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 }, {
@@ -73,7 +78,6 @@ const productSchema = new Schema({
             ret.id = ret._id
             delete ret._id
             delete ret.__v
-            delete ret.createdAt
             delete ret.updatedAt
         }
     }

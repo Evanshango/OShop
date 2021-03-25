@@ -11,6 +11,8 @@ export const fetchCart = async (req: Request, res: Response) => {
     returnUserCart(cart, res)
 }
 
+const runUpdate = async (condition: any, updateData: any) => Cart.findOneAndUpdate(condition, updateData, {new: true});
+
 const returnUserCart = (cart: any, res: Response) => {
     let cartItems: any = {}
     if (cart) {
@@ -22,13 +24,6 @@ const returnUserCart = (cart: any, res: Response) => {
         })
     }
     res.send(cartItems)
-}
-
-const runUpdate = async (condition: any, updateData: any) => {
-    return Cart.findOneAndUpdate(condition, updateData, {
-            new: true
-        }
-    );
 }
 
 export const addToCart = async (req: Request, res: Response) => {
@@ -60,29 +55,15 @@ export const addToCart = async (req: Request, res: Response) => {
         await Promise.all(promiseArray)
         returnUserCart(await Cart.findOne({customer: user.id}), res)
     } else {
+        let itemArray: any = []
+        items.map((item: any) => itemArray.push({product: item.id, units: item.units}))
         const cart = Cart.build({
             customer: user.id,
-            items: [{
-                product: items[0].id,
-                units: items[0].units
-            }]
+            items: itemArray
         })
         const newItem = await cart.save()
-        return res.send(newItem)
+        returnUserCart(await Cart.findById(newItem.id), res)
     }
-}
-
-export const updateCart = async (req: Request, res: Response) => {
-    const {user} = req
-
-    const existing = await Cart.findOne({customer: user.id, _id: req.params.id})
-    if (!existing) throw new NotFoundError('Cart item not found')
-
-    if (user.id !== existing.customer.id) throw new NotAuthorizedError()
-
-    const update = await Cart.findByIdAndUpdate(existing.id, {units: req.body.units}, {
-        new: true
-    })
 }
 
 export const deleteCart = async (req: Request, res: Response) => {
@@ -90,13 +71,16 @@ export const deleteCart = async (req: Request, res: Response) => {
 
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) throw new BadRequestError('Invalid item ID')
 
-    const existing = await Cart.findOne({customer: user.id, _id: req.params.id})
+    const existing = await Cart.findOne({customer: user.id})
     if (!existing) throw new NotFoundError('Cart item not found')
 
-    if (user.id !== existing.customer.id) throw new NotAuthorizedError()
+    if (user.id != existing.customer) throw new NotAuthorizedError()
+    const itemsArray = existing.items
 
-    await Cart.findByIdAndDelete(existing.id)
-    return res.status(204).send({
-        message: 'Category deleted'
-    })
+    const index = itemsArray.indexOf(existing.items.find((prod: any) => prod.product._id == req.params.id))
+    if (index > -1) {
+        itemsArray.splice(index, 1);
+    }
+    await Cart.findByIdAndUpdate(existing.id, {items: itemsArray}, {new: true})
+    return res.send({id: req.params.id})
 }

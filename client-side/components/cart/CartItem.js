@@ -1,7 +1,12 @@
 import React, {useState} from 'react';
 import styles from './../../pages/Cart.module.css'
+import {useDispatch, useSelector} from "react-redux";
+import {deleteCartItem} from "../../pages/api";
 
 function CartItem({product, incQty, decQty}) {
+    const dispatch = useDispatch()
+    const {token} = useSelector(state => state.user)
+    const {products} = useSelector(state => state.product)
     const [qty, setQty] = useState(product.units)
 
     const showImage = (images) => <img src={images[Math.floor(Math.random() * images?.length)]} alt={product.name}/>
@@ -20,17 +25,31 @@ function CartItem({product, incQty, decQty}) {
         decQty(product)
     }
 
+    const removeCartItem = () => dispatch(deleteCartItem(product.id, token))
+
+    const showProductStatus = (product) => ((() => {
+        const prod = products.find(p => p.id === product.id)
+        return prod && prod.stock < 1 ? (
+            <small className={styles.out_stock}>out of stock</small>
+        ) : (
+            <small className={styles.in_stock}>in stock</small>
+        )
+    })())
+
     return (
         <>
             <div className={styles.cart_item}>
                 {showImage(product.images)}
                 <div className={styles.prod_desc}>
-                    <h4>{product.name}</h4>
+                   <span className={styles.availability}>
+                       <h4>{product.name}</h4>
+                       {showProductStatus(product)}
+                   </span>
                     <p>{truncate(product.description, 50)}</p>
                     <h5><small>Ksh.</small>{product.finalPrice.toFixed(2)}</h5>
                     <div className={styles.item_actions}>
                         <span>Wishlist</span>
-                        <span>Remove</span>
+                        <span onClick={() => removeCartItem()}>Remove</span>
                     </div>
                 </div>
             </div>

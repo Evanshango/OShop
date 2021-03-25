@@ -3,68 +3,22 @@ import styles from './Dashboard.module.css'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import {useSelector} from "react-redux";
 
-const orders = [
-    {
-        id: 1,
-        method: 'Cash',
-        date: '20 Jan, 2021',
-        status: 'Processing',
-        total: 5000
-    },
-    {
-        id: 2,
-        method: 'Visa',
-        date: '22 Jan, 2021',
-        status: 'Processing',
-        total: 2000
-    },
-    {
-        id: 3,
-        method: 'Visa',
-        date: '22 Jan, 2021',
-        status: 'Confirmed',
-        total: 2400
-    },
-    {
-        id: 4,
-        method: 'Cash',
-        date: '21 Jan, 2021',
-        status: 'Confirmed',
-        total: 7000
-    }
-]
-
-const customers = [
-    {
-        id: 1,
-        photo: 'https://picsum.photos/200/300',
-        name: 'John Doe',
-        email: 'john@doe.com'
-    },
-    {
-        id: 2,
-        photo: 'https://picsum.photos/200/300',
-        name: 'Jane Doe',
-        email: 'jane@doe.com'
-    },
-    {
-        id: 3,
-        photo: 'https://picsum.photos/200/300',
-        name: 'Cisco Ramon',
-        email: 'cisco@ramon.com'
-    },
-    {
-        id: 4,
-        photo: 'https://picsum.photos/200/300',
-        name: 'Barry Allen',
-        email: 'allen@barry.com'
-    }
-]
-
 function Dashboard() {
 
-    const {sections} = useSelector(state => state.sections)
-    const {products} = useSelector(state => state.products)
+    const {sections} = useSelector(state => state.section)
+    const {products} = useSelector(state => state.product)
+    const {orders} = useSelector(state => state.order)
+
+    const completePayments = orders && orders.filter(prod => prod.paymentStatus === 'COMPLETED')
+
+    const formatDate = date => {
+        const dt = new Date(date)
+        return dt.toLocaleString()
+    }
+
+    const loadMore = () => {
+        console.log('loading more')
+    }
 
     const cards = [
         {
@@ -79,17 +33,17 @@ function Dashboard() {
         },
         {
             name: 'Orders',
-            value: 6,
+            value: orders.length,
             color: '#29b6f6'
         },
         {
             name: 'Out of Stock',
-            value: 3,
+            value: products && products.filter(prod => prod.stock === 0).length,
             color: '#f44336'
         },
         {
             name: 'Revenue',
-            value: 20000,
+            value: completePayments.reduce((acc, curr) => acc + curr.amount, 0),
             color: '#ffa726'
         }
     ]
@@ -117,53 +71,47 @@ function Dashboard() {
             </div>
             <div className={styles.content}>
                 <div className={styles.recent_orders}>
-                    <h3>Recent Orders</h3>
-                    <table width='100%' cellPadding={0} cellSpacing={0} className={styles.orders_table}>
-                        <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Method</th>
-                            <th>Order Date</th>
-                            <th>Status</th>
-                            <th>Total</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {orders.map(order => (
-                            <tr key={order.id}>
-                                <td>{order.id}</td>
-                                <td>{order.method}</td>
-                                <td>{order.date}</td>
-                                <td className={styles.order_status}>{order.status}</td>
-                                <td>{order.total}</td>
-                                <td>Edit/ Delete</td>
+                   <div className={styles.recent_orders_top}>
+                       <h3>Recent Orders</h3>
+                       <button className={styles.view_all_button} onClick={() => loadMore()}>View All</button>
+                   </div>
+                    <div style={{overflowX: 'auto'}}>
+                        <table width='100%' cellPadding={0} cellSpacing={0} className={styles.orders_table}>
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Order ID</th>
+                                <th>Method</th>
+                                <th>Order Date</th>
+                                <th>Delivery Date</th>
+                                <th>Payment Status</th>
+                                <th>Total</th>
+                                <th>Order Status</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
-                <div className={styles.users}>
-                    <div className={styles.top_area}>
-                        <h3>Customers</h3>
-                        <button>See all</button>
+                            </thead>
+                            <tbody>
+                            {orders && orders.map((order, index) => (
+                                <tr key={order.id}>
+                                    <td>{index + 1}</td>
+                                    <td>{order.id}</td>
+                                    <td><small>{order.paymentMethod}</small></td>
+                                    <td><small>{formatDate(order.createdAt)}</small></td>
+                                    <td>*TODO*</td>
+                                    <td className={order.paymentStatus === 'COMPLETED' ? `${styles.pay_complete}`
+                                        : `${styles.pay_pending}`}>
+                                        <small>{order.paymentStatus}</small>
+                                    </td>
+                                    <td style={{fontWeight: 'bold', textAlign: 'center'}}>
+                                        {`Ksh. ${order.amount.toLocaleString()}`}
+                                    </td>
+                                    <td>{order.orderStatus}</td>
+                                    <td>Edit/ Delete</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
                     </div>
-                    <hr/>
-                    {customers.map(customer => (
-                        <div className={styles.user_data} key={customer.id}>
-                            <div className={styles.user_info}>
-                                <img src={customer.photo} alt={customer.name}/>
-                                <span>
-                                <p style={{fontWeight: 'bold'}}>{customer.name}</p>
-                                <h6>{customer.email}</h6>
-                            </span>
-                            </div>
-                            <div className={styles.actions}>
-                                <button className={styles.email}>Email</button>
-                                <button className={styles.call}>Call</button>
-                            </div>
-                        </div>
-                    ))}
                 </div>
             </div>
         </div>

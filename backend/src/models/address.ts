@@ -51,7 +51,7 @@ addressSchema.statics.build = (attrs: IAddressAttrs) => (new Address(attrs))
 addressSchema.pre(/^find/, function (next: HookNextFunction) {
     this.populate({
         path: 'user',
-        select: 'fullName'
+        select: 'fullName email'
     })
     next()
 })

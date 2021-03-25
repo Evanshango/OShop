@@ -12,13 +12,13 @@ const checkProduct = async (req: Request) => {
 }
 
 export const fetchProducts = async (req: Request, res: Response) => {
-    const products = await Product.find({})
+    const products = await Product.find({}).sort('-createdAt')
     res.send(products)
 }
 
 export const addProduct = async (req: Request, res: Response) => {
     const {
-        name, price, stock, section, category, discount, discountPrice, finalPrice, description
+        name, price, stock, section, category, discount, discountPrice, finalPrice, description, featured
     } = JSON.parse(JSON.stringify(req.body))
 
     if (!mongoose.Types.ObjectId.isValid(section)) throw new BadRequestError('Please select a section')
@@ -29,7 +29,8 @@ export const addProduct = async (req: Request, res: Response) => {
     const images = await FileHandler.upload(req.files, name)
 
     const product = Product.build({
-        name, price, stock, section, category, discount, discountPrice, finalPrice, description, images, createdBy
+        name, price, stock, section, category, discount, discountPrice,
+        finalPrice, description, images, createdBy, featured
     })
     await product.save()
     const newProduct = await Product.findById(product.id)
@@ -47,9 +48,12 @@ export const updateProduct = async (req: Request, res: Response) => {
     const product = await checkProduct(req)
     if (!product) throw new NotFoundError('Product')
 
-    if (req.body.name === product.name) throw new BadRequestError('Product already exists')
+    const {price, discount, name, stock, featured, section, category, description} = req.body
+    const updateParams = {price, discount, name, stock, featured, section, description, category}
 
-    return res.send(req.body)
+    const update = await Product.findByIdAndUpdate(product.id, updateParams, {new: true, runValidators: true})
+    console.log(update)
+    return res.send(update)
 }
 
 export const deleteProduct = async (req: Request, res: Response) => {

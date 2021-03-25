@@ -2,26 +2,50 @@ import axios from 'axios'
 import {authError, authRequest, authSuccess, removeAuthErrors} from "../../redux/auth/authActions";
 import {fetchSectionsError, fetchSectionsRequest, fetchSectionsSuccess} from "../../redux/sections/sectionActions";
 import {
-    addToCartError, addToCartRequest, addToCartSuccess, clearCartError, deleteCartError, deleteCartRequest,
-    deleteCartSuccess, fetchCartError, fetchCartRequest, fetchCartSuccess
+    addToCartError,
+    addToCartRequest,
+    addToCartSuccess,
+    clearCartError,
+    clearCartItems,
+    deleteCartError,
+    deleteCartRequest,
+    deleteCartSuccess,
+    fetchCartError,
+    fetchCartRequest,
+    fetchCartSuccess
 } from "../../redux/cart/cartActions";
 import {
-    clearProductErrors, fetchProductsError, fetchProductsRequest, fetchProductsSuccess
+    clearProductErrors,
+    fetchProductsError,
+    fetchProductsRequest,
+    fetchProductsSuccess
 } from "../../redux/products/productActions";
 import {
-    addOrderError, addOrderRequest, addOrderSuccess, clearOrderError, fetchOrdersError, fetchOrdersRequest,
+    addOrderError,
+    addOrderRequest,
+    addOrderSuccess,
+    clearOrderError,
+    fetchOrdersError,
+    fetchOrdersRequest,
     fetchOrdersSuccess
 } from "../../redux/orders/orderActions";
 import _ from 'lodash'
 import {
     addAddressError,
-    addAddressRequest, addAddressSuccess,
+    addAddressRequest,
+    addAddressSuccess,
     clearAddressErrors,
     fetchAddressesError,
     fetchAddressesRequest,
     fetchAddressesSuccess
 } from "../../redux/address/addressActions";
 import {checkoutParams} from "../../redux/checkout/checkoutActions";
+import {
+    clearOffersErrors,
+    fetchOffersError,
+    fetchOffersRequest,
+    fetchOffersSuccess
+} from "../../redux/offers/offerActions";
 
 const BASE_URL = process.env.BASE_URL
 
@@ -39,9 +63,12 @@ export const setAuthenticationHeader = token => {
 export const authUser = idToken => async dispatch => {
     dispatch(authRequest())
     try {
-        const {data} = await axios.post(`${BASE_URL}/auth/google`, {idToken})
-        dispatch(authSuccess(data.user))
-
+        const {data} = await axios.post(`${BASE_URL}/auth/google`, {idToken}, {
+            withCredentials: true,
+            credentials: 'include'
+        })
+        setAuthenticationHeader(data.token)
+        dispatch(authSuccess(data.token))
     } catch (err) {
         dispatchError(dispatch, err, authError)
     }
@@ -91,7 +118,7 @@ export const uploadCart = cart => async dispatch => {
     try {
         const {data} = await axios.post(`${BASE_URL}/cart`, {items: Object.values(cart), sync: true})
         dispatch(fetchCartSuccess(data))
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, addToCartError)
     }
 }
@@ -107,7 +134,7 @@ export const fetchCartItems = () => async dispatch => {
 }
 
 export const addCartItem = (item, qty = 1, token) => async dispatch => {
-    if (token){
+    if (token) {
         dispatch(addToCartRequest())
         try {
             const {data} = await axios.post(`${BASE_URL}/cart`, {items: [{...item, units: qty}]})
@@ -120,13 +147,17 @@ export const addCartItem = (item, qty = 1, token) => async dispatch => {
     }
 }
 
-export const deleteCartItem = id => async dispatch => {
-    dispatch(deleteCartRequest())
-    try {
-        await axios.delete(`${BASE_URL}/cart/${id}`)
+export const deleteCartItem = (id, token) => async dispatch => {
+    if (token){
+        dispatch(deleteCartRequest())
+        try {
+            const {data} = await axios.delete(`${BASE_URL}/cart/${id}`)
+            dispatch(deleteCartSuccess(data.id))
+        } catch (err) {
+            dispatchError(dispatch, err, deleteCartError)
+        }
+    } else {
         dispatch(deleteCartSuccess(id))
-    } catch (err) {
-        dispatchError(dispatch, err, deleteCartError)
     }
 }
 
@@ -152,6 +183,7 @@ export const addAddress = address => async dispatch => {
     try {
         const {data} = await axios.post(`${BASE_URL}/addresses`, address)
         dispatch(addAddressSuccess(data))
+        return data.id
     } catch (err) {
         dispatchError(dispatch, err, addAddressError)
     }
@@ -166,7 +198,6 @@ export const fetchOrderItems = () => async dispatch => {
     try {
         const {data} = await axios.get(`${BASE_URL}/orders/user`)
         dispatch(fetchOrdersSuccess(data))
-        clearCart()
     } catch (err) {
         dispatchError(dispatch, err, fetchOrdersError)
     }
@@ -176,6 +207,7 @@ export const addOrder = order => async dispatch => {
     dispatch(addOrderRequest())
     try {
         const {data} = await axios.post(`${BASE_URL}/orders`, order)
+        dispatch(clearCartItems())
         dispatch(addOrderSuccess(data))
     } catch (err) {
         dispatchError(dispatch, err, addOrderError)
@@ -184,7 +216,23 @@ export const addOrder = order => async dispatch => {
 
 export const clearOrderErrors = () => dispatch => dispatch(clearOrderError())
 
-const clearCart = () => async dispatch => {
-    const {data} = await axios.get(`${BASE_URL}/cart`)
-    dispatch(fetchCartSuccess(data))
+export const fetchOffers = () => async dispatch => {
+    dispatch(fetchOffersRequest())
+    try {
+        const {data} = await axios.get(`${BASE_URL}/offers/active`)
+        dispatch(fetchOffersSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, fetchOffersError)
+    }
+}
+
+export const clearOfferErrors = () => dispatch => dispatch(clearOffersErrors())
+
+export const signOut = () => dispatch => {
+    sessionStorage.removeItem('oshop')
+    delete axios.defaults.headers['common']['Authorization']
+    dispatch(fetchOrdersSuccess([]))
+    dispatch(fetchAddressesSuccess([]))
+    dispatch(fetchCartSuccess({}))
+    dispatch(authSuccess(''))
 }

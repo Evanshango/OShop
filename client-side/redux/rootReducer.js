@@ -6,15 +6,17 @@ import productReducer from "./products/productReducer";
 import orderReducer from "./orders/orderReducer";
 import addressReducer from "./address/addressReducer";
 import checkoutReducer from "./checkout/checkoutReducer";
+import offerReducer from "./offers/offerReducer";
 
 const rootReducer = combineReducers({
     user: authReducer,
     section: sectionReducer,
     product: productReducer,
-    addresses: addressReducer,
+    address: addressReducer,
     cart: cartReducer,
     checkout: checkoutReducer,
-    order: orderReducer
+    order: orderReducer,
+    offer: offerReducer
 })
 
 export default rootReducer

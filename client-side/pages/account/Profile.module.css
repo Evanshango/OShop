@@ -1,5 +1,5 @@
 .profile {
-    width: 50%;
+    width: 60%;
     min-height: 50vh;
     margin: auto;
 }
@@ -142,6 +142,7 @@
     display: flex;
     flex-direction: column;
     margin: 1rem 0;
+    max-height: 70vh;
 }
 
 .name_area {
@@ -168,6 +169,7 @@
     display: grid;
     grid-template-columns: 1fr 3fr;
     grid-gap: 1.5rem;
+    align-items: flex-start;
     margin: 1rem 0;
 }
 
@@ -175,6 +177,10 @@
 .information {
     box-shadow: 0 .4rem 1.2rem rgba(0, 0, 0, .2);
     border-radius: 5px;
+}
+
+.information{
+    margin-bottom: 1rem;
 }
 
 .navigation p {
@@ -204,6 +210,8 @@
 .active p {
     background: linear-gradient(#ff0000, #ff4500);
     color: #fff;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
 }
 
 .information{
@@ -341,6 +349,9 @@
 }
 
 @media screen and (max-width: 448px) {
+    .profile{
+        min-height: 90vh;
+    }
     .info_container{
         grid-template-columns: 1fr;
     }

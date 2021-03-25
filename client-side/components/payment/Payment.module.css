@@ -1,5 +1,10 @@
 .payment {
-    padding: 1rem;
+    padding: 0
+}
+
+.payment hr{
+    border: 1px solid #dcdcdc;
+    margin: 0!important;
 }
 
 .options {

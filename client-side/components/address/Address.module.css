@@ -1,0 +1,42 @@
+.address_content select{
+    width: 100%;
+    padding: .5rem;
+    border-radius: 5px;
+    border: 1px solid #a5aaad;
+}
+
+.save_button{
+    cursor: pointer;
+    background: cornflowerblue;
+    border-radius: 2rem;
+    padding: .5rem 3rem;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    margin: 1rem;
+}
+
+.save_button:focus, .address_content select:focus{
+    outline: none;
+}
+
+.grid_area{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2rem;
+    align-items: center;
+}
+
+.errors {
+    background: rgb(248, 215, 218);
+    margin: .5rem auto;
+    padding: .5rem 1rem;
+    color: #ff0000;
+    border-radius: 5px;
+    width: 100%;
+    text-align: left!important;
+}
+
+.errors li{
+    list-style: inherit;
+}

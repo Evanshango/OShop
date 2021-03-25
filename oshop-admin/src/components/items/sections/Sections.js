@@ -5,8 +5,8 @@ import DataTable from "../../DataTable";
 import SectionCategoryDialog from "./SectionCategoryDialog";
 
 function Sections() {
-    const {sections} = useSelector(state => state.sections)
-    const {categories} = useSelector(state => state.categories)
+    const {sections} = useSelector(state => state.section)
+    const {categories} = useSelector(state => state.category)
 
     return (
         <div className={styles.section_container}>

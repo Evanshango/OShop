@@ -45,7 +45,7 @@ const menus = [
         ]
     },
     {
-        group: 'Actions',
+        group: 'Items',
         items: [
             {
                 name: 'Sections',
@@ -58,10 +58,15 @@ const menus = [
                 link: '/products'
             },
             {
-                name: 'Orders',
+                name: 'Promotions',
                 icon: <ShoppingCartOutlinedIcon/>,
-                link: '/orders'
+                link: '/promotions'
             },
+        ]
+    },
+    {
+        group: 'Actions',
+        items: [
             {
                 name: 'Payments',
                 icon: <AttachMoneyOutlinedIcon/>,
