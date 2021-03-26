@@ -21,3 +21,5 @@ services:
       - NODE_PATH=/app/src
     ports:
       - '3001:81'
+    depends_on:
+      - api
