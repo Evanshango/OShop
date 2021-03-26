@@ -127,12 +127,12 @@ export const getStaticProps = async context => {
         }
     }
 }
-// , getStaticPaths = async () => {
-//     const BASE_URL = process.env.BASE_URL
-//     const {data: products} = await axios.get(`${BASE_URL}/products`)
-//
-//     const paths = products.map(({id}) => ({params: {id: id.toString()}}))
-//     return {paths, fallback: false}
-// }
+, getStaticPaths = async () => {
+    const BASE_URL = process.env.BASE_URL
+    const {data: products} = await axios.get(`${BASE_URL}/products`)
+
+    const paths = products.map(({id}) => ({params: {id: id.toString()}}))
+    return {paths, fallback: false}
+}
 
 export default Product
