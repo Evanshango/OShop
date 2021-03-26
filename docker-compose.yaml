@@ -1,6 +1,6 @@
 version: "3"
 services:
-  oshop-api:
+  api:
     container_name: oshop-api
     restart: unless-stopped
     build:
@@ -11,7 +11,7 @@ services:
     env_file: ./backend/.env
     environment:
       - NODE_ENV=production
-  oshop-admin:
+  admin:
     container_name: oshop-admin
     restart: unless-stopped
     build:
@@ -21,7 +21,7 @@ services:
       - NODE_PATH=/app/src
     ports:
       - '3001:81'
-  oshop-client:
+  client:
     container_name: oshop-client
     restart: unless-stopped
     build:
