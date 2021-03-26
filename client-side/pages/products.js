@@ -3,14 +3,11 @@ import styles from './Products.module.css'
 import {categories} from "../mocks/product-list";
 import Product from "../components/product/Product";
 import Pagination from "../components/pagination/Pagination";
-import {AiOutlineSearch} from "react-icons/ai";
 import {useSelector} from "react-redux";
 import Search from "../components/search/Search";
 
-const Products = ({user}) => {
+const Products = () => {
     const [page, setPage] = useState(1)
-    const [sort, setSort] = useState('')
-    const [order, setOrder] = useState('')
     const [sects, setSects] = useState([])
     const [cats, setCats] = useState([])
     const [oldCategories, setOldCategories] = useState([])
@@ -20,11 +17,6 @@ const Products = ({user}) => {
     const {token} = useSelector(state => state.user)
 
     let sectionCategories = []
-
-    const handleSubmit = e => {
-        e.preventDefault()
-        console.log('Searching...')
-    }
 
     const handleSectionChange = (name) => {
         const currIndex = sects.indexOf(name)

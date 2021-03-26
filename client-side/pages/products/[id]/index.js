@@ -128,7 +128,6 @@ export const getStaticProps = async context => {
     }
 }, getStaticPaths = async () => {
     const BASE_URL = process.env.BASE_URL
-    // const {data} = products.map(prod => prod.id.toString())
     const {data: products} = await axios.get(`${BASE_URL}/products`)
 
     const paths = products.map(({id}) => ({params: {id: id.toString()}}))
