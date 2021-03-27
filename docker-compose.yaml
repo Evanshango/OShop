@@ -20,6 +20,19 @@ services:
     environment:
       - NODE_PATH=/app/src
     ports:
-      - '3001:81'
+      - '3001:3001'
+    depends_on:
+      - api
+  client:
+    container_name: oshop-client
+    restart: unless-stopped
+    build:
+      context: ./client-side
+      dockerfile: Dockerfile
+    env_file: ./client-side/.env.local
+#    environment:
+#      - NODE_PATH=/app
+    ports:
+      - '3000:3000'
     depends_on:
       - api

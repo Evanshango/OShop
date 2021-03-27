@@ -25,7 +25,6 @@ interface IUserDoc extends Document {
     fullName: string
     avatar?: string
     verified: boolean
-    method: AUTH_METHOD
     role?: USER_ROLE
     password?: string
 }

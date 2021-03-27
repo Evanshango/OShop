@@ -10,7 +10,8 @@ RUN npm install react-scripts -g --silent
 
 COPY . .
 
-ENV REACT_APP_BASE_URL="http://167.71.3.10:5000/api/v1"
+#ENV REACT_APP_BASE_URL="http://167.71.3.10:5000/api/v1"
+#ENV REACT_APP_BASE_URL="http://localhost:5000/api/v1"
 
 ENV PATH /app/node_modules/.bin:$PATH
 
