@@ -31,8 +31,7 @@ if (!ORIGIN_2) throw new Error('ORIGIN_2 should be defined')
 
 const corsConfig = {
     credentials: true,
-    origin: ['http://localhost:3000', 'http://localhost:3001']
-    // origin: [ORIGIN_1, ORIGIN_2]
+    origin: ['http://localhost:3000', 'http://localhost:3001', ORIGIN_1, ORIGIN_2]
 };
 
 // Setup swagger
@@ -47,8 +46,8 @@ if (NODE_ENV === 'development') {
 app.use(cors(corsConfig))
 
 app.use(cookieSession({
-    signed: false,
-    secure: false,
+    signed: true,
+    secure: true,
 }))
 
 app.use('/api/v1/docs', serve, setup(swaggerDefinition))

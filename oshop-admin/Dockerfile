@@ -8,22 +8,12 @@ RUN npm install --silent
 
 COPY . .
 
-#ENV REACT_APP_BASE_URL="http://167.71.3.10:5000/api/v1"
-ENV REACT_APP_BASE_URL="http://localhost:5000/api/v1"
+ENV REACT_APP_BASE_URL="https://www.api.codewithevans.com"
 
 ENV PATH /app/node_modules/.bin:$PATH
 
 RUN npm run build
 
-FROM nginx:stable-alpine
+EXPOSE 3001
 
-#Copy all the contents from build directory into the web root
-COPY --from=client /app/build /usr/share/nginx/html
-
-RUN rm /etc/nginx/conf.d/default.conf
-
-COPY nginx/nginx.conf /etc/nginx/conf.d
-
-EXPOSE 80
-
-CMD ["nginx","-g","daemon off;"]
+CMD ["npm","start"]
