@@ -210,17 +210,21 @@
     font-size: 1.4rem;
 }
 
-.buttons li{
+.buttons li, .action_buttons li{
     margin-top: 2.5rem;
     text-transform: uppercase;
     font-size: 1rem;
     font-weight: 600;
-    padding: .6rem 2rem;
+    padding: .6rem 0;
     border-radius: 2rem;
 }
 
-.buttons li a{
+.buttons li a, .action_buttons li a{
     color: #ffffff;
+    padding: .6rem 2rem;
+    background: rgb(241, 196, 15);
+    background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
+    border-radius: 2rem;
 }
 
 .view_orders{
@@ -234,7 +238,7 @@
     cursor: pointer;
 }
 
-.buttons li:hover{
+.buttons li:hover, .action_buttons li:hover{
     transform: scale(1.1);
 }
 

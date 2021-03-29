@@ -8,31 +8,32 @@ services:
       dockerfile: Dockerfile
     ports:
       - '5000:5000'
-    env_file: ./backend/.env
+    env_file:
+      - ./backend/.env
     environment:
       - NODE_ENV=production
-  admin:
-    container_name: oshop-admin
+#  admin:
+#    container_name: oshop-admin
+#    restart: unless-stopped
+#    build:
+#      context: ./oshop-admin
+#      dockerfile: Dockerfile
+#    environment:
+#      - NODE_PATH=/app/src
+#    ports:
+#      - '3001:80'
+#    depends_on:
+#      - api
+  client:
+    container_name: savana-client
     restart: unless-stopped
     build:
-      context: ./oshop-admin
+      context: ./savana-client
       dockerfile: Dockerfile
     environment:
+      - NODE_ENV=production
       - NODE_PATH=/app/src
     ports:
-      - '3001:3001'
-    depends_on:
-      - api
-  client:
-    container_name: oshop-client
-    restart: unless-stopped
-    build:
-      context: ./client-side
-      dockerfile: Dockerfile
-    env_file: ./client-side/.env.local
-#    environment:
-#      - NODE_PATH=/app
-    ports:
-      - '3000:3000'
+      - '3000:80'
     depends_on:
       - api

@@ -144,7 +144,7 @@ function Checkout() {
                             <div className={styles.no_items}>
                                 <h2>You don't have any items to check out</h2>
                                 <div className={styles.action_buttons}>
-                                    <li>
+                                    <li className={styles.view_orders}>
                                         <Link to={'/products'}>
                                             <span>Click to Shop</span>
                                         </Link>

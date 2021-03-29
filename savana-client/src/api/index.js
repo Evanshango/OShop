@@ -62,43 +62,35 @@ export const setAuthenticationHeader = token => {
     axios.defaults.headers["common"]['Authorization'] = `Bearer ${token}`
 }
 
-const returnToken = async (token, dispatch, products) => {
-    setAuthenticationHeader(token)
-    if (Object.values(products).length > 0) {
-        try {
-            const {data} = await axios.post(`${BASE_URL}/cart`, {items: Object.values(products), sync: true})
-            dispatch(fetchCartSuccess(data))
-        } catch (err) {
-            dispatchError(dispatch, err, addToCartError)
-        }
-    }
-    dispatch(authSuccess(token))
-}
-
-export const authUser = (idToken, products) => async dispatch => {
+export const authUser = (idToken, products) => dispatch => {
     dispatch(authRequest())
-    try {
-        const {data} = await axios.post(`${BASE_URL}/auth/google`, {idToken}, {
-            withCredentials: true,
-            credentials: 'include'
-        })
-        await returnToken(data.token, dispatch, products)
-    } catch (err) {
-        dispatchError(dispatch, err, authError)
-    }
+    uploadCart('auth/google', {idToken}, products, dispatch)
 }
 
 export const loginUser = (user, products) => async dispatch => {
     dispatch(authRequest())
-    try {
-        const {data} = await axios.post(`${BASE_URL}/auth/signin`, user, {
-            withCredentials: true,
-            credentials: 'include'
-        })
-        await returnToken(data.token, dispatch, products)
-    } catch (err) {
+    uploadCart('auth/signin', user, products, dispatch)
+}
+
+const uploadCart = (url, params, products, dispatch) => {
+    let token
+    axios.post(`${BASE_URL}/${url}`, params, {withCredentials: true, credentials: 'include'}).then(({data}) => {
+        setAuthenticationHeader(data.token)
+        token = data.token
+    }).then(async () => {
+        if (Object.values(products).length > 0) {
+            try {
+                const {data} = await axios.post(`${BASE_URL}/cart`, {items: Object.values(products), sync: true})
+                dispatch(fetchCartSuccess(data))
+            } catch (err) {
+                dispatchError(dispatch, err, addToCartError)
+            }
+        }
+    }).then(() => {
+       dispatch(authSuccess(token))
+    }).catch(err => {
         dispatchError(dispatch, err, authError)
-    }
+    })
 }
 
 export const fetchUser = () => async dispatch => {

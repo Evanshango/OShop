@@ -7,14 +7,16 @@ import {FcGoogle} from "react-icons/fc";
 import {GoogleLogin} from "react-google-login";
 import React from "react";
 import {authUser} from "../../api";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
-function Signin({activateNext, index, user, clientId}) {
+function Signin({index, user: loggedIn, clientId}) {
     const dispatch = useDispatch()
+    const {user} = useSelector(state => state.current)
+    const {products} = useSelector(state => state.cart)
 
     const googleResponse = async response => {
         const {tokenId} = await response
-        dispatch(authUser(tokenId))
+        dispatch(authUser(tokenId, products))
     }
 
     return (
@@ -30,7 +32,7 @@ function Signin({activateNext, index, user, clientId}) {
                 </div>
             </div>
             <hr/>
-            {_.isEmpty(user) ? (
+            {_.isEmpty(loggedIn) ? (
                 <div className={styles.auth_buttons}>
                     <span>
                         <AuthDialog clientId={clientId}/>
@@ -46,8 +48,8 @@ function Signin({activateNext, index, user, clientId}) {
                 </div>
             ) : (
                 <div className={stylesOverall.content}>
-                    <p style={{fontWeight: '500'}}>{user.fullName}</p>
-                    <p>{user.email}</p>
+                    <p style={{fontWeight: '500'}}>{loggedIn.fullName}</p>
+                    <p>{loggedIn.email}</p>
                 </div>
             )}
         </div>

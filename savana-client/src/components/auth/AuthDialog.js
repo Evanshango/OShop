@@ -10,24 +10,25 @@ function AuthDialog() {
     const [open, setOpen] = useState(false)
     const [user, setUser] = useState({email: '', password: ''})
     const {errors} = useSelector(state => state.auth)
+    const {products} = useSelector(state => state.cart)
 
     const closeDialog = () => {
-        if (errors.length > 0) dispatch(clearAuthErrors())
+        if (errors && errors.length > 0) dispatch(clearAuthErrors())
         setOpen(false)
     }
 
     const handleSubmit = e => {
         e.preventDefault()
-        dispatch(loginUser(user))
+        dispatch(loginUser(user, products))
     }
 
     const openDialog = () => {
-        if (errors.length > 0) dispatch(clearAuthErrors())
+        if (errors && errors.length > 0) dispatch(clearAuthErrors())
         setOpen(true)
     }
 
     const handleChange = e => {
-        if (errors.length > 0) dispatch(clearAuthErrors())
+        if (errors && errors.length > 0) dispatch(clearAuthErrors())
         setUser({...user, [e.target.name]: e.target.value})
     }
 
@@ -48,7 +49,7 @@ function AuthDialog() {
                                    value={user.email} onChange={handleChange}/>
                             <input className={styles.input_field} type="password" placeholder='Password' name='password'
                                    value={user.password} onChange={handleChange}/>
-                            {errors.length > 0 && (
+                            {errors && errors.length > 0 && (
                                 <div className={styles.errors}>
                                     {errors.map(error => <li key={error.message}>{error.message}</li>)}
                                 </div>
