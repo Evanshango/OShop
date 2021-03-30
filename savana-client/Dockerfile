@@ -1,4 +1,4 @@
-FROM node:alpine as client
+FROM node:alpine
 
 WORKDIR /app
 
@@ -17,4 +17,4 @@ RUN npm run build
 
 EXPOSE 3000
 
-CMD ["nginx","start"]
+CMD ["npm","start"]

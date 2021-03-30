@@ -1,4 +1,4 @@
-FROM node:alpine as client
+FROM node:alpine
 
 WORKDIR /app
 
