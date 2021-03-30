@@ -1,9 +1,3 @@
-#FROM node:alpine as base
-#WORKDIR /app
-#COPY ./package*.json ./
-#RUN npm i
-#COPY /src .
-#
 #FROM node:alpine as builder
 #WORKDIR /app
 #ENV NODE_ENV=production
@@ -34,8 +28,7 @@ FROM node:alpine
 ENV NODE_ENV=production
 RUN apk add --no-cache tini
 WORKDIR /usr/src/app
-#RUN chown node:node .
-#USER node
+
 COPY package*.json ./
 COPY swagger.yaml ./
 RUN npm install

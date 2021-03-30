@@ -9,7 +9,6 @@ services:
       target: production
     ports:
       - '5000:5000'
-#    command: node build/index.js
     env_file:
       - ./backend/.env
     environment:
