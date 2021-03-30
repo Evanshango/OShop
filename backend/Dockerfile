@@ -16,7 +16,7 @@
 #CMD npm start
 
 
-FROM node:alpine AS builder
+FROM node:14-alpine AS builder
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm ci
@@ -24,7 +24,7 @@ COPY tsconfig*.json ./
 COPY src src
 RUN npm run build
 
-FROM node:alpine
+FROM node:14-alpine
 ENV NODE_ENV=production
 RUN apk add --no-cache tini
 WORKDIR /usr/src/app
