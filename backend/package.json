@@ -6,9 +6,9 @@
   "types": "./build/index.d.ts",
   "scripts": {
     "clean": "del-cli ./build/*",
-    "build": "npm run clean && tsc",
+    "build": "npm --max_old_space_size=8048 ./node_modules run clean && tsc",
     "dev": "ts-node-dev --poll src/index.ts",
-    "start": "set NODE_PATH=./build&node build/index.js"
+    "start": "set NODE_PATH=./build&node --max_old_space_size=8048 ./node_modules build/index.js"
   },
   "keywords": [],
   "author": "",
