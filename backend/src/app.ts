@@ -46,7 +46,7 @@ if (NODE_ENV === 'development') {
 app.use(cors(corsConfig))
 
 app.use(cookieSession({
-    signed: true,
+    signed: false,
     secure: true,
 }))
 

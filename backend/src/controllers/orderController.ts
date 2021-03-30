@@ -25,7 +25,9 @@ export const addOrder = async (req: Request, res: Response) => {
 
     const toDelete = await Cart.findOne({customer: user.id})
 
-    await Cart.findByIdAndDelete(toDelete.id)
+    if (toDelete){
+        await Cart.findByIdAndDelete(toDelete.id)
+    }
 
     return res.send(await Order.findById(order.id))
 }

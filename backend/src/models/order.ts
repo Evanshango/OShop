@@ -110,7 +110,9 @@ orderSchema.post('save', function (doc:Document, next: HookNextFunction){
     // @ts-ignore
     this.items.forEach(async (item: any) => {
         const prod = await Product.findById(item.product)
-        await Product.findByIdAndUpdate(prod.id, {stock: prod.stock - item.units})
+        if (prod){
+            await Product.findByIdAndUpdate(prod.id, {stock: prod.stock - item.units})
+        }
     })
     next()
 })

@@ -56,7 +56,10 @@ export const addToCart = async (req: Request, res: Response) => {
         returnUserCart(await Cart.findOne({customer: user.id}), res)
     } else {
         let itemArray: any = []
-        items.map((item: any) => itemArray.push({product: item.id, units: item.units}))
+        items.map((item: any) => {
+            const prod = {product: item.id, units: item.units}
+            itemArray.push(prod)
+        })
         const cart = Cart.build({
             customer: user.id,
             items: itemArray
