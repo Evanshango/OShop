@@ -1,20 +1,22 @@
 version: "3"
 services:
   api:
-    container_name: oshop-api
+    container_name: savana-api
     restart: unless-stopped
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: evanshango/savana_api
+
+#    build:
+#      context: ./backend
+#      dockerfile: Dockerfile
     ports:
       - '5000:5000'
-    env_file:
-      - ./backend/.env
-    environment:
-      - NODE_ENV=production
-      - NODE_PATH=/build/src
+#    env_file:
+#      - ./backend/.env
+#    environment:
+#      - NODE_ENV=production
+#      - NODE_PATH=/build/src
   admin:
-    container_name: oshop-admin
+    container_name: savana-admin
     restart: unless-stopped
     build:
       context: ./oshop-admin
@@ -22,7 +24,7 @@ services:
     environment:
       - NODE_PATH=/app/src
     ports:
-      - '3001:3001'
+      - '3001:80'
     depends_on:
       - api
   client:
@@ -35,6 +37,6 @@ services:
       - NODE_ENV=production
       - NODE_PATH=/app/src
     ports:
-      - '3000:3000'
+      - '3000:80'
     depends_on:
       - api

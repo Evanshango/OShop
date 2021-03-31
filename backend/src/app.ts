@@ -4,6 +4,7 @@ import cookieSession from 'cookie-session'
 import cors from 'cors'
 import morgan from 'morgan'
 import multer from 'multer'
+import helmet from 'helmet'
 
 import {NotFoundError} from "./errors/not-found-error";
 import {errorHandler} from "./middlewares/error-handler";
@@ -21,8 +22,10 @@ import {addressRouter} from "./routes/addressRoutes";
 import {offerRouter} from "./routes/offerRoutes";
 
 const app = express()
+
 const upload = multer()
 
+app.use(helmet())
 app.use(json())
 app.use(upload.any())
 

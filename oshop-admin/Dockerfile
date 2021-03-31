@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:14-alpine as client
 
 WORKDIR /app
 
@@ -8,12 +8,20 @@ RUN npm install --silent
 
 COPY . .
 
-ENV REACT_APP_BASE_URL="https://www.api.codewithevans.com"
+ENV REACT_APP_BASE_URL="http://api.codewithevans.com/api/v1"
 
 ENV PATH /app/node_modules/.bin:$PATH
 
 RUN npm run build
 
-EXPOSE 3001
+FROM nginx:stable-alpine
 
-CMD ["npm","start"]
+COPY --from=client /app/build /usr/share/nginx/html
+
+RUN rm /etc/nginx/conf.d/default.conf
+
+COPY nginx/nginx.conf /etc/nginx/conf.d
+
+EXPOSE 80
+
+CMD ["nginx","-g","daemon off;"]
