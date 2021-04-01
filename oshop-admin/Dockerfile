@@ -1,4 +1,4 @@
-FROM node:14-alpine as client
+FROM node:alpine as client
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ RUN npm install --silent
 
 COPY . .
 
-ENV REACT_APP_BASE_URL="http://api.codewithevans.com/api/v1"
+ENV REACT_APP_BASE_URL='<BASE_URL>'
 
 ENV PATH /app/node_modules/.bin:$PATH
 

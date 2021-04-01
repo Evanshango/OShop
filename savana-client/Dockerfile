@@ -1,5 +1,4 @@
-#STEP ONE Build the react project
-FROM node:14-alpine as client
+FROM node:alpine as client
 
 WORKDIR /app
 
@@ -7,13 +6,10 @@ COPY ./package*.json /app/
 
 RUN npm install --silent
 
-# RUN npm install react-scripts -g --silent
-
 COPY . .
 
-ENV REACT_APP_BASE_URL="http://api.codewithevans.com/api/v1"
-ENV REACT_APP_GOOGLE_CLIENT_ID=750987357762-vofc12vfah3l3msil4s5g5nsr8aligv5.apps.googleusercontent.com
-
+ENV REACT_APP_BASE_URL='<BASE_URL>'
+ENV REACT_APP_GOOGLE_CLIENT_ID='<GOOGLE_CLIENT_ID>'
 ENV PATH /app/node_modules/.bin:$PATH
 
 RUN npm run build
