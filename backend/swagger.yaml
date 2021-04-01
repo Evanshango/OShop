@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: OShop REST API
+  title: Savana Collections REST API
   description: Savanah Collections' API Documentation
   version: 1.0.0
 servers:
