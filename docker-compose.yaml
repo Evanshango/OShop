@@ -4,6 +4,7 @@ services:
     container_name: savana-api
     restart: unless-stopped
     image: evanshango/savana_api
+    network_mode: "host"
     ports:
       - '5000:5000'
   admin:
@@ -11,7 +12,7 @@ services:
     restart: unless-stopped
     image: evanshango/savana_admin
     ports:
-      - '3000:80'
+      - '3001:80'
     depends_on:
       - api
   client:

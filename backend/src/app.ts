@@ -1,11 +1,10 @@
-import express, {json} from 'express'
+import express, {json, Request, Response} from 'express'
 import 'express-async-errors'
 import cookieSession from 'cookie-session'
 import cors from 'cors'
 import morgan from 'morgan'
 import multer from 'multer'
 import helmet from 'helmet'
-
 import {NotFoundError} from "./errors/not-found-error";
 import {errorHandler} from "./middlewares/error-handler";
 import {NODE_ENV, ORIGIN_1, ORIGIN_2} from "./helpers/constants";
@@ -63,6 +62,10 @@ app.use('/api/v1', addressRouter)
 app.use('/api/v1', cartRouter)
 app.use('/api/v1', orderRouter)
 app.use('/api/v1', offerRouter)
+
+app.all('/', async (req: Request, res: Response) => {
+    return res.redirect('/api/v1/docs')
+})
 
 app.all('*', async () => {
     throw new NotFoundError('Route')
