@@ -20,6 +20,14 @@ const rootReducer = combineReducers({
     offer: offerReducer
 })
 
-const store = createStore(rootReducer, initialState, composeWithDevTools(applyMiddleware(...middleware)))
+const {NODE_ENV} = process.env
+
+const devTools = NODE_ENV === "production" ? (
+    applyMiddleware(...middleware)
+) : (
+    composeWithDevTools(applyMiddleware(...middleware))
+);
+
+const store = createStore(rootReducer, initialState, devTools);
 
 export default store

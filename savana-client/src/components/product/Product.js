@@ -41,7 +41,7 @@ const Product = ({product, token}) => {
             <div className={styles.product_footer}>
                 <Link to={`/products/${product.id}`}>
                     <span>
-                        <h5>{truncate(product.name, 20)}</h5>
+                        <h5 style={{textTransform: 'capitalize'}}>{truncate(product.name, 20)}</h5>
                         <div className={styles.ratings}>
                             <Rating rating={product.rating}/>
                         </div>

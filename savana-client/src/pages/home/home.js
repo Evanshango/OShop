@@ -95,7 +95,7 @@ function Home() {
                                 backgroundImage: `linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), 
                                 url(${showImage(offer.product.images)})`
                             }}>
-                                <h2>{offer.product.name}</h2>
+                                <h2 style={{textTransform: 'capitalize'}}>{offer.product.name}</h2>
                                 <h1 style={{color: '#fbb419'}}>{`${offer.product.discount}% off`}</h1>
                             </div>
                         ))}

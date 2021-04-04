@@ -24,7 +24,7 @@ function Checkout() {
 
     const {checkout} = useSelector(state => state.checkout)
     const {products} = useSelector(state => state.cart)
-    const {loading, errors} = useSelector(state => state.order)
+    const {loading, errors, order: newOrder} = useSelector(state => state.order)
     const {user} = useSelector(state => state.current)
 
     const activateNext = (index) => {
@@ -43,18 +43,15 @@ function Checkout() {
         setOrder({amount: total, items})
     }, [products, checkout, user, total])
 
-    const finishOrder = async () => {
-        let status = checkout.payment === 'VISA' || checkout.payment === 'MPESA' ? 'COMPLETED' : 'PENDING'
-        const readyOrder = {
-            ...order,
-            address: checkout.address,
-            paymentMethod: checkout.payment,
-            paymentStatus: status,
-            amount: total
-        }
+    const finishOrder = (index) => {
+        const readyOrder = {...order, address: checkout.address, amount: total}
         dispatch(addOrder(readyOrder))
 
-        !loading && errors.length === 0 ? setOrderSuccess(true) : setOrderSuccess(false)
+        if (!loading && errors.length === 0 && !_.isEmpty(newOrder)){
+            activateNext(index)
+        }
+
+        // !loading && errors.length === 0 ? setOrderSuccess(true) : setOrderSuccess(false)
     }
 
     const renderContent = step => ((() => {
@@ -64,7 +61,7 @@ function Checkout() {
                                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} next={nextIndex}/>
             case 'Delivery Address':
                 return <Shipping activateNext={activateNext} index={1} user={user} checkout={checkout}
-                                 next={nextIndex}/>
+                                 next={nextIndex} order={order} finishOrder={finishOrder}/>
             case 'Payment Method':
                 return <Payment activateNext={activateNext} index={2} user={user} checkout={checkout} next={nextIndex}/>
             default:
@@ -134,9 +131,9 @@ function Checkout() {
                                         <h4><small>Ksh.</small> {total.toFixed(2)}</h4>
                                     </div>
                                 </div>
-                                {showCheckout && (
-                                    <button className={styles.complete_button} onClick={finishOrder}>Complete</button>
-                                )}
+                                {/*{showCheckout && (*/}
+                                {/*    <button className={styles.complete_button} onClick={finishOrder}>Complete</button>*/}
+                                {/*)}*/}
                             </div>
                         </div>
                     ) : (

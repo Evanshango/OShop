@@ -21,7 +21,8 @@ function Navbar() {
                     <div className={styles.nav_header}>
                         <Link to={'/'}>
                             <span className={styles.nav_logo}>
-                                <h1>OSHO<span>P</span></h1>
+                                <small className={styles.p1}>Savana</small>
+                                <small><span>Collections</span></small>
                             </span>
                         </Link>
                     </div>

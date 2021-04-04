@@ -48,6 +48,7 @@ import {
 import _ from 'lodash'
 import {fetchProductError, fetchProductRequest, fetchProductSuccess} from "../redux/product/productActions";
 import {fetchUserError, fetchUserRequest, fetchUserSuccess} from "../redux/user/userActions";
+import {makePaypalPayError, makePaypalPayRequest, makePaypalPaySuccess} from "../redux/paypal/paypalActions";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
@@ -87,7 +88,7 @@ const uploadCart = (url, params, products, dispatch) => {
             }
         }
     }).then(() => {
-       dispatch(authSuccess(token))
+        dispatch(authSuccess(token))
     }).catch(err => {
         dispatchError(dispatch, err, authError)
     })
@@ -211,7 +212,7 @@ export const addOrder = order => async dispatch => {
     dispatch(addOrderRequest())
     try {
         const {data} = await axios.post(`${BASE_URL}/orders`, order)
-        dispatch(clearCartItems())
+        // dispatch(clearCartItems())
         dispatch(addOrderSuccess(data))
     } catch (err) {
         dispatchError(dispatch, err, addOrderError)
@@ -243,6 +244,16 @@ export const fetchProduct = id => async dispatch => {
 }
 
 export const clearProductError = () => dispatch => dispatch(clearProductErrors())
+
+export const paypalPayment = payment => async dispatch => {
+    dispatch(makePaypalPayRequest())
+    try{
+        const {data} = await axios.post(`${BASE_URL}/payments`, payment)
+        dispatch(makePaypalPaySuccess(data))
+    } catch (err){
+        dispatchError(dispatch, err, makePaypalPayError)
+    }
+}
 
 export const signOut = () => dispatch => {
     sessionStorage.removeItem('savana')

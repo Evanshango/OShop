@@ -7,7 +7,7 @@ import multer from 'multer'
 import helmet from 'helmet'
 import {NotFoundError} from "./errors/not-found-error";
 import {errorHandler} from "./middlewares/error-handler";
-import {NODE_ENV, ORIGIN_1, ORIGIN_2} from "./helpers/constants";
+import {NODE_ENV, ORIGIN_1, ORIGIN_2, ORIGIN_3, ORIGIN_4} from "./helpers/constants";
 import {serve, setup} from 'swagger-ui-express'
 import yaml from 'yamljs'
 import {authRouter} from "./routes/authRoutes";
@@ -19,6 +19,8 @@ import {cartRouter} from "./routes/cartRoutes";
 import {orderRouter} from "./routes/orderRoutes";
 import {addressRouter} from "./routes/addressRoutes";
 import {offerRouter} from "./routes/offerRoutes";
+import {settingRouter} from "./routes/settingRoutes";
+import {paymentRouter} from "./routes/paymentRoutes";
 
 const app = express()
 
@@ -28,12 +30,9 @@ app.use(helmet())
 app.use(json())
 app.use(upload.any())
 
-if (!ORIGIN_1) throw new Error('ORIGIN_1 should be defined')
-if (!ORIGIN_2) throw new Error('ORIGIN_2 should be defined')
-
 const corsConfig = {
     credentials: true,
-    origin: ['http://localhost:3000', 'http://localhost:3001', ORIGIN_1, ORIGIN_2]
+    origin: ['http://localhost:3000', 'http://localhost:3001', ORIGIN_1!, ORIGIN_2!, ORIGIN_3!, ORIGIN_4!]
 };
 
 // Setup swagger
@@ -47,12 +46,8 @@ if (NODE_ENV === 'development') {
 
 app.use(cors(corsConfig))
 
-app.use(cookieSession({
-    signed: false,
-    secure: true,
-}))
-
 app.use('/api/v1/docs', serve, setup(swaggerDefinition))
+app.use('/api/v1', settingRouter)
 app.use('/api/v1', authRouter)
 app.use('/api/v1', userRouter)
 app.use('/api/v1', categoryRouter)
@@ -62,6 +57,7 @@ app.use('/api/v1', addressRouter)
 app.use('/api/v1', cartRouter)
 app.use('/api/v1', orderRouter)
 app.use('/api/v1', offerRouter)
+app.use('/api/v1', paymentRouter)
 
 app.all('/', async (req: Request, res: Response) => {
     return res.redirect('/api/v1/docs')

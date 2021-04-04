@@ -14,8 +14,8 @@ interface IOrderAttrs {
             totalPrice: number
         }
     ]
-    paymentStatus: PAYMENT_STATUS
-    paymentMethod: PAYMENT_METHOD
+    paymentStatus?: PAYMENT_STATUS
+    paymentMethod?: PAYMENT_METHOD
     orderStatus?: ORDER_STATUS
 }
 
@@ -69,11 +69,11 @@ const orderSchema = new Schema({
     ],
     paymentStatus: {
         type: String,
-        enum: Object.values(PAYMENT_STATUS), required: true
+        enum: Object.values(PAYMENT_STATUS), required: true, default: PAYMENT_STATUS.PENDING
     },
     paymentMethod: {
         type: String,
-        enum: Object.values(PAYMENT_METHOD), required: true
+        enum: Object.values(PAYMENT_METHOD)
     },
     orderStatus: {type: String, enum: Object.values(ORDER_STATUS), default: ORDER_STATUS.ORDERED},
     isCompleted: {type: Boolean, default: false},

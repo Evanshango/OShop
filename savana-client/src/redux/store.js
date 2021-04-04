@@ -11,6 +11,7 @@ import offerReducer from "./offers/offerReducer";
 import productItemReducer from "./product/productReducer";
 import userReducer from "./user/userReducer";
 import {composeWithDevTools} from "redux-devtools-extension";
+import paypalReducer from "./paypal/paypalReducer";
 
 const initialState = {}
 const middleware = [thunk]
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
     checkout: checkoutReducer,
     order: orderReducer,
     offer: offerReducer,
-    item: productItemReducer
+    item: productItemReducer,
+    paypal: paypalReducer
 })
 
 const {NODE_ENV} = process.env

@@ -8,9 +8,11 @@
 }
 
 .options {
-    display: flex;
-    padding: 1rem;
-    justify-content: space-between;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 2rem;
+    align-items: flex-start;
 }
 
 .options span label{
@@ -38,12 +40,69 @@
     margin-top: 1rem;
 }
 
+.mpesa{
+    width: 100%;
+    text-align: center;
+    background: #0EB520;
+    border-radius: 2rem;
+    cursor: pointer;
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mpesa img{
+    object-fit: cover;
+    width: 50%;
+    height: 2rem;
+    z-index: 10;
+}
+
+@media screen and (max-width: 878px) {
+    .options{
+        grid-template-columns: 1fr;
+    }
+
+    .mpesa{
+        height: 2.6rem;
+    }
+}
+
+@media screen and (max-width: 788px){
+    .mpesa{
+        height: 3rem;
+    }
+    .mpesa img {
+        width: 25%;
+    }
+}
+
+@media screen and (max-width: 608px){
+    .mpesa{
+        height: 2.7rem;
+    }
+    .mpesa img{
+        width: 40%;
+    }
+}
+
 @media screen and (max-width: 458px){
+    .mpesa {
+        height: 2.5rem;
+    }
     .options{
         flex-direction: column;
+        grid-gap: .5rem;
     }
 
     .options span{
         margin: .5rem 0;
+    }
+}
+
+@media screen and (max-width: 398px){
+    .mpesa img{
+        width: 50%;
     }
 }

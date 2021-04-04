@@ -2,6 +2,7 @@ import {ORDER} from "../types";
 
 const initialState = {
     loading: false,
+    order: {},
     orders: [],
     errors: []
 }
@@ -26,8 +27,11 @@ const orderReducer = (state = initialState, action) => {
             }
         case ORDER.ADD_ORDER_SUCCESS:
             return {
-                ...state, orders: [...state.orders, action.payload], loading: false, errors: []
+                ...state, order: action.payload, loading: false, errors: []
             }
+            // return {
+            //     ...state, orders: [...state.orders, action.payload], loading: false, errors: []
+            // }
         case ORDER.ADD_ORDER_ERROR:
             return {
                 ...state, loading: false, errors: action.payload, orders: []

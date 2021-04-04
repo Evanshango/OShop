@@ -5,12 +5,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {addCheckOutParam} from "../../api";
 import AddressDialog from "../address/AddressDialog";
 
-function Shipping({activateNext, index, checkout}) {
+function Shipping({index, checkout, finishOrder}) {
     const dispatch = useDispatch()
     const {addresses} = useSelector(state => state.address)
     const [addr, setAddr] = useState('')
     const [expanded, setExpanded] = useState(false)
     const [button, setButton] = useState(true)
+    const [showChange, setShowChange] = useState(false)
 
     useEffect(() => {
         addr ? setExpanded(false) : setExpanded(true)
@@ -18,12 +19,14 @@ function Shipping({activateNext, index, checkout}) {
 
     const handleAddressChange = address => {
         setAddr(address.id)
+        setShowChange(true)
         dispatch(addCheckOutParam({...checkout, address: address.id}))
     }
 
-    const nextStep = () => {
+    const clickNext = () => {
         setButton(false)
-        activateNext(index)
+        setShowChange(false)
+        finishOrder(index)
     }
 
     const showSelectedAddress = selectedAddress => (
@@ -38,6 +41,7 @@ function Shipping({activateNext, index, checkout}) {
     )
 
     const changeAddress = () => {
+        setAddr('')
         if (!expanded) setExpanded(true)
     }
 
@@ -51,7 +55,11 @@ function Shipping({activateNext, index, checkout}) {
                 )}
                 <div className={stylesOverall.header_area}>
                     <h4>Delivery Address</h4>
-                    <span className={stylesOverall.btn_change} onClick={() => changeAddress()}>Change</span>
+                    {addr !== '' && showChange &&
+                    <span className={stylesOverall.btn_change} onClick={() => changeAddress()}>
+                            Change
+                        </span>
+                    }
                 </div>
             </div>
             <hr/>
@@ -83,8 +91,14 @@ function Shipping({activateNext, index, checkout}) {
                     <>
                         {showSelectedAddress(addresses.find(address => address.id === addr))}
                         {button && (
-                            <button className={stylesOverall.btn_next} onClick={() => nextStep()}>Next</button>
+                            <div style={{padding: '2rem', textAlign: 'center'}}>
+                                <h4 style={{color: 'red'}}>
+                                    Click on the button below if this is your preferred delivery address
+                                </h4>
+                                <button className={stylesOverall.btn_next} onClick={clickNext}>Next</button>
+                            </div>
                         )}
+
                     </>
                 ) : (
                     <p>No Address Selected</p>
