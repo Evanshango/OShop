@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom'
 import styles from './Payment.module.css'
 import stylesOverall from './../../pages/checkout/Checkout.module.css'
@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {paypalPayment} from "../../api";
 import mPesa from '../../assets/images/mpesa.jpg'
 import {Dialog, DialogContent} from "@material-ui/core";
+import _ from 'lodash'
 
 const PayPalButton = window.paypal.Buttons['driver']('react', {React, ReactDOM})
 
@@ -16,45 +17,13 @@ const options = [
     {name: 'VISA', value: 'VISA'}
 ]
 
-function Payment({activateNext, index, checkout, next}) {
+function Payment({index}) {
 
-    const {payment} = useSelector(state => state.paypal)
     const {order} = useSelector(state => state.order)
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
-    const [mode, setMode] = useState('')
-    const [button, setButton] = useState(true)
-    const [expanded, setExpanded] = useState(false)
-    const [cancel, setCancel] = useState('')
 
     const handleClose = () => setOpen(false)
-
-    useEffect(() => {
-        mode ? setExpanded(false) : setExpanded(true)
-    }, [mode])
-
-    const nextStep = () => {
-        setButton(false)
-        activateNext(index)
-    }
-
-    const changeMethod = () => {
-        if (!expanded) setExpanded(true)
-    }
-
-    const renderOption = () => (
-        mode ? (<>
-                <p>You chose <b>{options.find(option => option.value === mode)?.name}</b> as your payment method</p>
-                <br/>
-            </>
-        ) : (
-            <h5>How do you want to pay for your order
-                <span style={{textTransform: 'uppercase', fontSize: '1.2rem', color: 'red', marginLeft: '.5rem'}}>
-                    #{order?.id}
-                </span>
-            </h5>
-        )
-    )
 
     const createOrder = async (dt, actions) => {
         return actions.order.create({
@@ -66,19 +35,19 @@ function Payment({activateNext, index, checkout, next}) {
                     breakdown: {
                         item_total: {
                             currency_code: "USD",
-                            value: "30.00"
+                            value: (Math.round(order.amount / 100)).toString()
                         },
                         shipping: {
                             currency_code: "USD",
-                            value: "10.00"
+                            value: "0.00"
                         },
                         handling: {
                             currency_code: "USD",
-                            value: "10.00"
+                            value: "0.00"
                         },
                         tax_total: {
                             currency_code: "USD",
-                            value: "20.00"
+                            value: "0.00"
                         },
                         shipping_discount: {
                             currency_code: "USD",
@@ -107,13 +76,12 @@ function Payment({activateNext, index, checkout, next}) {
                 method: 'PAYPAL'
             }
             dispatch(paypalPayment(payment))
-            // dispatch(addCheckOutParam({...checkout, payment: payment.value}))
         })
     };
 
     const onCancel = (orderID) => {
         if (orderID !== '') {
-            setCancel('Payment process cancelled')
+            console.log('Payment process cancelled')
         }
     }
 
@@ -134,9 +102,11 @@ function Payment({activateNext, index, checkout, next}) {
                 )
             case 'PAYPAL':
                 return (
-                    <PayPalButton style={{color: 'gold', shape: 'pill'}} onCancel={({orderID}) => onCancel(orderID)}
-                                  createOrder={(data, actions) => createOrder(data, actions)}
-                                  onApprove={(data, actions) => onApprove(data, actions)}/>
+                    <>
+                        <PayPalButton style={{color: 'gold', shape: 'pill'}} onCancel={({orderID}) => onCancel(orderID)}
+                                      createOrder={(data, actions) => createOrder(data, actions)}
+                                      onApprove={(data, actions) => onApprove(data, actions)}/>
+                    </>
                 )
             case 'VISA':
                 return <></>
@@ -150,30 +120,30 @@ function Payment({activateNext, index, checkout, next}) {
     return (
         <div className={styles.payment}>
             <div className={stylesOverall.header}>
-                {mode ? (
-                    <span className={stylesOverall.step_number}>&#10004;</span>
-                ) : (
-                    <span className={stylesOverall.step_number}>{index + 1}</span>
-                )}
+                <span className={stylesOverall.step_number}>{index + 1}</span>
                 <div className={stylesOverall.header_area}>
                     <h4>Payment Method</h4>
-                    <span className={stylesOverall.btn_change} onClick={() => changeMethod()}>Change</span>
                 </div>
             </div>
             <hr/>
-            <div className={stylesOverall.content}>
-                {renderOption()}
-                {next !== null && next === index && (
-                    <div className={expanded ? `${styles.options} ${stylesOverall.expanded}` :
-                        `${stylesOverall.un_expanded}`}>
+            {!_.isEmpty(order) && (
+                <div className={stylesOverall.content}>
+                    <h5>How do you want to pay for your order
+                        {!_.isEmpty(order) && (<span style={{textTransform: 'uppercase', fontSize: '1.2rem',
+                                color: 'red', marginLeft: '.5rem'}}>
+                        {`#${order.id}`}
+                    </span>
+                        )}
+                    </h5>
+                    <div className={styles.options}>
                         {options.map(option => (
                             <span key={option.name}>
                                     {renderOpt(option)}
-                                </span>
+                            </span>
                         ))}
                     </div>
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 }

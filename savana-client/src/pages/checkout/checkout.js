@@ -18,19 +18,17 @@ let steps = [
 function Checkout() {
     const dispatch = useDispatch()
     const [order, setOrder] = useState({})
-    const [nextIndex, setNextIndex] = useState(null)
-    const [showCheckout, setShowCheckout] = useState(false)
-    const [orderSuccess, setOrderSuccess] = useState(false)
+    // const [nextIndex, setNextIndex] = useState(null)
 
     const {checkout} = useSelector(state => state.checkout)
     const {products} = useSelector(state => state.cart)
-    const {loading, errors, order: newOrder} = useSelector(state => state.order)
+    const {payment} = useSelector(state => state.paypal)
     const {user} = useSelector(state => state.current)
 
-    const activateNext = (index) => {
-        const ind = index + 1 === steps.length ? (!_.isEmpty(user) ? 1 : 0) : index + 1
-        index + 1 === steps.length ? setShowCheckout(true) : setNextIndex(ind)
-    }
+    // const activateNext = (index) => {
+    //     const ind = index + 1 === steps.length ? (!_.isEmpty(user) ? 1 : 0) : index + 1
+    //     index + 1 === steps.length ? setShowCheckout(true) : setNextIndex(ind)
+    // }
 
     const total = Object.values(products).reduce((acc, curr) => acc + (curr.units * curr.finalPrice), 0)
 
@@ -43,27 +41,23 @@ function Checkout() {
         setOrder({amount: total, items})
     }, [products, checkout, user, total])
 
-    const finishOrder = (index) => {
+    const finishOrder = () => {
         const readyOrder = {...order, address: checkout.address, amount: total}
         dispatch(addOrder(readyOrder))
 
-        if (!loading && errors.length === 0 && !_.isEmpty(newOrder)){
-            activateNext(index)
-        }
-
-        // !loading && errors.length === 0 ? setOrderSuccess(true) : setOrderSuccess(false)
+        // if (!loading && errors.length === 0 && !_.isEmpty(newOrder)) {
+        //     activateNext(index)
+        // }
     }
 
     const renderContent = step => ((() => {
         switch (step.name) {
             case 'Signin':
-                return <Signin activateNext={activateNext} index={0} user={user}
-                               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} next={nextIndex}/>
+                return <Signin index={0} user={user} clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}/>
             case 'Delivery Address':
-                return <Shipping activateNext={activateNext} index={1} user={user} checkout={checkout}
-                                 next={nextIndex} order={order} finishOrder={finishOrder}/>
+                return <Shipping index={1} checkout={checkout} order={order} finishOrder={finishOrder}/>
             case 'Payment Method':
-                return <Payment activateNext={activateNext} index={2} user={user} checkout={checkout} next={nextIndex}/>
+                return <Payment index={2} user={user} checkout={checkout}/>
             default:
             // do nothing
         }
@@ -71,12 +65,15 @@ function Checkout() {
 
     return (
         <>
-            {orderSuccess ? (
+            {!_.isEmpty(payment) ? (
                 <div className={styles.order_content}>
                     <div className={styles.order_info}>
                         <AiOutlineCheckCircle/>
                         <h3>Thank you</h3>
                         <p>Congratulations, your order has been placed</p>
+                        <p>
+                            Your payment reference is <small style={{color: 'red'}}>{`#${payment.paymentRef}`}</small>
+                        </p>
                         <div className={styles.buttons}>
                             <li className={styles.btn_keep_shopping}>
                                 <Link to={'/products'}>
@@ -131,9 +128,6 @@ function Checkout() {
                                         <h4><small>Ksh.</small> {total.toFixed(2)}</h4>
                                     </div>
                                 </div>
-                                {/*{showCheckout && (*/}
-                                {/*    <button className={styles.complete_button} onClick={finishOrder}>Complete</button>*/}
-                                {/*)}*/}
                             </div>
                         </div>
                     ) : (

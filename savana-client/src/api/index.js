@@ -33,7 +33,7 @@ import {checkoutParams} from "../redux/checkout/checkoutActions";
 import {
     addOrderError,
     addOrderRequest,
-    addOrderSuccess,
+    addOrderSuccess, clearNewOrder,
     clearOrderError,
     fetchOrdersError,
     fetchOrdersRequest,
@@ -48,7 +48,13 @@ import {
 import _ from 'lodash'
 import {fetchProductError, fetchProductRequest, fetchProductSuccess} from "../redux/product/productActions";
 import {fetchUserError, fetchUserRequest, fetchUserSuccess} from "../redux/user/userActions";
-import {makePaypalPayError, makePaypalPayRequest, makePaypalPaySuccess} from "../redux/paypal/paypalActions";
+import {
+    clearPayment,
+    clearPaypalErrors,
+    makePaypalPayError,
+    makePaypalPayRequest,
+    makePaypalPaySuccess
+} from "../redux/paypal/paypalActions";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
@@ -212,7 +218,6 @@ export const addOrder = order => async dispatch => {
     dispatch(addOrderRequest())
     try {
         const {data} = await axios.post(`${BASE_URL}/orders`, order)
-        // dispatch(clearCartItems())
         dispatch(addOrderSuccess(data))
     } catch (err) {
         dispatchError(dispatch, err, addOrderError)
@@ -250,10 +255,16 @@ export const paypalPayment = payment => async dispatch => {
     try{
         const {data} = await axios.post(`${BASE_URL}/payments`, payment)
         dispatch(makePaypalPaySuccess(data))
+        dispatch(clearNewOrder())
+        dispatch(clearCartItems())
     } catch (err){
         dispatchError(dispatch, err, makePaypalPayError)
     }
 }
+
+export const clearPaymentError = () => dispatch => dispatch(clearPaypalErrors())
+
+export const clearPaymentValues = () => dispatch => dispatch(clearPayment())
 
 export const signOut = () => dispatch => {
     sessionStorage.removeItem('savana')

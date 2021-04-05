@@ -45,3 +45,9 @@ export const clearOrderError = () => {
         type: ORDER.CLEAR_ORDER_ERRORS
     }
 }
+
+export const clearNewOrder = () => {
+    return {
+        type: ORDER.CLEAR_NEW_ORDER
+    }
+}

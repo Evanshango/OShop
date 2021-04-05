@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './Account.module.css'
 import {AiOutlineHeart, AiOutlineProfile} from 'react-icons/ai'
 import {FiBox, FiLogOut, FiMapPin} from 'react-icons/fi'
 import {useDispatch, useSelector} from "react-redux";
-import {signOut} from "../../api";
+import {clearPaymentValues, signOut} from "../../api";
 import Profile from "../../components/profile/Profile";
 import Orders from "../../components/orders/Orders";
 import Auth from "../../components/auth/Auth";
+import _ from 'lodash'
 
 const navigation = [
     {id: 1, name: 'My Profile', icon: <AiOutlineProfile/>},
@@ -19,6 +20,7 @@ const navigation = [
 function Account({user}) {
     const dispatch = useDispatch()
     const {token} = useSelector(state => state.auth)
+    const {payment} = useSelector(state => state.paypal)
     const [activeIndex, setActiveIndex] = useState(0)
     const [nav, setNav] = useState(navigation[0])
 
@@ -26,6 +28,12 @@ function Account({user}) {
         setActiveIndex(index)
         item.name !== 'Signout' ? setNav(item) : dispatch(signOut())
     }
+
+    useEffect(() => {
+        if (!_.isEmpty(payment)){
+            dispatch(clearPaymentValues())
+        }
+    }, [dispatch, payment])
 
     const renderContent = (
         <span style={{padding: '1rem 0'}}>

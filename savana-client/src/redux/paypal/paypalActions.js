@@ -25,3 +25,9 @@ export const clearPaypalErrors = () => {
         type: PAYPAL.CLEAR_PAYMENT_ERROR
     }
 }
+
+export const clearPayment = () => {
+    return{
+        type: PAYPAL.CLEAR_PAYMENT_VALUES
+    }
+}

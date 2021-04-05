@@ -222,9 +222,9 @@
 .buttons li a, .action_buttons li a{
     color: #ffffff;
     padding: .6rem 2rem;
-    background: rgb(241, 196, 15);
-    background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
-    border-radius: 2rem;
+    /*background: rgb(241, 196, 15);*/
+    /*background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);*/
+    /*border-radius: 2rem;*/
 }
 
 .view_orders{

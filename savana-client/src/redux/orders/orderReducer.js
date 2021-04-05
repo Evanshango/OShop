@@ -36,6 +36,10 @@ const orderReducer = (state = initialState, action) => {
             return {
                 ...state, loading: false, errors: action.payload, orders: []
             }
+        case ORDER.CLEAR_NEW_ORDER:
+            return {
+                ...state, loading: false, errors: [], order: {}
+            }
         case ORDER.CLEAR_ORDER_ERRORS:
             return {
                 ...state, errors: []

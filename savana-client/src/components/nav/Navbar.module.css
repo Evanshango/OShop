@@ -191,7 +191,7 @@
         display: none;
         flex-direction: column;
         position: absolute;
-        top: 5.5rem;
+        top: 4rem;
         opacity: 1;
         justify-content: flex-start;
         align-items: flex-start;
@@ -236,6 +236,10 @@
 @media screen and (max-width: 878px){
     .nav_logo {
         margin-left: 2rem;
+    }
+
+    .nav_header{
+        margin-left: 0;
     }
 }
 

@@ -8,6 +8,7 @@ import axios from "axios";
 import store from "./redux/store";
 import {AUTH} from "./redux/types";
 import {useEffect, useState} from "react";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
 
@@ -34,12 +35,13 @@ function App() {
                 userProps({email, id, role})
             }
         }
-    }, [])
+    }, [token])
 
     const userProps = decodeToken => setUser(decodeToken)
 
     return (
         <Router>
+            <ScrollToTop/>
             {!token ? (
                 <Signin/>
             ) : (

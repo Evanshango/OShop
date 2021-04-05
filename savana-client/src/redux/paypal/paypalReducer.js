@@ -24,6 +24,10 @@ const paypalReducer = (state = initialState, action) => {
             return {
                 ...state, errors: []
             }
+        case PAYPAL.CLEAR_PAYMENT_VALUES:
+            return {
+                ...state, errors: [], loading: false, payment: {}
+            }
         default:
             return state
     }

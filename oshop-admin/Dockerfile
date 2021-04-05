@@ -9,7 +9,6 @@ RUN npm install --silent
 COPY . .
 
 ENV REACT_APP_BASE_URL='<BASE_URL>'
-
 ENV PATH /app/node_modules/.bin:$PATH
 
 RUN npm run build

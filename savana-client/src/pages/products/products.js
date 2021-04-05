@@ -1,12 +1,15 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './Products.module.css'
 import Search from "../../components/search/Search";
 import {categories} from "../../mocks/product-list";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Product from "../../components/product/Product";
 import Pagination from "../../components/pagination/Pagination";
+import {clearPaymentValues} from "../../api";
+import _ from 'lodash'
 
 function Products() {
+    const dispatch = useDispatch()
     const [page, setPage] = useState(1)
     const [sects, setSects] = useState([])
     const [cats, setCats] = useState([])
@@ -15,6 +18,7 @@ function Products() {
     const {sections} = useSelector(state => state.section)
     const {products} = useSelector(state => state.product)
     const {token} = useSelector(state => state.auth)
+    const {payment} = useSelector(state => state.paypal)
 
 
     const handleSectionChange = (name) => {
@@ -45,6 +49,12 @@ function Products() {
         currIndex < 0 ? checkedCats.push(category) : checkedCats.splice(currIndex, 1)
         setSelectedCat(checkedCats)
     }
+
+    useEffect(() => {
+        if (!_.isEmpty(payment)){
+            dispatch(clearPaymentValues())
+        }
+    }, [dispatch, payment])
 
     const handleFilter = () => {
         console.log(selectedCat)

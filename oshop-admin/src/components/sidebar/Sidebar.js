@@ -100,7 +100,12 @@ const Sidebar = ({sidebarOpen, closeSidebar, location: {pathname}}) => {
         <div className={sidebarOpen ? `${styles.sidebar} ${styles.sidebar_responsive}` : `${styles.sidebar}`}>
             <div className={styles.sidebar_title}>
                 <div className={styles.sidebar_img}>
-                    <h3>OSHO<span>P</span></h3>
+                    <Link to={'/'}>
+                        <span className={styles.nav_logo}>
+                            <small className={styles.p1}>Savana</small>
+                            <small><span>Collections</span></small>
+                        </span>
+                    </Link>
                 </div>
                 <span className={sidebarOpen ? `${styles.sidebar_icon} ${styles.open}` : `${styles.sidebar_icon}`}
                       onClick={() => closeSidebar()}>

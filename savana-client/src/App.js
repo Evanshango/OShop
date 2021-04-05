@@ -6,6 +6,7 @@ import {BrowserRouter as Router} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {fetchOffers, fetchProducts, fetchSections, setAuthenticationHeader, signOut, updateCart,} from "./api";
 import {authSuccess} from "./redux/auth/authActions";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
     const dispatch = useDispatch()
@@ -37,6 +38,7 @@ function App() {
 
     return (
         <Router>
+            <ScrollToTop/>
             <Content/>
         </Router>
     );
