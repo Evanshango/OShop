@@ -26,7 +26,7 @@ export class FileHandler {
             const params: PutObjectRequest = {
                 Bucket: BUCKET_NAME!,
                 Key: `oshop/${folder}/${randomBytes(15).toString('hex')}.${single[single.length - 1]}`,
-                ContentType: file.mimetype,
+                ContentType: file.mimetype, //TODO perform a fix here
                 Body: await sharp(file.buffer).resize(300, 300).toBuffer(),
                 ACL: 'public-read'
             }

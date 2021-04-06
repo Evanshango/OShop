@@ -91,12 +91,14 @@ function Home() {
                     </div>
                     <div className={styles.offer_cards}>
                         {offers && offers.map(offer => (
-                            <Link to={`/products/${offer.product.id}`} className={styles.card} key={offer.id} style={{
-                                backgroundImage: `linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), 
-                                url(${showImage(offer.product.images)})`}}>
-                                <h2 style={{textTransform: 'capitalize'}}>{offer.product.name}</h2>
-                                <h1 style={{color: '#fbb419'}}>{`${offer.product.discount}% off`}</h1>
-                            </Link>
+                            offer.product && (
+                                <Link to={`/products/${offer.product.id}`} className={styles.card} key={offer.id}
+                                      style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), 
+                                        url(${showImage(offer.product.images)})`}}>
+                                    <h2 style={{textTransform: 'capitalize'}}>{offer.product.name}</h2>
+                                    <h1 style={{color: '#fbb419'}}>{`${offer.product.discount}% off`}</h1>
+                                </Link>
+                            )
                         ))}
                     </div>
                 </div>

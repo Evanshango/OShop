@@ -52,7 +52,7 @@ export const updateProduct = async (req: Request, res: Response) => {
     const updateParams = {price, discount, name, stock, featured, section, description, category}
 
     const update = await Product.findByIdAndUpdate(product.id, updateParams, {new: true, runValidators: true})
-    console.log(update)
+    console.log(update) //todo remove this comment
     return res.send(update)
 }
 
