@@ -44,10 +44,6 @@ function Checkout() {
     const finishOrder = () => {
         const readyOrder = {...order, address: checkout.address, amount: total}
         dispatch(addOrder(readyOrder))
-
-        // if (!loading && errors.length === 0 && !_.isEmpty(newOrder)) {
-        //     activateNext(index)
-        // }
     }
 
     const renderContent = step => ((() => {

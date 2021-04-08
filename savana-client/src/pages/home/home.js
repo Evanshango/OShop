@@ -2,13 +2,15 @@ import React, {useEffect, useState} from 'react';
 import styles from "./Home.module.css";
 import Search from "../../components/search/Search";
 import Slider from "../../components/slider/Slider";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import _ from 'lodash'
 import Featured from "../../components/featured/Featured";
 import Latest from "../../components/latest/Latest";
 import {Link} from "react-router-dom";
+import {fetchProducts} from "../../api";
 
 function Home() {
+    const dispatch = useDispatch()
     const {products} = useSelector(state => state.product)
     const {offers} = useSelector(state => state.offer)
     const showImage = (images) => images && images[Math.floor(Math.random() * images.length)]
@@ -18,6 +20,10 @@ function Home() {
     const handleSubmit = e => {
         e.preventDefault()
     }
+
+    useEffect(() => {
+        dispatch(fetchProducts(1, 12))
+    }, [dispatch])
 
     useEffect(() => {
         setProduct(products && products[Math.floor(Math.random() * products.length)])
@@ -46,7 +52,9 @@ function Home() {
                                 url(${showImage(product.images)})`
                         }}>
                             <h2 className={styles.name}>{product.name}</h2>
-                            <h2 className={styles.discount_price}>{`${product.discount}% off`}</h2>
+                            {product.discount > 0 && <h2 className={styles.discount_price}>
+                                {`${product.discount}% off`}
+                            </h2>}
                             <li className={styles.buy_now}>
                                 <Link to={`/products/${product.id}`}>
                                     <span style={{color: '#232323'}}>Buy Now</span>
@@ -56,13 +64,11 @@ function Home() {
                     </div>
                 </Slider>
             )}
-            <div className="main_container">
-                <div className={styles.search}>
-                    <Search/>
-                </div>
-                <Featured/>
-                <Latest/>
+            <div className={styles.search}>
+                <Search/>
             </div>
+            <Featured/>
+            <Latest/>
             <div className={styles.banner}>
                 <div className={styles.banner_content}>
                     {!_.isEmpty(bannerProd) && (

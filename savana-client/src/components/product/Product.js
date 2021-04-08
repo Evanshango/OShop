@@ -23,7 +23,7 @@ const Product = ({product, token}) => {
     return (
         <div className={styles.product}>
             <div className={styles.product_header}>
-                <div className={styles.offer}>{`${product.discount} % off`}</div>
+                {product.discount > 0 && <div className={styles.offer}>{`${product.discount} % off`}</div>}
                 {product.images && showImage(product.images)}
                 <ul className={styles.icons}>
                     <h3>
@@ -46,8 +46,8 @@ const Product = ({product, token}) => {
                             <Rating rating={product.rating}/>
                         </div>
                         <h5 className={styles.price}>
-                            <span>Ksh. {product.price.toLocaleString()}</span> |
-                            Ksh. {product.finalPrice.toLocaleString()}
+                            <span>${product.price.toLocaleString()}</span> |
+                            ${product.finalPrice.toLocaleString()}
                         </h5>
                     </span>
                 </Link>

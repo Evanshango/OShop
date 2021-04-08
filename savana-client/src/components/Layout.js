@@ -13,6 +13,7 @@ function Layout() {
         <Switch>
             <Route path={'/'} exact component={Home}/>
             <Route path={'/products/:id'} exact component={Product}/>
+            <Route exact path={'/page/:pageNumber'} component={Products}/>
             <Route path={'/products'} component={Products}/>
             <Route path={'/account'} component={Account}/>
             <Route path={'/cart'} component={Cart}/>

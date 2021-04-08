@@ -17,7 +17,7 @@ const navigation = [
     {id: 5, name: 'Signout', icon: <FiLogOut/>}
 ]
 
-function Account({user}) {
+function Account() {
     const dispatch = useDispatch()
     const {token} = useSelector(state => state.auth)
     const {payment} = useSelector(state => state.paypal)
@@ -40,7 +40,7 @@ function Account({user}) {
             {(() => {
                 switch (nav.name) {
                     case "My Profile":
-                        return <Profile user={user}/>
+                        return <Profile/>
                     case 'My Orders':
                         return <Orders/>
                     case 'Wishlist':

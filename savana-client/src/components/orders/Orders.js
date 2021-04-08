@@ -12,6 +12,8 @@ function Orders() {
         return dt.toLocaleString()
     }
 
+    console.log(page)
+
     return (
         <div className={styles.content}>
             <table cellSpacing={0} cellPadding={0} className={styles.orders_table}>
@@ -37,7 +39,9 @@ function Orders() {
                 </tbody>
             </table>
             <div className={styles.pagination}>
-                <Pagination current={page} last={1000} range={2} onClick={setPage}/>
+                {orders && (
+                    <Pagination current={page} last={orders.length} range={1} onClick={setPage}/>
+                )}
             </div>
         </div>
     );

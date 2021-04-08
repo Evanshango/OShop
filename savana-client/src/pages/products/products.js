@@ -5,21 +5,22 @@ import {categories} from "../../mocks/product-list";
 import {useDispatch, useSelector} from "react-redux";
 import Product from "../../components/product/Product";
 import Pagination from "../../components/pagination/Pagination";
-import {clearPaymentValues} from "../../api";
+import {clearPaymentValues, fetchProducts} from "../../api";
 import _ from 'lodash'
 
-function Products() {
+function Products({match}) {
+    let pageNumber = match.params.pageNumber || 1
+
     const dispatch = useDispatch()
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(pageNumber)
     const [sects, setSects] = useState([])
     const [cats, setCats] = useState([])
     const [selectedCat, setSelectedCat] = useState([])
 
     const {sections} = useSelector(state => state.section)
-    const {products} = useSelector(state => state.product)
+    const {products, pages} = useSelector(state => state.product)
     const {token} = useSelector(state => state.auth)
     const {payment} = useSelector(state => state.paypal)
-
 
     const handleSectionChange = (name) => {
         const currIndex = sects.indexOf(name)
@@ -51,10 +52,14 @@ function Products() {
     }
 
     useEffect(() => {
-        if (!_.isEmpty(payment)){
+        if (!_.isEmpty(payment)) {
             dispatch(clearPaymentValues())
         }
     }, [dispatch, payment])
+
+    useEffect(() => {
+        dispatch(fetchProducts(page, 12))
+    }, [dispatch, pageNumber, page])
 
     const handleFilter = () => {
         console.log(selectedCat)
@@ -108,7 +113,9 @@ function Products() {
                     ))}
                 </div>
                 <div className={styles.pagination}>
-                    <Pagination current={page} last={1000} range={2} onClick={setPage}/>
+                    {products.length > 0 && (
+                        <Pagination current={page} pages={pages !== null && pages} onClick={setPage}/>
+                    )}
                 </div>
             </div>
         </div>

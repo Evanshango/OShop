@@ -33,7 +33,8 @@ import {checkoutParams} from "../redux/checkout/checkoutActions";
 import {
     addOrderError,
     addOrderRequest,
-    addOrderSuccess, clearNewOrder,
+    addOrderSuccess,
+    clearNewOrder,
     clearOrderError,
     fetchOrdersError,
     fetchOrdersRequest,
@@ -122,10 +123,10 @@ export const fetchSections = () => async dispatch => {
     }
 }
 
-export const fetchProducts = () => async dispatch => {
+export const fetchProducts = (page, limit) => async dispatch => {
     dispatch(fetchProductsRequest())
     try {
-        const {data} = await axios.get(`${BASE_URL}/products`)
+        const {data} = await axios.get(`${BASE_URL}/products?page=${page}&limit=${limit}`)
         dispatch(fetchProductsSuccess(data))
     } catch (err) {
         dispatchError(dispatch, err, fetchProductsError)
@@ -252,12 +253,12 @@ export const clearProductError = () => dispatch => dispatch(clearProductErrors()
 
 export const paypalPayment = payment => async dispatch => {
     dispatch(makePaypalPayRequest())
-    try{
+    try {
         const {data} = await axios.post(`${BASE_URL}/payments`, payment)
         dispatch(makePaypalPaySuccess(data))
         dispatch(clearNewOrder())
         dispatch(clearCartItems())
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, makePaypalPayError)
     }
 }
@@ -274,4 +275,5 @@ export const signOut = () => dispatch => {
     dispatch(fetchCartSuccess({}))
     dispatch(authSuccess(''))
     dispatch(fetchUserSuccess({}))
+    dispatch(clearNewOrder())
 }

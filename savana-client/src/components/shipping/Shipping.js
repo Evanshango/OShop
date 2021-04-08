@@ -8,6 +8,7 @@ import AddressDialog from "../address/AddressDialog";
 function Shipping({index, checkout, finishOrder}) {
     const dispatch = useDispatch()
     const {addresses} = useSelector(state => state.address)
+    const {token} = useSelector(state => state.auth)
     const [addr, setAddr] = useState('')
     const [expanded, setExpanded] = useState(false)
     const [button, setButton] = useState(true)
@@ -81,10 +82,12 @@ function Shipping({index, checkout, finishOrder}) {
                     </div>
                 ))
             ) : (
-                <div className={styles.add_address_area}>
-                    <p style={{margin: '1rem 0'}}>You don't have any addresses yet. Click to add</p>
-                    <AddressDialog/>
-                </div>
+                token && (
+                    <div className={styles.add_address_area}>
+                        <p style={{margin: '1rem 0'}}>You don't have any addresses yet. Click to add</p>
+                        <AddressDialog/>
+                    </div>
+                )
             )}
             <div className={stylesOverall.content}>
                 {addr ? (

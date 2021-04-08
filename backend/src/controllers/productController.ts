@@ -4,6 +4,7 @@ import {BadRequestError} from "../errors/bad-request-error";
 import {FileHandler} from "../helpers/file-handler";
 import {NotFoundError} from "../errors/not-found-error";
 import mongoose from "mongoose";
+import {Pagination} from "../helpers/pagination";
 
 const checkProduct = async (req: Request) => {
     const {id} = req.params
@@ -12,8 +13,14 @@ const checkProduct = async (req: Request) => {
 }
 
 export const fetchProducts = async (req: Request, res: Response) => {
-    const products = await Product.find({}).sort('-createdAt')
-    res.send(products)
+    const {results, pages, page, count} = await Pagination.paginatedResults(Product, req.query)
+
+    return res.status(200).json({
+        count,
+        page,
+        pages,
+        products: results
+    })
 }
 
 export const addProduct = async (req: Request, res: Response) => {

@@ -45,7 +45,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: .3rem 0;
+}
 
+.filter_header h2{
+    font-size: 1rem;
 }
 
 .filter_header button {
@@ -123,8 +127,8 @@
     margin: 0 0 2rem 0;
     width: 90%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 2rem;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1.5rem;
 }
 
 .pagination {
@@ -146,6 +150,12 @@
         width: 100%;
         display: flex;
         justify-content: center;
+    }
+}
+
+@media screen and (max-width: 1638px){
+    .product_items{
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 

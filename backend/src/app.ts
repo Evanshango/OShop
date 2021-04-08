@@ -1,6 +1,5 @@
 import express, {json, Request, Response} from 'express'
 import 'express-async-errors'
-import cookieSession from 'cookie-session'
 import cors from 'cors'
 import morgan from 'morgan'
 import multer from 'multer'

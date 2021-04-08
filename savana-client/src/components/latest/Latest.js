@@ -9,13 +9,15 @@ const Latest = () => {
     const getRandomElements = (prods, limit) => prods.sort(() => Math.random() - Math.random()).slice(0, limit)
 
     return (
-        <>
+        <div className={styles.latest_container}>
             <div className={styles.title}>
                 <h5>Latest Products</h5>
             </div>
-            <div className={styles.latest_center}>
+            <div className={styles.content_area}>
                 {products && getRandomElements(products, 10).map(product => (
-                    <Product product={product} key={product.id}/>
+                    <li key={product.id}>
+                        <Product product={product} key={product.id}/>
+                    </li>
                 ))}
             </div>
             <div className={styles.show_more}>
@@ -23,7 +25,7 @@ const Latest = () => {
                     <button>Show More</button>
                 )}
             </div>
-        </>
+        </div>
     )
 }
 
