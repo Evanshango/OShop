@@ -18,28 +18,29 @@ const truncate = (name: string, n: number) => name?.length > n ? name.substr(0, 
 export class FileHandler {
     static async upload(files: any, name: string) {
         let folder = folderName(name)
-        console.log(folder)
-
         let urls: string[] = []
         const results = await Promise.all(files.map(async (file: any) => {
+
             const single = file.originalname.split('.')
+            const extension = single[single.length - 1].toLowerCase()
+
             const params: PutObjectRequest = {
                 Bucket: BUCKET_NAME!,
-                Key: `oshop/${folder}/${randomBytes(15).toString('hex')}.${single[single.length - 1]}`,
-                ContentType: file.mimetype, //TODO perform a fix here
+                Key: `oshop/${folder}/${randomBytes(10).toString('hex')}.${extension}`,
+                ContentType: file.mimetype,
                 Body: await sharp(file.buffer).resize(300, 300).toBuffer(),
                 ACL: 'public-read'
             }
             return s3.upload(params).promise()
         }))
-        results.map((result: any) => urls.push(result.Location))
+        await results.map((result: any) => urls.push(result.Location))
         return urls
     }
 
     static async delete(urls: string[], name: string) {
         let folder = folderName(name)
-
-        let results: any = await Promise.all(urls.map((url: string) => {
+        let results: any
+        await Promise.all(urls.map((url: string) => {
             const urlParts = url.split('/')
             const params: DeleteObjectRequest = {
                 Bucket: BUCKET_NAME!,

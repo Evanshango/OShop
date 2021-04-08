@@ -83,6 +83,8 @@ const productSchema = new Schema({
     }
 })
 
+productSchema.index({'$**': 'text'}, {weights: {'$**': 3}})
+
 productSchema.statics.build = (attrs: IProductAttrs) => (new Product(attrs))
 
 productSchema.statics.countSections = async function (categoryId){

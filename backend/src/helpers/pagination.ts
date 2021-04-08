@@ -3,8 +3,18 @@ import {NotFoundError} from "../errors/not-found-error";
 
 export class Pagination {
     static async paginatedResults(model: Model<any>, queryParams: any) {
-        const {page, limit} = queryParams
-        let query = model.find()
+        const {page, limit, search, field} = queryParams
+        const pattern = search !== undefined && new RegExp(`^${search}`, 'i')
+        let fieldName = field !== undefined ? field : 'name'
+
+        let searchQuery: any = {}
+        if (pattern){
+            searchQuery[fieldName] = {$regex: pattern}
+        }
+
+        console.log('query', searchQuery)
+
+        let query = searchQuery !== {} ? model.find(searchQuery) : model.find()
         let currPage: number, pageSize: number
 
         currPage = parseInt(page) || 1

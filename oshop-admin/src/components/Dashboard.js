@@ -71,10 +71,10 @@ function Dashboard() {
             </div>
             <div className={styles.content}>
                 <div className={styles.recent_orders}>
-                   <div className={styles.recent_orders_top}>
-                       <h3>Recent Orders</h3>
-                       <button className={styles.view_all_button} onClick={() => loadMore()}>View All</button>
-                   </div>
+                    <div className={styles.recent_orders_top}>
+                        <h3>Recent Orders</h3>
+                        <button className={styles.view_all_button} onClick={() => loadMore()}>View All</button>
+                    </div>
                     <div style={{overflowX: 'auto'}}>
                         <table width='100%' cellPadding={0} cellSpacing={0} className={styles.orders_table}>
                             <thead>
@@ -85,7 +85,7 @@ function Dashboard() {
                                 <th>Order Date</th>
                                 <th>Delivery Date</th>
                                 <th>Payment Status</th>
-                                <th>Total</th>
+                                <th>Total (USD)</th>
                                 <th>Order Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -95,7 +95,11 @@ function Dashboard() {
                                 <tr key={order.id}>
                                     <td>{index + 1}</td>
                                     <td>{order.id}</td>
-                                    <td><small>{order.paymentMethod}</small></td>
+                                    <td>
+                                        <small className={order.paymentMethod === 'PAYPAL' ? `${styles.paypal}`
+                                            : `${styles.mpesa}`}>{order.paymentMethod}
+                                        </small>
+                                    </td>
                                     <td><small>{formatDate(order.createdAt)}</small></td>
                                     <td>*TODO*</td>
                                     <td className={order.paymentStatus === 'COMPLETED' ? `${styles.pay_complete}`
@@ -103,7 +107,7 @@ function Dashboard() {
                                         <small>{order.paymentStatus}</small>
                                     </td>
                                     <td style={{fontWeight: 'bold', textAlign: 'center'}}>
-                                        {`Ksh. ${order.amount.toLocaleString()}`}
+                                        {`$${order.amount.toLocaleString()}`}
                                     </td>
                                     <td>{order.orderStatus}</td>
                                     <td>Edit/ Delete</td>

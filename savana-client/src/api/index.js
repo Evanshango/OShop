@@ -267,6 +267,16 @@ export const clearPaymentError = () => dispatch => dispatch(clearPaypalErrors())
 
 export const clearPaymentValues = () => dispatch => dispatch(clearPayment())
 
+export const searchProducts = searchTerm => async dispatch => {
+    dispatch(fetchProductsRequest())
+    try{
+        const {data} = await axios.get(`${BASE_URL}/products?search=${searchTerm}`)
+        dispatch(fetchProductsSuccess(data))
+    } catch (err){
+        dispatchError(dispatch, err, fetchProductError)
+    }
+}
+
 export const signOut = () => dispatch => {
     sessionStorage.removeItem('savana')
     delete axios.defaults.headers['common']['Authorization']

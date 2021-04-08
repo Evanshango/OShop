@@ -3,6 +3,9 @@ import {PRODUCTS} from "../types";
 const initialState = {
     loading: false,
     products: [],
+    count: null,
+    page: null,
+    pages: null,
     errors: []
 }
 
@@ -13,12 +16,13 @@ const productReducer = (state = initialState, action) => {
                 ...state, loading: true
             }
         case PRODUCTS.PRODUCTS_SUCCESS:
+            const {products, count, page, pages} = action.payload
             return {
-                ...state, products: action.payload, errors: [], loading: false
+                ...state, loading: false, products: products, count, page, pages, errors: []
             }
         case PRODUCTS.PRODUCTS_ERROR:
             return {
-                ...state, products: [], errors: action.payload, loading: false
+                ...state, errors: action.payload, loading: false, products: [], count: null, page: null, pages: null
             }
         case PRODUCTS.ADD_PRODUCT_REQUEST:
             return {

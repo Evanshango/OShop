@@ -35,10 +35,13 @@ export const addProduct = async (req: Request, res: Response) => {
     const createdBy = req['user']!.id
     const images = await FileHandler.upload(req.files, name)
 
+    if (images.length < 1) throw new BadRequestError('A product must have at least one image')
+
     const product = Product.build({
         name, price, stock, section, category, discount, discountPrice,
         finalPrice, description, images, createdBy, featured
     })
+
     await product.save()
     const newProduct = await Product.findById(product.id)
     return res.send(newProduct)
@@ -47,7 +50,6 @@ export const addProduct = async (req: Request, res: Response) => {
 export const fetchProduct = async (req: Request, res: Response) => {
     const product = await checkProduct(req)
     if (!product) throw new NotFoundError('Product')
-
     res.send(product)
 }
 
@@ -59,7 +61,6 @@ export const updateProduct = async (req: Request, res: Response) => {
     const updateParams = {price, discount, name, stock, featured, section, description, category}
 
     const update = await Product.findByIdAndUpdate(product.id, updateParams, {new: true, runValidators: true})
-    console.log(update) //todo remove this comment
     return res.send(update)
 }
 
@@ -69,12 +70,9 @@ export const deleteProduct = async (req: Request, res: Response) => {
 
     const result = await FileHandler.delete(product.images, product.name)
 
-    if (Object.keys(result[0]).length === 0) {
+    if (Object.values(result)[0] === null || Object.values(result)[1] === {}) {
         await Product.findByIdAndDelete(product.id)
-
-        return res.status(200).send({
-            message: 'Product deleted'
-        })
+        return res.send({id: product.id})
     } else {
         throw new BadRequestError('An error occurred deleting the product')
     }

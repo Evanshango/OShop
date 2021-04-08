@@ -14,6 +14,7 @@
     display: inline-block;
     position: relative;
     z-index: 0;
+    font-weight: 500;
 }
 
 .title h5::after {
@@ -79,18 +80,25 @@
     }
 }
 
-@media screen and (max-width: 1098px){
-    .latest_container{
+@media screen and (max-width: 1098px) {
+    .latest_container {
         max-width: 90%;
     }
 
-    .content_area{
+    .content_area {
         grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
     }
 }
 
-@media screen and (max-width: 778px) {
-    .content_area{
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+@media screen and (max-width: 878px) {
+    .content_area {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (max-width: 578px) {
+    .content_area {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

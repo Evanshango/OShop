@@ -38,7 +38,7 @@ function OfferDialog({productId}) {
                 <DialogContent>
                     <div className={styles.product_info}>
                         <h4>{product.name}</h4>
-                        <h5><small>Ksh.</small> {product.finalPrice?.toFixed(2)}</h5>
+                        <h5><small>$</small> {product.finalPrice?.toFixed(2)}</h5>
                     </div>
                     <p className={styles.duration_label}>Duration*</p>
                     <select name="offer" className={styles.offer_duration}

@@ -10,7 +10,7 @@ import Input from "../../input/Input";
 
 const ProductDialog = ({data}) => {
     const dispatch = useDispatch()
-    const {products, errors: prodErrors} = useSelector(state => state.product)
+    const {products, errors: prodErrors, loading} = useSelector(state => state.product)
     const {sections} = useSelector(state => state.section)
     const fileRef = createRef()
 
@@ -90,8 +90,13 @@ const ProductDialog = ({data}) => {
             images.forEach(image => formData.append('image', image))
             dispatch(addProduct(formData))
         }
-        clearInputs()
     }
+
+    useEffect(() => {
+        if (!loading){
+            closeDialog()
+        }
+    }, [loading])
 
     const formatPrice = () => {
         const value = parseFloat(product.price)

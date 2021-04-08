@@ -4,12 +4,14 @@ import Search from "../../components/search/Search";
 import {categories} from "../../mocks/product-list";
 import {useDispatch, useSelector} from "react-redux";
 import Product from "../../components/product/Product";
-import Pagination from "../../components/pagination/Pagination";
-import {clearPaymentValues, fetchProducts} from "../../api";
+import {clearPaymentValues, fetchProducts, searchProducts} from "../../api";
 import _ from 'lodash'
+import Pagination from "../../components/pagination/Pagination";
+import {useHistory} from 'react-router-dom'
 
 function Products({match}) {
     let pageNumber = match.params.pageNumber || 1
+    const {location} = useHistory()
 
     const dispatch = useDispatch()
     const [page, setPage] = useState(pageNumber)
@@ -52,14 +54,25 @@ function Products({match}) {
     }
 
     useEffect(() => {
+        const query = new URLSearchParams(location.search)
+        const searchQuery = query.get('search')
+        if (searchQuery){
+            dispatch(searchProducts(searchQuery))
+        } else {
+            dispatch(fetchProducts(page, 12))
+        }
+    }, [location, dispatch, page])
+
+    useEffect(() => {
         if (!_.isEmpty(payment)) {
             dispatch(clearPaymentValues())
         }
     }, [dispatch, payment])
 
-    useEffect(() => {
-        dispatch(fetchProducts(page, 12))
-    }, [dispatch, pageNumber, page])
+    // useEffect(() => {
+    //     dispatch(fetchProducts(page, 12))
+    //     window.scrollTo(0, 0)
+    // }, [dispatch, pageNumber, page])
 
     const handleFilter = () => {
         console.log(selectedCat)
@@ -106,10 +119,12 @@ function Products({match}) {
                 </ul>
             </div>
             {/*Products area*/}
-            <div className={styles.products}>
-                <div className={styles.product_items}>
-                    {products.length > 0 && products.map(product => (
-                        <Product product={product} key={product.id} token={token}/>
+            <div>
+                <div className={styles.content_area}>
+                    {products && products.map(product => (
+                        <li key={product.id} className={styles.product_items}>
+                            <Product product={product} key={product.id} token={token}/>
+                        </li>
                     ))}
                 </div>
                 <div className={styles.pagination}>

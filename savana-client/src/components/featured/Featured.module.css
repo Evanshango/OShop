@@ -13,6 +13,7 @@
     display: inline-block;
     position: relative;
     z-index: 0;
+    font-weight: 500;
 }
 
 .title h5::after {
@@ -101,10 +102,6 @@
     .featured_container {
         width: 85%;
     }
-
-    .content_area {
-        grid-auto-columns: calc(220px - var(--gutter) * 0);
-    }
 }
 
 @media screen and (max-width: 1278px) {
@@ -119,20 +116,12 @@
     }
 
     .featured_content {
-        /*margin: 0;*/
         margin-bottom: 0;
-    }
-}
-
-@media screen and (max-width: 748px) {
-    .content_area{
-        grid-gap: 0;
     }
 }
 
 @media screen and (max-width: 638px) {
     .content_area {
-        grid-auto-columns: calc(200px - var(--gutter) * 0) !important;
         grid-gap: 1rem;
     }
 }

@@ -19,7 +19,6 @@ function Featured() {
     }
 
     const featured = () => products && products.filter(p => p.featured)
-
     // const getRandomElements = (prods, limit) => prods.sort(() => Math.random() - Math.random()).slice(0, limit)
 
     return (

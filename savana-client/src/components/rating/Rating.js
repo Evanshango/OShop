@@ -19,7 +19,7 @@ const Rating = ({rating}) => {
 
     return(
         <small style={{display: 'flex', alignItems: 'center'}}>
-            {stars} {rating > 0 ? `(${formatRating()})`: ' No ratings'}
+            {stars} {rating > 0 ? `(${formatRating()})`: ''}
         </small>
     )
 }
