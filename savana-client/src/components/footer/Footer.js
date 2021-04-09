@@ -48,7 +48,7 @@ function Footer() {
                             <Twitter/>
                         </a>
                     </div>
-                    <p>© Copyright {new Date().getFullYear()} <b>Savana Collections</b>. All Rights Reserved</p>
+                    <p>© Copyright {new Date().getFullYear()} <b>Savana Treasures</b>. All Rights Reserved</p>
                 </div>
             </div>
         </footer>

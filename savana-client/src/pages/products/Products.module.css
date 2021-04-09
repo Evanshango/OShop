@@ -32,8 +32,8 @@
 
 .categories ul li label small {
     margin-left: .2rem;
-    font-weight: bold;
-    font-size: .8rem;
+    font-weight: 500;
+    font-size: .9rem;
 }
 
 .categories hr {

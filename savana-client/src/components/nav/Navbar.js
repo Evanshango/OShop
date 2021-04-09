@@ -22,7 +22,7 @@ function Navbar() {
                         <Link to={'/'}>
                             <span className={styles.nav_logo}>
                                 <small className={styles.p1}>Savana</small>
-                                <small><span>Collections</span></small>
+                                <small><span>Treasures</span></small>
                             </span>
                         </Link>
                     </div>

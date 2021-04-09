@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from './Products.module.css'
 import Search from "../../components/search/Search";
-import {categories} from "../../mocks/product-list";
 import {useDispatch, useSelector} from "react-redux";
 import Product from "../../components/product/Product";
 import {clearPaymentValues, fetchProducts, searchProducts} from "../../api";
@@ -20,6 +19,7 @@ function Products({match}) {
     const [selectedCat, setSelectedCat] = useState([])
 
     const {sections} = useSelector(state => state.section)
+    const {categories} = useSelector(state => state.category)
     const {products, pages} = useSelector(state => state.product)
     const {token} = useSelector(state => state.auth)
     const {payment} = useSelector(state => state.paypal)
@@ -35,14 +35,16 @@ function Products({match}) {
     const removeSecAndCat = (sections, currIndex) => {
         const deleted = sections.splice(currIndex, 1)
         setSects(sections)
-        const res = selectedCat.filter(cat => cat.section !== deleted[0])
+        const res = selectedCat.filter(cat => cat.section.name !== deleted[0])
         setSelectedCat(res)
     }
 
     const fetchCats = sections => {
         let cats = []
-        sections.forEach(sec => cats.push(...categories.filter(cat => cat.section === sec)))
-        setCats(cats)
+        if (categories.length > 0) {
+            sections.forEach(sec => cats.push(...categories.filter(cat => cat.section.name === sec)))
+            setCats(cats)
+        }
     }
 
     const handleCategoryChange = category => {
@@ -56,11 +58,12 @@ function Products({match}) {
     useEffect(() => {
         const query = new URLSearchParams(location.search)
         const searchQuery = query.get('search')
-        if (searchQuery){
+        if (searchQuery) {
             dispatch(searchProducts(searchQuery))
         } else {
             dispatch(fetchProducts(page, 12))
         }
+        window.scrollTo(0, 0)
     }, [location, dispatch, page])
 
     useEffect(() => {
@@ -68,11 +71,6 @@ function Products({match}) {
             dispatch(clearPaymentValues())
         }
     }, [dispatch, payment])
-
-    // useEffect(() => {
-    //     dispatch(fetchProducts(page, 12))
-    //     window.scrollTo(0, 0)
-    // }, [dispatch, pageNumber, page])
 
     const handleFilter = () => {
         console.log(selectedCat)
@@ -112,11 +110,21 @@ function Products({match}) {
                                    onChange={() => handleCategoryChange(category)}/>
                             <label htmlFor="category">
                                 <span>{category.name}</span>
-                                <small>({category.count})</small>
+                                <small>({category.productCount})</small>
                             </label>
                         </li>
                     ))}
                 </ul>
+                {selectedCat.length > 0 && (
+                    <p>getting filter for (
+                        <>
+                            {selectedCat.map(filter => (
+                                <small key={filter.name}
+                                       style={{marginRight: '.5rem', color: 'red'}}>{filter.name},</small>
+                            ))}
+                        </>)
+                    </p>
+                )}
             </div>
             {/*Products area*/}
             <div>

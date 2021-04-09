@@ -56,6 +56,11 @@ import {
     makePaypalPayRequest,
     makePaypalPaySuccess
 } from "../redux/paypal/paypalActions";
+import {
+    fetchCategoriesError,
+    fetchCategoriesRequest,
+    fetchCategoriesSuccess
+} from "../redux/categories/categoryActions";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
@@ -120,6 +125,16 @@ export const fetchSections = () => async dispatch => {
         dispatch(fetchSectionsSuccess(data))
     } catch (err) {
         dispatchError(dispatch, err, fetchSectionsError)
+    }
+}
+
+export const fetchCategories = () => async dispatch => {
+    dispatch(fetchCategoriesRequest())
+    try {
+        const {data} = await axios.get(`${BASE_URL}/categories`)
+        dispatch(fetchCategoriesSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, fetchCategoriesError)
     }
 }
 
@@ -269,10 +284,10 @@ export const clearPaymentValues = () => dispatch => dispatch(clearPayment())
 
 export const searchProducts = searchTerm => async dispatch => {
     dispatch(fetchProductsRequest())
-    try{
+    try {
         const {data} = await axios.get(`${BASE_URL}/products?search=${searchTerm}`)
         dispatch(fetchProductsSuccess(data))
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, fetchProductError)
     }
 }

@@ -2,6 +2,7 @@ import styles from './Latest.module.css'
 import React from "react";
 import {useSelector} from "react-redux";
 import Product from "../product/Product";
+import {Link} from "react-router-dom";
 
 const Latest = () => {
     const {products} = useSelector(state => state.product)
@@ -22,7 +23,11 @@ const Latest = () => {
             </div>
             <div className={styles.show_more}>
                 {products && products.length > 10 && (
-                    <button>Show More</button>
+                    <li className={styles.btn_show_more}>
+                        <Link to={'/products'}>
+                            <span>Show More</span>
+                        </Link>
+                    </li>
                 )}
             </div>
         </div>

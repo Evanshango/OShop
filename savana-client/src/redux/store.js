@@ -12,6 +12,7 @@ import productItemReducer from "./product/productReducer";
 import userReducer from "./user/userReducer";
 import {composeWithDevTools} from "redux-devtools-extension";
 import paypalReducer from "./paypal/paypalReducer";
+import categoryReducer from "./categories/categoryReducer";
 
 const initialState = {}
 const middleware = [thunk]
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     current: userReducer,
     section: sectionReducer,
+    category: categoryReducer,
     product: productReducer,
     address: addressReducer,
     cart: cartReducer,

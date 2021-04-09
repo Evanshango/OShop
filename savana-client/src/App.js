@@ -4,7 +4,7 @@ import jwtDecode from "jwt-decode";
 import Content from "./components/Content";
 import {BrowserRouter as Router} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {fetchOffers, fetchSections, setAuthenticationHeader, signOut, updateCart,} from "./api";
+import {fetchCategories, fetchOffers, fetchSections, setAuthenticationHeader, signOut, updateCart,} from "./api";
 import {authSuccess} from "./redux/auth/authActions";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -32,6 +32,7 @@ function App() {
 
     useEffect(() => {
         dispatch(fetchSections())
+        dispatch(fetchCategories())
         dispatch(fetchOffers())
     }, [dispatch])
 

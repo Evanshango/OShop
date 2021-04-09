@@ -41,12 +41,16 @@
     justify-content: center;
 }
 
-.show_more {
+.show_more{
+    padding-bottom: 1rem;
+}
+
+.btn_show_more {
     text-align: center;
     padding: 3rem;
 }
 
-.show_more button {
+.btn_show_more a{
     background: rgb(241, 196, 15);
     background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
     color: #ffffff;
@@ -56,15 +60,10 @@
     cursor: pointer;
     font-size: 14px;
     letter-spacing: 1px;
-    padding: .7rem 1rem;
+    padding: .7rem 2rem;
 }
 
-.show_more button:focus {
-    border: none;
-    outline: none;
-}
-
-.show_more button:hover {
+.btn_show_more:hover {
     transform: scale(1.1);
 }
 
