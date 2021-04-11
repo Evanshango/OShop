@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
 import styles from './Products.module.css'
-import Search from "../../components/search/Search";
-import {useDispatch, useSelector} from "react-redux";
-import Product from "../../components/product/Product";
-import {clearPaymentValues, fetchProducts, searchProducts} from "../../api";
+import Search from "../../components/search/Search"
+import {useDispatch, useSelector} from "react-redux"
+import {clearPaymentValues, fetchProducts, searchProducts} from "../../api"
 import _ from 'lodash'
-import Pagination from "../../components/pagination/Pagination";
+import Pagination from "../../components/pagination/Pagination"
 import {useHistory} from 'react-router-dom'
+import Product from '../../components/product/Product'
 
 function Products({match}) {
     let pageNumber = match.params.pageNumber || 1
@@ -31,6 +31,7 @@ function Products({match}) {
         fetchCats(checkedSects)
         setSects(checkedSects)
     }
+
 
     const removeSecAndCat = (sections, currIndex) => {
         const deleted = sections.splice(currIndex, 1)
@@ -128,11 +129,11 @@ function Products({match}) {
             </div>
             {/*Products area*/}
             <div>
-                <div className={styles.content_area}>
+                <div className={styles.items}>
                     {products && products.map(product => (
-                        <li key={product.id} className={styles.product_items}>
-                            <Product product={product} key={product.id} token={token}/>
-                        </li>
+                        <div className={styles.child} key={product.id}>
+                            <Product product={product} token={token}/>
+                        </div>
                     ))}
                 </div>
                 <div className={styles.pagination}>

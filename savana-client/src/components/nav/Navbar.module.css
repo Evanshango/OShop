@@ -251,9 +251,18 @@
 
 @media screen and (max-width: 567px) {
     .nav_center{
-        grid-template-columns: 4fr 1fr;
+        grid-template-columns: 3fr 1fr;
     }
     .search_area{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 238px) {
+    .nav{
+        padding: 1rem;
+    }
+    .nav_logo{
         display: none;
     }
 }

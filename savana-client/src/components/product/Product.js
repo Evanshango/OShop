@@ -1,13 +1,17 @@
-import styles from './Product.module.css';
-import {MdAddShoppingCart} from 'react-icons/md'
-import {AiOutlineEye, AiOutlineHeart} from "react-icons/ai";
-import {useDispatch} from "react-redux";
-import {addCartItem} from "../../api";
-import {Link} from "react-router-dom";
-import Rating from "../rating/Rating";
+import React from 'react'
+import styles from './Product.module.css'
+import Rating from "../rating/Rating"
+import {Link} from "react-router-dom"
+import {AiOutlineEye, AiOutlineHeart} from "react-icons/ai"
+import {MdAddShoppingCart} from "react-icons/md"
+import {addCartItem} from "../../api"
+import {useDispatch} from "react-redux"
 
-const Product = ({product, token}) => {
+function Product({product, token}) {
     const dispatch = useDispatch()
+
+    const showImage = (images) => <img src={images[Math.floor(Math.random() * images.length)]} alt=""
+                                       className={styles.card_image}/>
 
     const truncate = (word, n) => word?.length > n ? `${word.substr(0, n - 1)}...` : word
 
@@ -18,11 +22,9 @@ const Product = ({product, token}) => {
         dispatch(addCartItem(item, 1, token))
     }
 
-    const showImage = (images) => <img src={images[Math.floor(Math.random() * images.length)]} alt=""/>
-
     return (
-        <div className={styles.product}>
-            <div className={styles.product_header}>
+        <div className={styles.card}>
+            <div className={styles.card_header}>
                 {product.discount > 0 && <div className={styles.offer}>{`${product.discount} % off`}</div>}
                 {product.images && showImage(product.images)}
                 <ul className={styles.icons}>
@@ -34,26 +36,24 @@ const Product = ({product, token}) => {
                     {product.stock > 0 && <h3 onClick={event => addToCart(product, event)}><MdAddShoppingCart/></h3>}
                     <h3><AiOutlineHeart onClick={() => console.log('Adding to Wishlist')}/></h3>
                 </ul>
-                <div className={product.stock > 0 ? `${styles.in_stock}` : `${styles.out_stock}`}>
-                    {product.stock > 0 ? 'in stock' : 'out of stock'}
-                </div>
             </div>
-            <div className={styles.product_footer}>
+            <div className={styles.card_info}>
                 <Link to={`/products/${product.id}`}>
-                    <span>
-                        <h5 style={{textTransform: 'capitalize'}}>{truncate(product.name, 20)}</h5>
-                        <div className={styles.ratings}>
-                            <Rating rating={product.rating}/>
-                        </div>
-                        <h5 className={styles.price}>
-                            <span>${product.price.toLocaleString()}</span> |
-                            ${product.finalPrice.toLocaleString()}
-                        </h5>
-                    </span>
+                    <div className={product.stock > 0 ? `${styles.in_stock}` : `${styles.out_stock}`}>
+                        {product.stock > 0 ? 'in stock' : 'out of stock'}
+                    </div>
+                    <h2>{truncate(product.name, 20)}</h2>
+                    <div className={styles.ratings}>
+                        <Rating rating={product.rating}/>
+                    </div>
+                    <h5 className={styles.price}>
+                        {product.price > product.finalPrice && <span>${product.price.toLocaleString()}</span>}
+                        ${product.finalPrice.toLocaleString()}
+                    </h5>
                 </Link>
             </div>
         </div>
-    );
+    )
 }
 
-export default Product;
+export default Product

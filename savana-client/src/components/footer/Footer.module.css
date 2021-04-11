@@ -56,3 +56,23 @@
     font-size: 30px;
     color: #ffffff;
 }
+
+@media screen and (max-width: 268px){
+    .footer_container{
+        padding: 1rem .5rem;
+    }
+
+    .footer_wrapper{
+        text-align: center;
+        width: 100%;
+    }
+
+    .footer_top{
+        grid-gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .footer_top_box{
+        width: 100%;
+    }
+}

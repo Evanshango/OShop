@@ -70,6 +70,7 @@
     font-weight: 700;
     position: relative;
     color: #12263a;
+    text-transform: capitalize;
 }
 
 .product_title::after {

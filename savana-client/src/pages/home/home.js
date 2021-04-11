@@ -1,21 +1,24 @@
-import React, {useEffect, useState} from 'react';
-import styles from "./Home.module.css";
-import Search from "../../components/search/Search";
-import Slider from "../../components/slider/Slider";
-import {useDispatch, useSelector} from "react-redux";
+import React, {useEffect, useState} from 'react'
+import styles from "./Home.module.css"
+import Search from "../../components/search/Search"
+import {useDispatch, useSelector} from "react-redux"
 import _ from 'lodash'
-import Featured from "../../components/featured/Featured";
-import Latest from "../../components/latest/Latest";
-import {Link} from "react-router-dom";
-import {fetchProducts} from "../../api";
+import {Link} from "react-router-dom"
+import {fetchProducts} from "../../api"
+import Product from "../../components/product/Product"
+import Banner from "../../components/banner/Banner"
 
 function Home() {
     const dispatch = useDispatch()
+    const {token} = useSelector(state => state.auth)
     const {products} = useSelector(state => state.product)
     const {offers} = useSelector(state => state.offer)
     const showImage = (images) => images && images[Math.floor(Math.random() * images.length)]
-    const [product, setProduct] = useState({})
     const [bannerProd, setBannerProd] = useState({})
+
+    const getRandomElements = (prods, limit) => prods.sort(() => Math.random() - Math.random()).slice(0, limit)
+
+    const displayItems = getRandomElements(products && products, 10)
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -25,8 +28,8 @@ function Home() {
         dispatch(fetchProducts(1, 12))
     }, [dispatch])
 
+
     useEffect(() => {
-        setProduct(products && products[Math.floor(Math.random() * products.length)])
         const prods = products && products.filter(p => p.discount > 10)
         if (prods) {
             setBannerProd(prods[Math.floor(Math.random() * prods.length)])
@@ -35,40 +38,52 @@ function Home() {
 
     return (
         <>
-            {product && (
-                <Slider product={product}>
-                    <div className={styles.home_content}>
-                        <div className={styles.welcome_info}>
-                            <h1>New Arrivals</h1>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dolor dolorem
-                                eligendi
-                                perspiciatis repellat tempore voluptas? Atque, consectetur, doloribus?
-                            </p>
-                            <button className={styles.home_button}>View Products</button>
-                        </div>
-                        <div className={styles.featured_container} style={{
-                            backgroundImage: `linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), 
-                                url(${showImage(product.images)})`
-                        }}>
-                            <h2 className={styles.name}>{product.name}</h2>
-                            {product.discount > 0 && <h2 className={styles.discount_price}>
-                                {`${product.discount}% off`}
-                            </h2>}
-                            <li className={styles.buy_now}>
-                                <Link to={`/products/${product.id}`}>
-                                    <span style={{color: '#232323'}}>Buy Now</span>
-                                </Link>
-                            </li>
-                        </div>
-                    </div>
-                </Slider>
-            )}
+            <Banner/>
             <div className={styles.search}>
                 <Search/>
             </div>
-            <Featured/>
-            <Latest/>
+            {/*Featured*/}
+            <>
+                <div className={styles.title}>
+                    <h5>Featured Products</h5>
+                </div>
+                <div className={styles.home_module}>
+                    {products && getRandomElements(products.filter(p => p.featured), 5).map(product => (
+                        <Product product={product} key={product.id} token={token}/>
+                    ))}
+                </div>
+            </>
+            {/*Featured*/}
+            {/*<Latest/>*/}
+            <>
+                <div className={styles.title} style={{marginTop: '0'}}>
+                    <h5>Latest Products</h5>
+                </div>
+                <div className={styles.row_one}>
+                    <div className={styles.home_module}>
+                        {displayItems.splice(0, 5).map(product => (
+                            <Product product={product} key={product.id} token={token}/>
+                        ))}
+                    </div>
+                </div>
+                <div className={styles.row_two}>
+                    <div className={styles.home_module}>
+                        {displayItems.splice(0, 5).map(product => (
+                            <Product product={product} key={product.id} token={token}/>
+                        ))}
+                    </div>
+                </div>
+                <div className={styles.show_more}>
+                    {products && products.length > 10 && (
+                        <li className={styles.btn_show_more}>
+                            <Link to={'/products'}>
+                                <button>Show More</button>
+                            </Link>
+                        </li>
+                    )}
+                </div>
+            </>
+            {/*<Latest/>*/}
             <div className={styles.banner}>
                 <div className={styles.banner_content}>
                     {!_.isEmpty(bannerProd) && (
@@ -99,8 +114,10 @@ function Home() {
                         {offers && offers.map(offer => (
                             offer.product && (
                                 <Link to={`/products/${offer.product.id}`} className={styles.card} key={offer.id}
-                                      style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), 
-                                        url(${showImage(offer.product.images)})`}}>
+                                      style={{
+                                          backgroundImage: `linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), 
+                                        url(${showImage(offer.product.images)})`
+                                      }}>
                                     <h2 style={{textTransform: 'capitalize'}}>{offer.product.name}</h2>
                                     <h1 style={{color: '#fbb419'}}>{`${offer.product.discount}% off`}</h1>
                                 </Link>
@@ -117,14 +134,14 @@ function Home() {
                     </div>
                     <div className={styles.contact_right}>
                         <form onSubmit={handleSubmit}>
-                            <input type="email" placeholder='Enter email address'/>
-                            <button type='button'>Subscribe</button>
+                            <input type="email" placeholder="Enter email address"/>
+                            <button type="button">Subscribe</button>
                         </form>
                     </div>
                 </div>
             </div>
         </>
-    );
+    )
 }
 
-export default Home;
+export default Home

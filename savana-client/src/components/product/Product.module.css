@@ -1,23 +1,49 @@
-.product {
-    border-radius: .4rem;
-    width: 220px;
-    min-width: 220px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
-    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
-    -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
-    padding: 1px;
+.card {
+    margin: 10px;
+    border: 0 solid #dcdcdc;
+    border-radius: 8px;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 6px 18px -9px rgba(0, 0, 0, .75);
+    transition: transform 100ms ease-in;
+    max-width: 220px;
+    width: 100%;
+    /*width: 220px;*/
 }
 
-.product:not(:last-child) {
-    margin-right: 1rem;
+.card:hover {
+    transform: scale(1.07);
 }
 
-.product:hover {
-    transform: scale(.99);
+.card_image {
+    object-fit: cover;
+    width: 100%;
+    height: 200px;
+    display: inline-block;
 }
 
-.product_header {
-    height: 13rem;
+.card_info {
+    margin-top: -9px;
+    border-radius: 10px;
+    padding: 10px;
+    position: relative;
+}
+
+.price {
+    color: #242424;
+    font-size: 1rem;
+    font-weight: 500 !important;
+}
+
+.price span {
+    color: red;
+    text-decoration: line-through;
+    font-weight: bold;
+    font-size: .9rem;
+    margin: 0 .5rem;
+}
+
+.card_header {
     background-color: #f6f2f1;
     z-index: 0;
     width: 100%;
@@ -31,16 +57,36 @@
     transition: all 300ms ease-in-out;
 }
 
-.offer {
-    position: absolute;
-    text-transform: uppercase;
-    top: 0;
-    padding: .6rem;
-    background: #fbb419;
-    color: #ffffff;
-    z-index: 100;
-    border-top-left-radius: .4rem;
-    border-bottom-right-radius: 1rem;
+.card_info > a > h2 {
+    font-size: 18px;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-transform: capitalize;
+    color: #333333;
+}
+
+.card_info > a > h4 {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: 300;
+    text-decoration: line-through;
+    margin: 8px 0;
+    color: red;
+}
+
+.card_info > a > h3 {
+    font-size: 16px;
+}
+
+.ratings {
+    color: rgb(241, 196, 15);
+    padding: .5rem 0;
+    font-size: .9rem;
+    font-weight: 500;
 }
 
 .in_stock, .out_stock {
@@ -62,86 +108,54 @@
     background: #838383;
 }
 
-.product_header img {
-    display: inline-block;
-    max-width: 100%;
-    width: 100%;
-    object-fit: cover;
+.offer {
+    position: absolute;
+    text-transform: uppercase;
+    top: 0;
+    padding: .6rem;
+    background: #fbb419;
+    color: #ffffff;
+    z-index: 100;
     border-top-left-radius: .4rem;
-    border-top-right-radius: .4rem;
-    height: 100%;
+    border-bottom-right-radius: 1rem;
 }
 
-.product_footer {
-    text-align: left;
-    padding: .7rem 0 .2rem .5rem;
-}
-
-.product_footer h5 {
-    font-size: 1rem;
-    color: #838383;
-    font-weight: normal;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.product_header .icons {
+.icons {
     position: absolute;
     right: 5%;
-    top: 50%;
+    top: 40%;
     transform: translate(0, -50%) scale(0);
     z-index: 2;
     opacity: 0;
     transition: all 500ms ease-in-out;
 }
 
-.product_header .icons h3 {
+.icons h3 {
     background-color: #ffffff;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     display: block;
     border-radius: 50%;
-    padding: .6rem;
+    padding: .5rem;
     line-height: .6rem;
     cursor: pointer;
     transition: all 300ms ease-in-out;
 }
 
-.product_header .icons h3:not(:last-child) {
+.icons h3:not(:last-child) {
     margin-bottom: .8rem;
 }
 
-.product_header .icons h3:hover {
+.icons h3:hover {
     background: #ff0000;
     color: #ffffff;
 }
 
-.product:hover .icons {
+.card_header:hover .icons {
     opacity: 1;
     transform: translate(0, -50%) scale(1);
 }
 
-.ratings {
-    color: rgb(241, 196, 15);
-    padding: .5rem 0;
-    font-size: .9rem;
-    font-weight: 500;
-}
-
-.price {
-    color: #242424;
-    font-size: .9rem !important;
-    font-weight: 500 !important;
-}
-
-.price span {
-    color: red;
-    text-decoration: line-through;
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-.product:hover .product_header::after {
+.card:hover .card_header::after {
     content: '';
     position: absolute;
     width: 100%;
@@ -156,56 +170,104 @@
     cursor: pointer;
 }
 
-@media screen and (max-width: 1680px) {
-    .product{
-        width: 200px;
-        min-width: 200px;
+@media screen and (max-width: 1338px) {
+    .card_image {
+        height: 150px;
+    }
+
+    .icons{
+        top: 50%;
+    }
+
+    .icons h3{
+        font-size: .8rem;
+    }
+
+    .icons h3:not(:last-child) {
+        margin-bottom: .5rem;
     }
 }
 
-@media screen and (max-width: 1328px) {
-    .product_header {
-        height: 10rem;
+@media screen and (max-width: 1162px) {
+    .card{
+        width: 162px;
+    }
+    .card_image {
+        height: 120px;
     }
 }
 
-@media screen and (max-width: 748px) {
-    .product {
-        width: 150px;
-        min-width: 150px;
-    }
-
-    .product:not(:last-child) {
-        margin-right: 0 !important;
+@media screen and (max-width: 728px) {
+    .card{
+        min-width: 120px!important;
     }
 }
 
-@media screen and (max-width: 478px) {
-    .product {
+@media screen and (max-width: 639px) {
+    .card {
+        max-width: 142px;
+        width: 142px;
+    }
+
+    .card_image {
+        height: 100px;
+    }
+
+    .icons h3{
+        font-size: .6rem;
+    }
+
+    .icons h3:not(:last-child) {
+        margin-bottom: .4rem;
+    }
+}
+
+@media screen and (max-width: 573px) {
+    .card{
+        width: 140px;
+    }
+}
+
+@media screen and (max-width: 567px) {
+    .card{
+        width: 135px;
+    }
+}
+
+@media screen and (max-width: 549px) {
+    .card{
+        width: 130px;
+    }
+}
+
+@media screen and (max-width: 533px) {
+    .card{
+        width: 125px;
+    }
+}
+
+@media screen and (max-width: 516px) {
+    .card{
         width: 120px;
-        min-width: 120px;
     }
 }
 
-@media screen and (max-width: 468px) {
-    .product{
-        width: 150px;
-        min-width: 150px;
+@media screen and (max-width: 433px) {
+    .card{
+        width: 100%;
     }
 }
 
-@media screen and (max-width: 378px){
-    .product{
-        width: 100px;
-        min-width: 100px;
-    }
-
-    .product_header{
-        height: 6rem;
-    }
-
-    .offer{
+@media screen and (max-width: 378px) {
+    .offer {
         padding: .4rem;
         font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 278px) {
+    .card{
+        max-width: 400px;
+        width: 300px;
     }
 }

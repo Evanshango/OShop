@@ -46,7 +46,7 @@ function CartItem({product, incQty, decQty}) {
                        {showProductStatus(product)}
                    </span>
                     <p>{truncate(product.description, 50)}</p>
-                    <h5><small>Ksh.</small>{product.finalPrice.toFixed(2)}</h5>
+                    <h5><small>$</small>{product.finalPrice.toFixed(2)}</h5>
                     <div className={styles.item_actions}>
                         <span>Wishlist</span>
                         <span onClick={() => removeCartItem()}>Remove</span>

@@ -121,7 +121,7 @@ function Checkout() {
                                     <h4>Shipping charges and taxes will be calculated when an address is provided</h4>
                                     <div className={styles.total}>
                                         <h3>Total</h3>
-                                        <h4><small>Ksh.</small> {total.toFixed(2)}</h4>
+                                        <h4><small>$</small> {total.toFixed(2)}</h4>
                                     </div>
                                 </div>
                             </div>

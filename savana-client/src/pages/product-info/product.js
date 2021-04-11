@@ -49,7 +49,7 @@ function Product({match: {params}}) {
                 !_.isEmpty(product) && (
                     <div className={styles.card_wrapper}>
                         <div className={styles.card}>
-                            {/*Card left*/}
+                            {/*Product left*/}
                             <div className={styles.product_images}>
                                 <div className={styles.image_display}>
                                     <div className={styles.image_showcase}>
@@ -64,7 +64,7 @@ function Product({match: {params}}) {
                                     ))}
                                 </div>
                             </div>
-                            {/*Card right*/}
+                            {/*Product right*/}
                             <div className={styles.product_content}>
                                 <h2 className={styles.product_title}>{product.name}</h2>
                                 <div className={styles.product_rating}>
@@ -73,8 +73,8 @@ function Product({match: {params}}) {
                                 {product.discount > 0 &&
                                 <span className={styles.discount}>{`${product.discount}% off`}</span>}
                                 <div className={styles.product_price}>
-                                    <p className={styles.new_price}>Ksh. {product.finalPrice.toLocaleString()}</p>
-                                    <p className={styles.old_price}>Ksh. {product.price.toLocaleString()}</p>
+                                    <p className={styles.new_price}>$ {product.finalPrice.toLocaleString()}</p>
+                                    <p className={styles.old_price}>$ {product.price.toLocaleString()}</p>
                                 </div>
                                 <div className={styles.product_detail}>
                                     <ul>

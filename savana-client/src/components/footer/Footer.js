@@ -30,7 +30,7 @@ function Footer() {
                     </div>
                     <div className={styles.footer_top_box}>
                         <h3>CONTACT US</h3>
-                        <a href="/">Unknown Street, 2121, Nairobi, Kenya</a>
+                        <a href="/" className={styles.text_wrap}>Unknown Street, 2121, Nairobi, Kenya</a>
                         <a href="/">anonymous@oshop.com</a>
                         <a href="/">+254 712 345 678</a>
                         <a href="/">Returns</a>

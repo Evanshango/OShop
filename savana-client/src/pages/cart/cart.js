@@ -78,7 +78,7 @@ function Cart() {
                         <hr/>
                         <div className={styles.sub_total_info}>
                             <p>Subtotal</p>
-                            <h4><span>Ksh.</span> {totalPrice.toLocaleString()}</h4>
+                            <h4><span>$</span> {totalPrice.toLocaleString()}</h4>
                         </div>
                     </div>
                 </div>

@@ -30,19 +30,19 @@ function Navbar() {
                         <Search/>
                     </div>
                     <ul className={click ? `${styles.nav_menu} ${styles.active}` : `${styles.nav_menu}`}>
-                        <li className={styles.nav_item}>
+                        <li className={styles.nav_item} onClick={closeMobileMenu}>
                             <Link to={'/'}>
-                                <span className={styles.nav_links} onClick={closeMobileMenu}>Home</span>
+                                <span className={styles.nav_links}>Home</span>
                             </Link>
                         </li>
-                        <li className={styles.nav_item}>
+                        <li className={styles.nav_item} onClick={closeMobileMenu}>
                             <Link to={'/products'}>
-                                <span className={`${styles.nav_links}`} onClick={closeMobileMenu}>Products</span>
+                                <span className={`${styles.nav_links}`}>Products</span>
                             </Link>
                         </li>
-                        <li className={styles.nav_item}>
+                        <li className={styles.nav_item} onClick={closeMobileMenu}>
                             <Link to={'/account'}>
-                                <span className={`${styles.nav_links} ${styles.acc}`} onClick={closeMobileMenu}>
+                                <span className={`${styles.nav_links} ${styles.acc}`}>
                                     {token ? 'Account' : (
                                         <>
                                             <span>Signin</span>
@@ -53,9 +53,9 @@ function Navbar() {
                                 </span>
                             </Link>
                         </li>
-                        <li className={styles.nav_icon}>
+                        <li className={styles.nav_icon} onClick={closeMobileMenu}>
                             <Link to={'/cart'}>
-                                <button className={styles.nav_links} onClick={closeMobileMenu}>
+                                <button className={styles.nav_links}>
                                     <AiOutlineShoppingCart/> {cart ? Object.keys(cart).length : 0}
                                 </button>
                             </Link>

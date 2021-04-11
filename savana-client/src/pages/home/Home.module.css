@@ -73,11 +73,13 @@
 
 .contact_left {
     color: #ffffff;
+    text-align: center;
 }
 
 .contact_left h1 {
     font-size: 1.5rem;
     margin-bottom: 1.6rem;
+    text-align: center;
 }
 
 .contact_left p {
@@ -145,10 +147,31 @@
     margin: 3rem auto 0 auto;
 }
 
+.home_module{
+    display: flex;
+    padding: 30px;
+    width: 65%;
+    margin: 0 auto 2rem auto;
+    justify-content: center;
+}
+
+.home_module::-webkit-scrollbar-thumb{
+    background-color: #ff0000;
+}
+
 .banner {
     display: flex;
     height: 25rem;
     background: #dddddd;
+}
+
+.row_one > .home_module{
+    margin-bottom: 0!important;
+    padding-bottom: 0!important;
+}
+
+.row_two > .home_module{
+    padding-top: 0!important;
 }
 
 .banner_content{
@@ -185,6 +208,7 @@
     align-items: center;
     justify-content: center;
     padding: 1.3rem;
+    text-align: center;
 }
 
 .banner_right h3 {
@@ -224,8 +248,9 @@
 }
 
 .title {
-    margin: 2rem 0 4rem 0;
+    margin: 2rem 0 1rem 0;
     text-align: center;
+    color: #838383;
 }
 
 .title h5 {
@@ -233,6 +258,7 @@
     display: inline-block;
     position: relative;
     z-index: 0;
+    font-weight: 500;
 }
 
 .title h5::after {
@@ -285,6 +311,42 @@
     cursor: pointer;
 }
 
+.show_more{
+    display: flex;
+    align-items: center;
+    width: 60%;
+    padding: 1rem;
+    justify-content: center;
+    margin: 0 auto 2rem auto;
+}
+
+.btn_show_more {
+    text-align: center;
+}
+
+.btn_show_more button{
+    background: transparent;
+    color: #ffffff;
+    border: none;
+}
+
+.btn_show_more a{
+    background: rgb(241, 196, 15);
+    background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 2rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding: .7rem 2rem;
+}
+
+.btn_show_more:hover {
+    transform: scale(1.1);
+}
+
 @media screen and (max-width: 1228px) {
     .featured_container{
         display: none;
@@ -294,6 +356,16 @@
 @media screen and (max-width: 1162px){
     .search{
         width: 50%;
+    }
+
+    .home_module{
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 1098px){
+    .home_module{
+        width: 95%;
     }
 }
 
@@ -319,6 +391,10 @@
 
     .card h1{
         font-size: 20px;
+    }
+
+    .home_module{
+        width: 98%;
     }
 }
 
@@ -365,6 +441,20 @@
     }
 }
 
+@media screen and (max-width: 708px){
+    .home_module{
+        overflow-x: scroll;
+        justify-content: flex-start;
+        padding: 1rem;
+    }
+
+    .home_module::after{
+        padding: .3rem;
+        content: '';
+        width: .5rem;
+    }
+}
+
 @media screen and (max-width: 698px) {
     .search{
         width: 70%;
@@ -406,5 +496,21 @@
 
     .card{
         height: 7rem;
+    }
+}
+
+@media screen and (max-width: 288px) {
+    .banner_content{
+        width: 100%;
+        position: relative;
+    }
+    .banner_left{
+        display: none;
+    }
+
+    .banner_right{
+        text-align: center;
+        width: 100%;
+        position: absolute;
     }
 }
