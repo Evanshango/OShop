@@ -3,7 +3,7 @@ import {TokenManager} from "../helpers/token-manager";
 import gravatar from "gravatar";
 import {User} from "../models/user";
 import {BadRequestError} from "../errors/bad-request-error";
-import {AUTH_METHOD, COOKIE_EXPIRES_IN, GOOGLE_CLIENT_ID, NODE_ENV} from "../helpers/constants";
+import {AUTH_METHOD, GOOGLE_CLIENT_ID} from "../helpers/constants";
 import {PasswordManager} from "../helpers/password-manager";
 import {OAuth2Client} from "google-auth-library";
 

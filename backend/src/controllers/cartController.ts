@@ -80,10 +80,14 @@ export const deleteCart = async (req: Request, res: Response) => {
     if (user.id != existing.customer) throw new NotAuthorizedError()
     const itemsArray = existing.items
 
-    const index = itemsArray.indexOf(existing.items.find((prod: any) => prod.product._id == req.params.id))
-    if (index > -1) {
-        itemsArray.splice(index, 1);
+    const existingItem = itemsArray.find((prod: any) => prod.product._id == req.params.id)
+
+    if (existingItem){
+        const index = itemsArray.indexOf(existingItem)
+        if (index > -1) {
+            itemsArray.splice(index, 1);
+        }
+        await Cart.findByIdAndUpdate(existing.id, {items: itemsArray}, {new: true})
+        return res.send({id: req.params.id})
     }
-    await Cart.findByIdAndUpdate(existing.id, {items: itemsArray}, {new: true})
-    return res.send({id: req.params.id})
 }

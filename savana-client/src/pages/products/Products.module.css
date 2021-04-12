@@ -34,11 +34,19 @@
     margin-left: .2rem;
     font-weight: 500;
     font-size: .9rem;
+    margin-right: auto;
 }
 
 .categories hr {
     border: 1px solid #dddddd;
     margin: 1rem 0;
+}
+
+.count{
+    background: #838383;
+    padding: 0 .9rem;
+    color: #ffffff;
+    border-radius: 1rem;
 }
 
 .filter_header {

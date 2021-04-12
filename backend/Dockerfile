@@ -1,43 +1,24 @@
-FROM node:14-alpine AS builder
-
+FROM node:14-alpine as build
 WORKDIR /app
-COPY package*.json /app/
-RUN npm ci --only=production
-COPY tsconfig.json /app/
-COPY . .
-RUN npm run build
+COPY *.json ./
+RUN npm install
+COPY src/ ./src
 
 ENV NODE_ENV=production
+RUN npm run build
 
+FROM node:14-alpine AS deps
+WORKDIR /app
+COPY *.json swagger.yaml .env ./
+RUN npm ci --only=production
+
+RUN npm prune --production
+RUN rm -rf node_modules/typescript
+
+FROM node:14-alpine
+WORKDIR /app
+COPY .env swagger.yaml ./
+COPY --from=deps /app/node_modules ./node_modules/
+COPY --from=build /app/build ./build/
 EXPOSE 5000
-CMD ["npm","start"]
-
-#FROM node:14-alpine As development
-#
-#RUN mkdir /app
-#
-#WORKDIR /app
-#
-#COPY package*.json ./
-#
-#RUN npm install
-#
-#COPY . .
-#
-#RUN npm run build
-#
-#FROM node:14-alpine as production
-#
-#ENV NODE_ENV=production
-#
-#WORKDIR /app
-#
-#COPY package*.json ./
-#
-#RUN npm install --only=production
-#
-#COPY . .
-#
-#COPY --from=development /app/build ./build
-#
-#CMD ["node", "build/index.js"]
+CMD ["node","./build/index.js"]

@@ -94,7 +94,7 @@ function Products({match}) {
                                    onChange={() => handleSectionChange(section.name)}/>
                             <label htmlFor="section">
                                 <span>{section.name}</span>
-                                <small>({section.categoryCount})</small>
+                                <small className={styles.count}>{section.categoryCount}</small>
                             </label>
                         </li>
                     ))}
