@@ -11,7 +11,6 @@ export const DB_PASSWORD = process.env.MONGO_PASSWORD
 export const DB_NAME = process.env.MONGO_DB_NAME
 export const PORT = process.env.PORT
 export const NODE_ENV = process.env.NODE_ENV
-export const COOKIE_EXPIRES_IN = parseInt(process.env.COOKIE_EXPIRES_IN!)
 
 export const ORIGIN_1 = process.env.ORIGIN_1
 export const ORIGIN_2 = process.env.ORIGIN_2
@@ -23,18 +22,13 @@ export const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY
 export const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY
 export const BUCKET_NAME = process.env.BUCKET_NAME
 
-export const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID
-export const PAYPAL_SECRET = process.env.PAYPAL_SECRET
-export const PAYPAL_API_SANDBOX = process.env.PAYPAL_API_SANDBOX
-export const PAYPAL_API_LIVE = process.env.PAYPAL_API_LIVE
-export const PAYPAL_CURRENCY_CODE = process.env.PAYPAL_CURRENCY_CODE
-
 export enum AUTH_METHOD {
     GOOGLE = 'GOOGLE',
     LOCAL = 'LOCAL'
 }
 
 export enum USER_ROLE {
+    SUPER_ADMIN = 'SUPER_ADMIN',
     USER = 'USER',
     ADMIN = 'ADMIN',
     VENDOR = 'VENDOR'
@@ -46,9 +40,8 @@ export enum PAYMENT_STATUS {
 }
 
 export enum PAYMENT_METHOD {
-    CASH = 'CASH',
     MPESA = 'MPESA',
-    VISA = 'VISA',
+    // VISA = 'VISA',
     PAYPAL = 'PAYPAL'
 }
 
@@ -61,4 +54,9 @@ export enum ORDER_STATUS {
 export enum ADDRESS_TYPE {
     HOME = 'HOME',
     WORK = 'WORK'
+}
+
+export enum PRODUCT_STATUS {
+    ACTIVE = 'ACTIVE',
+    DELETED = 'DELETED'
 }

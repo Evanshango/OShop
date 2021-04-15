@@ -3,7 +3,7 @@ import Navbar from "./navbar/Navbar";
 import Sidebar from "./sidebar/Sidebar";
 import Main from "./main/Main";
 import {useDispatch} from "react-redux";
-import {fetchCategories, fetchOrders, fetchProducts, fetchSections} from "../api";
+import {fetchCategories, fetchOrders, fetchOrganizations, fetchProducts, fetchSections} from "../api"
 
 function Content({user}) {
     const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -12,6 +12,7 @@ function Content({user}) {
     const hideSidebarOnResize = () => setSidebarOpen(false)
 
     useEffect(() => {
+        dispatch(fetchOrganizations())
         dispatch(fetchSections())
         dispatch(fetchCategories())
         dispatch(fetchProducts())

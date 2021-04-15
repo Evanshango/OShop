@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Dashboard.module.css'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import {useSelector} from "react-redux";
+import {formatDate} from "../api"
 
 function Dashboard() {
 
@@ -11,10 +12,10 @@ function Dashboard() {
 
     const completePayments = orders && orders.filter(prod => prod.paymentStatus === 'COMPLETED')
 
-    const formatDate = date => {
-        const dt = new Date(date)
-        return dt.toLocaleString()
-    }
+    // const formatDate = date => {
+    //     const dt = new Date(date)
+    //     return dt.toLocaleString()
+    // }
 
     const loadMore = () => {
         console.log('loading more')

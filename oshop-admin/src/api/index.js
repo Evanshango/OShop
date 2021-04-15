@@ -19,13 +19,24 @@ import {
     addOfferError, addOfferRequest, addOfferSuccess, clearOfferErrors, deleteOfferError, deleteOfferRequest,
     deleteOfferSuccess, fetchOffersError, fetchOffersRequest, fetchOffersSuccess
 } from "../redux/offers/offerActions";
+import {
+    addOrgError,
+    addOrgRequest, addOrgSuccess, clearOrgError, editOrgError, editOrgRequest, editOrgSuccess,
+    fetchOrgError,
+    fetchOrgRequest,
+    fetchOrgSuccess
+} from "../redux/organization/organizationAction"
 
-// const BASE_URL = 'http://localhost:5000/api/v1'
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
 const dispatchError = (dispatch, err, method) => {
     const {response: {data}} = err
     dispatch(method(data.errors))
+}
+
+export const formatDate = date => {
+    const dt = new Date(date)
+    return dt.toLocaleString()
 }
 
 export const signOutUser = () => {
@@ -54,6 +65,38 @@ export const authUser = user => async dispatch => {
         dispatchError(dispatch, err, authError)
     }
 }
+
+export const fetchOrganizations = () => async dispatch => {
+    dispatch(fetchOrgRequest())
+    try{
+        const {data} = await axios.get(`${BASE_URL}/organizations`)
+        dispatch(fetchOrgSuccess(data))
+    } catch (err){
+        dispatchError(dispatch, err, fetchOrgError)
+    }
+}
+
+export const addOrganization = organization => async dispatch => {
+    dispatch(addOrgRequest())
+    try{
+        const {data} = await axios.post(`${BASE_URL}/organizations`, organization)
+        dispatch(addOrgSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, addOrgError)
+    }
+}
+
+export const editOrganization = organization => async dispatch => {
+    dispatch(editOrgRequest())
+    try{
+        const {data} = await axios.patch(`${BASE_URL}/organizations/${organization.id}`, organization)
+        dispatch(editOrgSuccess(data))
+    } catch (err){
+        dispatchError(dispatch, err, editOrgError)
+    }
+}
+
+export const clearOrgErrors = () => dispatch => dispatch(clearOrgError())
 
 export const fetchSections = () => async dispatch => {
     dispatch(sectionsRequest())

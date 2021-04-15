@@ -20,6 +20,7 @@ import {addressRouter} from "./routes/addressRoutes";
 import {offerRouter} from "./routes/offerRoutes";
 import {settingRouter} from "./routes/settingRoutes";
 import {paymentRouter} from "./routes/paymentRoutes";
+import {organizationRouter} from "./routes/organizationRoutes";
 
 const app = express()
 
@@ -48,6 +49,7 @@ app.use(cors(corsConfig))
 app.use('/api/v1/docs', serve, setup(swaggerDefinition))
 app.use('/api/v1', settingRouter)
 app.use('/api/v1', authRouter)
+app.use('/api/v1', organizationRouter)
 app.use('/api/v1', userRouter)
 app.use('/api/v1', categoryRouter)
 app.use('/api/v1', sectionRouter)

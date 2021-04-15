@@ -3,6 +3,7 @@ import {NotFoundError} from "../errors/not-found-error";
 
 export class Pagination {
     static async paginatedResults(model: Model<any>, queryParams: any) {
+
         const {page, limit, search, field} = queryParams
         const pattern = search !== undefined && new RegExp(`${search}`, 'i')
         let fieldName = field !== undefined ? field : 'name'
@@ -24,7 +25,7 @@ export class Pagination {
 
         query = query.skip(skip).limit(pageSize)
 
-        if (currPage > pages) throw new NotFoundError('Page not found')
+        if (pages > 0 && currPage > pages) throw new NotFoundError('Page')
         const  results = await query.sort('-createdAt')
         return {results, count: results.length, page: currPage, pages}
     }

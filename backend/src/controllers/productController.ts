@@ -5,6 +5,7 @@ import {FileHandler} from "../helpers/file-handler";
 import {NotFoundError} from "../errors/not-found-error";
 import mongoose from "mongoose";
 import {Pagination} from "../helpers/pagination";
+import {PRODUCT_STATUS} from "../helpers/constants";
 
 const checkProduct = async (req: Request) => {
     const {id} = req.params
@@ -68,12 +69,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
     const product = await checkProduct(req)
     if (!product) throw new NotFoundError('Product')
 
-    const result = await FileHandler.delete(product.images, product.name)
+    await Product.findByIdAndUpdate(product.id, {status: PRODUCT_STATUS.DELETED})
 
-    if (Object.values(result)[0] === null || Object.values(result)[1] === {}) {
-        await Product.findByIdAndDelete(product.id)
-        return res.send({id: product.id})
-    } else {
-        throw new BadRequestError('An error occurred deleting the product')
-    }
+    return res.send({id: product.id})
 }

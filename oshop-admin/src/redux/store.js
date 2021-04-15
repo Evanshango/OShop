@@ -7,11 +7,13 @@ import categoryReducer from "./categories/categoryReducer";
 import productReducer from "./products/productReducer";
 import orderReducer from "./orders/orderReducer";
 import offerReducer from "./offers/offerReducer";
+import organizationReducer from "./organization/organizationReducer"
 
 const initialState = {}
 const middleware = [thunk]
 
 const rootReducer = combineReducers({
+    organization: organizationReducer,
     user: authReducer,
     section: sectionReducer,
     category: categoryReducer,

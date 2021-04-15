@@ -93,7 +93,7 @@ const ProductDialog = ({data}) => {
     }
 
     useEffect(() => {
-        if (!loading){
+        if (!loading && prodErrors.length === 0){
             closeDialog()
         }
     }, [loading])

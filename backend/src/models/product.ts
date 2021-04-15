@@ -1,6 +1,7 @@
 import mongoose, {Document, HookNextFunction, model, Model, Schema} from "mongoose";
 import slugify from "slugify";
 import {Category} from "./category";
+import {PRODUCT_STATUS} from "../helpers/constants";
 
 interface IProductAttrs {
     name: string
@@ -14,6 +15,7 @@ interface IProductAttrs {
     description?: string
     images: string[]
     featured?: boolean
+    status?: PRODUCT_STATUS
     createdBy: string
 }
 
@@ -29,6 +31,7 @@ interface IProductDoc extends Document {
     description: string
     images: string[]
     featured: boolean
+    status: string
     createdBy: string
 }
 
@@ -67,6 +70,9 @@ const productSchema = new Schema({
     },
     featured: {
         type: Boolean, default: false
+    },
+    status: {
+        type: String, enum: Object.values(PRODUCT_STATUS), default: PRODUCT_STATUS.ACTIVE
     },
     category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true},
     section: {type: mongoose.Schema.Types.ObjectId, ref: 'Section'},
