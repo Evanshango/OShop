@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react'
 import styles from "../../pages/account/Account.module.css";
 import {GoogleLogin} from "react-google-login";
 import {FcGoogle} from "react-icons/fc";
@@ -33,6 +33,10 @@ function Auth({clientId}) {
         }
         setError(err)
     }
+
+    useEffect(() => {
+        console.log(error)
+    })
 
     return (
         <div className={styles.profile_container}>

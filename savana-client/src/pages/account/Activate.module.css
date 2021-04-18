@@ -1,0 +1,24 @@
+.activate_container{
+    min-height: 60vh;
+    display: flex;
+    justify-content: center;
+}
+
+.activate_container p{
+    margin-top: 5rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.confirm{
+    margin: 1rem;
+    padding: .8rem 3rem;
+    cursor: pointer;
+    border-radius: 2rem;
+    outline: none;
+    border: none;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: rgb(241, 196, 15);
+    background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
+}

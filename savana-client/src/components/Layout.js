@@ -1,12 +1,13 @@
-import React from 'react';
+import React from 'react'
 import './../App.css'
-import {Route, Switch} from "react-router-dom";
-import Home from "../pages/home/home";
-import Products from "../pages/products/products";
-import Account from "../pages/account/account";
-import Cart from "../pages/cart/cart";
-import Checkout from "../pages/checkout/checkout";
-import Product from "../pages/product-info/product";
+import {Route, Switch} from "react-router-dom"
+import Home from "../pages/home/home"
+import Products from "../pages/products/products"
+import Account from "../pages/account/account"
+import Cart from "../pages/cart/cart"
+import Checkout from "../pages/checkout/checkout"
+import Product from "../pages/product-info/product"
+import Activate from "../pages/account/activate"
 
 function Layout() {
     return (
@@ -15,11 +16,12 @@ function Layout() {
             <Route path={'/products/:id'} exact component={Product}/>
             <Route exact path={'/page/:pageNumber'} component={Products}/>
             <Route path={'/products'} component={Products}/>
+            <Route path={'/account/activate/:token'} exact component={Activate}/>
             <Route path={'/account'} component={Account}/>
             <Route path={'/cart'} component={Cart}/>
             <Route path={'/checkout'} component={Checkout}/>
         </Switch>
-    );
+    )
 }
 
-export default Layout;
+export default Layout

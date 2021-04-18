@@ -292,6 +292,16 @@ export const searchProducts = searchTerm => async dispatch => {
     }
 }
 
+export const activateAccount = token => async dispatch => {
+    try{
+        const {data} = await axios.get(`${BASE_URL}/auth/account/${token}`)
+        console.log(data)
+        dispatch(data)
+    } catch (err){
+        console.log(err)
+    }
+}
+
 export const signOut = () => dispatch => {
     sessionStorage.removeItem('savana')
     delete axios.defaults.headers['common']['Authorization']

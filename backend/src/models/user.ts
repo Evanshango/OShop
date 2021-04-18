@@ -30,6 +30,7 @@ interface IUserDoc extends Document {
     role?: USER_ROLE
     organization: string
     password?: string
+    tokenExp: Date
 }
 
 const userSchema = new Schema({
@@ -50,6 +51,12 @@ const userSchema = new Schema({
     },
     organization: {
       type: mongoose.Schema.Types.ObjectId, ref: 'Organization'
+    },
+    activateToken: {
+        type: String
+    },
+    tokenExp: {
+        type: mongoose.Schema.Types.Date
     },
     verified: {
         type: Boolean, required: true

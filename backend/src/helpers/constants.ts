@@ -22,6 +22,14 @@ export const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY
 export const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY
 export const BUCKET_NAME = process.env.BUCKET_NAME
 
+export const EMAIL_HOST = process.env.EMAIL_HOST
+export const EMAIL_PORT = process.env.EMAIL_PORT
+
+export const ZOHO_USER = process.env.ZOHO_USER
+export const ZOHO_PASS = process.env.ZOHO_PASS
+
+export const CLIENT_URL = process.env.CLIENT_URL
+
 export enum AUTH_METHOD {
     GOOGLE = 'GOOGLE',
     LOCAL = 'LOCAL'
