@@ -5,13 +5,53 @@
 }
 
 .activate_container p{
-    margin-top: 5rem;
-    font-weight: bold;
     font-size: 1.2rem;
 }
 
+.form_area, .confirmation{
+    display: flex;
+    flex-direction: column;
+    margin-top: 5rem;
+    padding: 2rem;
+    height: 28rem;
+    min-width: 40vw;
+    align-items: center;
+    box-shadow: 0 6px 18px -9px rgba(0, 0, 0, .75);
+}
+
+.form_area input{
+    padding: .8rem;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    margin-top: 2rem;
+    width: 90%;
+    text-align: center;
+}
+
+.icon{
+    color: red;
+    font-size: 3rem!important;
+    margin: auto;
+}
+
+.errors {
+    background: rgb(248, 215, 218);
+    margin: 1rem auto;
+    padding: .5rem 1rem;
+    color: #ff0000;
+    border-radius: 5px;
+    width: 100%;
+    text-align: left!important;
+}
+
+.errors li{
+    list-style: inherit;
+    margin: .5rem 0;
+}
+
 .confirm{
-    margin: 1rem;
+    margin: 2rem;
     padding: .8rem 3rem;
     cursor: pointer;
     border-radius: 2rem;
@@ -21,4 +61,31 @@
     color: #ffffff;
     background: rgb(241, 196, 15);
     background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
+}
+
+.message_info{
+    background: rgb(212,237,218);
+    margin: 1rem auto;
+    border-radius: 5px;
+    width: 100%;
+    padding: 1rem;
+}
+
+.confirm:disabled{
+    cursor: not-allowed;
+    background: #838383;
+}
+
+.confirmation p{
+    margin: 3rem 0;
+}
+
+.confirmation a button, .request{
+    background: rgb(241, 196, 15);
+    background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
+    color: #ffffff;
+    padding: 1rem 5rem;
+    border: none;
+    text-transform: uppercase;
+    border-radius: 2rem;
 }

@@ -1,4 +1,4 @@
-import {ORDER} from "../types";
+import {ORDER} from "../types"
 
 export const fetchOrdersRequest = () => {
     return {
@@ -43,6 +43,26 @@ export const addOrderError = errors => {
 export const clearOrderError = () => {
     return {
         type: ORDER.CLEAR_ORDER_ERRORS
+    }
+}
+
+export const fetchLatestOrderRequest = () => {
+    return {
+        type: ORDER.FETCH_LATEST_ORDER_REQUEST
+    }
+}
+
+export const fetchLatestOrderSuccess = order => {
+    return {
+        type: ORDER.FETCH_LATEST_ORDER_SUCCESS,
+        payload: order
+    }
+}
+
+export const fetchLatestOrderError = errors => {
+    return {
+        type: ORDER.FETCH_LATEST_ORDER_ERROR,
+        payload: errors
     }
 }
 

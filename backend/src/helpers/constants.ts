@@ -22,13 +22,19 @@ export const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY
 export const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY
 export const BUCKET_NAME = process.env.BUCKET_NAME
 
-export const EMAIL_HOST = process.env.EMAIL_HOST
-export const EMAIL_PORT = process.env.EMAIL_PORT
-
 export const ZOHO_USER = process.env.ZOHO_USER
 export const ZOHO_PASS = process.env.ZOHO_PASS
 
 export const CLIENT_URL = process.env.CLIENT_URL
+
+export const MPESA_CONSUMER_KEY = process.env.MPESA_CONSUMER_KEY
+export const MPESA_CONSUMER_SECRET = process.env.MPESA_CONSUMER_SECRET
+export const MPESA_SANDBOX_URL = process.env.MPESA_SANDBOX_URL
+export const MPESA_STK_PUSH = process.env.MPESA_STK_PUSH
+export const MPESA_C2B_URL = process.env.MPESA_C2B_URL
+export const MPESA_SHORT_CODE = process.env.MPESA_SHORT_CODE
+export const MPESA_PASS_KEY = process.env.MPESA_PASS_KEY
+export const MPESA_RC_NO = process.env.MPESA_RC_NO
 
 export enum AUTH_METHOD {
     GOOGLE = 'GOOGLE',

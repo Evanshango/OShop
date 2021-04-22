@@ -6,17 +6,17 @@ import Products from "../pages/products/products"
 import Account from "../pages/account/account"
 import Cart from "../pages/cart/cart"
 import Checkout from "../pages/checkout/checkout"
-import Product from "../pages/product-info/product"
+import ProductInfo from "../pages/product-info/productInfo"
 import Activate from "../pages/account/activate"
 
 function Layout() {
     return (
         <Switch>
             <Route path={'/'} exact component={Home}/>
-            <Route path={'/products/:id'} exact component={Product}/>
+            <Route path={'/products/:id'} exact component={ProductInfo}/>
             <Route exact path={'/page/:pageNumber'} component={Products}/>
             <Route path={'/products'} component={Products}/>
-            <Route path={'/account/activate/:token'} exact component={Activate}/>
+            <Route path={'/account/activate/:token'} component={Activate}/>
             <Route path={'/account'} component={Account}/>
             <Route path={'/cart'} component={Cart}/>
             <Route path={'/checkout'} component={Checkout}/>

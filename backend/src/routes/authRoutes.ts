@@ -27,7 +27,9 @@ router.post('/auth/signin', [
 ], validateRequest, signinUser)
 
 router.post('/auth/google', googleOAuth)
-router.post('/auth/activate', activationLink)
+router.post('/auth/activate',[
+    body('email').notEmpty().trim().withMessage('Email address is required')
+], validateRequest, activationLink)
 router.get('/auth/account/:token', verifyAccount)
 router.get('/auth/signout', requireAuth, signoutUser)
 

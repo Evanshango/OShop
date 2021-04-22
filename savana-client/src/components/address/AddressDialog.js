@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {Dialog, DialogActions, DialogContent} from "@material-ui/core";
-import {useDispatch, useSelector} from "react-redux";
+import React, {useState} from 'react'
+import {Dialog, DialogActions, DialogContent} from "@material-ui/core"
+import {useDispatch, useSelector} from "react-redux"
 import styles from './Address.module.css'
-import {addAddress, clearAddressError} from "../../api";
-import Input from "../input/Input";
+import {addAddress, clearAddressError} from "../../api"
+import Input from "../input/Input"
 
 const addressTypes = [{name: 'Home', value: 'HOME'}, {name: 'Work', value: 'WORK'}]
 
@@ -30,29 +30,39 @@ function AddressDialog() {
 
     const handleSubmit = async () => {
         const id = await dispatch(addAddress(address))
-        id ? setOpen(false) : setOpen(true)
+        if (id) {
+            setTimeout(() => {
+                setOpen(false)
+            }, 1000)
+        } else {
+            setOpen(true)
+        }
     }
+
+    // useEffect(() => {
+    //     id !== '' ? setOpen(false) : setOpen(true)
+    // }, [id])
 
     return (
         <>
-            <button onClick={() => openDialog()}>New Address</button>
-            <Dialog open={open} fullWidth maxWidth='sm' onClose={closeDialog}>
+            <button onClick={() => openDialog()} className={styles.btn_open}>New Address</button>
+            <Dialog open={open} fullWidth maxWidth="sm" onClose={closeDialog}>
                 <h2 style={{padding: '1rem 0 0 1.3rem'}}>Add Address</h2>
                 <DialogContent>
                     <div className={styles.address_content}>
-                        <Input name='name' type='text' placeholder='Unknown Street, Anonymous' label='Name*'
+                        <Input name="name" type="text" placeholder="Unknown Street, Anonymous" label="Name*"
                                value={address.name}
                                onchange={handleChange}/>
-                        <Input name='phone' type='text' placeholder='254712345678' label='Phone*' value={address.phone}
+                        <Input name="phone" type="text" placeholder="254712345678" label="Phone*" value={address.phone}
                                onchange={handleChange}/>
                         <div className={styles.grid_area}>
-                            <Input name='cityTown' type='text' placeholder='Nairobi' label='City/Town*'
+                            <Input name="cityTown" type="text" placeholder="Nairobi" label="City/Town*"
                                    value={address.cityTown} onchange={handleChange}/>
-                            <Input name='state' type='text' placeholder='Kenya' label='State*' value={address.state}
+                            <Input name="state" type="text" placeholder="Kenya" label="State*" value={address.state}
                                    onchange={handleChange}/>
                         </div>
                         <div className={styles.grid_area}>
-                            <Input name='postalCode' type='number' placeholder='8900' label='Postal Code*'
+                            <Input name="postalCode" type="number" placeholder="8900" label="Postal Code*"
                                    value={address.postalCode} onchange={handleChange}/>
                             <span>
                                 <p style={{padding: '.8rem 0'}}>Address Type</p>
@@ -75,7 +85,7 @@ function AddressDialog() {
                 </DialogActions>
             </Dialog>
         </>
-    );
+    )
 }
 
-export default AddressDialog;
+export default AddressDialog

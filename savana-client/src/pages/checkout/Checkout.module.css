@@ -3,7 +3,27 @@
     grid-template-columns: 1.5fr 1fr;
     margin: 2rem auto;
     width: 65%;
-    min-height: 80vh;
+    min-height: 70vh;
+}
+
+.stepper_buttons{
+    display: flex;
+    justify-content: space-between;
+}
+
+.stepper_buttons button{
+    padding: .6rem 2rem;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background: #fbb419;
+    color: #ffffff;
+}
+
+.stepper_buttons button:disabled {
+    background: #333333;
+    color: #ffffff;
+    cursor: not-allowed;
 }
 
 .header{

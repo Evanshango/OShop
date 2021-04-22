@@ -307,8 +307,12 @@
 }
 
 .card:hover{
-    transform: scale(1.01);
+    transform: scale(1.1);
     cursor: pointer;
+}
+
+.card li a:hover{
+    text-decoration: none!important;
 }
 
 .show_more{

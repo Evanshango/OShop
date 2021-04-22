@@ -1,13 +1,13 @@
 .profile {
     width: 60%;
-    min-height: 50vh;
+    min-height: 60vh;
     margin: auto;
 }
 
 .profile_container {
     display: grid;
     width: 100%;
-    grid-gap: 5rem;
+    grid-gap: 4rem;
     grid-template-columns: 1fr 1fr;
 }
 
@@ -29,7 +29,6 @@
 
 .grid_item form button {
     width: 95%;
-    background: rgb(241, 196, 15);
     background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
     cursor: pointer;
     transition: all, 240ms ease-in-out;
@@ -68,14 +67,19 @@
 }
 
 .forgot_password a {
-    color: #fbb419;
+    color: #fbb419!important;
     font-weight: bold;
 }
 
+.forgot_password a:hover{
+    text-decoration: underline!important;
+}
+
 .grid_item h2 {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     text-transform: uppercase;
     color: #fbb419;
+    font-size: 1.5rem;
 }
 
 .auth_button {
@@ -101,10 +105,10 @@
 .divider {
     width: 100%;
     border: 1px solid rgba(200, 200, 200, .5);
+    margin-left: 0!important;
 }
 
 .google_button {
-    padding: 5px 30px;
     background: #ffffff;
     color: #6495ed;
     border-radius: 5px;
@@ -113,7 +117,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 90%;
+    width: 40%;
     margin: auto;
 }
 
@@ -134,8 +138,8 @@
     width: 1px;
     background: #dcdcdc;
     top: 0;
-    right: -10%;
-    height: calc(100% + 16px);
+    right: -5%;
+    height: calc(100%);
 }
 
 .info {
@@ -298,7 +302,22 @@
 }
 
 .errors li{
-    list-style: inherit;
+    list-style: none;
+    margin: .5rem 0;
+}
+
+.google_area{
+    padding-bottom: 5rem;
+}
+
+.success{
+    box-shadow: 0 6px 18px -9px rgba(0, 0, 0, .75);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 10rem auto 0 auto;
+    width: 80%;
+    padding: 2rem;
 }
 
 @media screen and (max-width: 1368px) {
@@ -339,6 +358,10 @@
 
     .info_container{
         grid-template-columns: 1fr 2fr;
+    }
+
+    .google_button{
+        width: 90%;
     }
 }
 

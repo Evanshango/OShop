@@ -2,6 +2,7 @@ import React from 'react';
 import {FaFacebook as Facebook, FaInstagram as Instagram} from "react-icons/fa";
 import {AiOutlineTwitter as Twitter} from "react-icons/ai";
 import styles from './Footer.module.css'
+import {Link} from "react-router-dom"
 
 function Footer() {
     return (
@@ -31,9 +32,9 @@ function Footer() {
                     <div className={styles.footer_top_box}>
                         <h3>CONTACT US</h3>
                         <a href="/" className={styles.text_wrap}>Unknown Street, 2121, Nairobi, Kenya</a>
-                        <a href="/">anonymous@oshop.com</a>
+                        <a href="/">info@savanatreasures.com</a>
                         <a href="/">+254 712 345 678</a>
-                        <a href="/">Returns</a>
+                        <Link to={'/'}>Home</Link>
                     </div>
                 </div>
                 <div className={styles.footer_copyright}>

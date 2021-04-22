@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
-import styles from "./Navbar.module.css";
-import Search from "../search/Search";
-import {useSelector} from "react-redux";
-import {Link} from "react-router-dom";
-import {AiOutlineClose, AiOutlineMenu, AiOutlineShoppingCart} from "react-icons/ai";
+import React, {useState} from 'react'
+import styles from "./Navbar.module.css"
+import {useSelector} from "react-redux"
+import {Link} from "react-router-dom"
+import {AiOutlineClose, AiOutlineMenu, AiOutlineShoppingCart} from "react-icons/ai"
 
 function Navbar() {
     const {products: cart} = useSelector(state => state.cart)
@@ -25,9 +24,6 @@ function Navbar() {
                                 <small><span>Treasures</span></small>
                             </span>
                         </Link>
-                    </div>
-                    <div className={styles.search_area}>
-                        <Search/>
                     </div>
                     <ul className={click ? `${styles.nav_menu} ${styles.active}` : `${styles.nav_menu}`}>
                         <li className={styles.nav_item} onClick={closeMobileMenu}>
@@ -67,7 +63,7 @@ function Navbar() {
                 </div>
             </div>
         </nav>
-    );
+    )
 }
 
-export default Navbar;
+export default Navbar

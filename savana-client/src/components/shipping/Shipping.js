@@ -1,15 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import styles from "./Shipping.module.css";
+import React, {useEffect, useState} from 'react'
+import styles from "./Shipping.module.css"
 import stylesOverall from './../../pages/checkout/Checkout.module.css'
-import {useDispatch, useSelector} from "react-redux";
-import {addCheckOutParam} from "../../api";
-import AddressDialog from "../address/AddressDialog";
+import {useDispatch, useSelector} from "react-redux"
+import {addCheckOutParam} from "../../api"
+import AddressDialog from "../address/AddressDialog"
+import _ from 'lodash'
 
 function Shipping({index, checkout, finishOrder}) {
     const dispatch = useDispatch()
     const {addresses} = useSelector(state => state.address)
     const {token} = useSelector(state => state.auth)
-    const [addr, setAddr] = useState('')
+    const {latest} = useSelector(state => state.order)
+    const [addr, setAddr] = useState(!_.isEmpty(latest) ? latest.address.id : '')
     const [expanded, setExpanded] = useState(false)
     const [button, setButton] = useState(true)
     const [showChange, setShowChange] = useState(false)
@@ -17,6 +19,10 @@ function Shipping({index, checkout, finishOrder}) {
     useEffect(() => {
         addr ? setExpanded(false) : setExpanded(true)
     }, [addr])
+
+    useEffect(() => {
+        setAddr(!_.isEmpty(latest) ? latest.address.id : '')
+    }, [latest])
 
     const handleAddressChange = address => {
         setAddr(address.id)
@@ -33,7 +39,7 @@ function Shipping({index, checkout, finishOrder}) {
     const showSelectedAddress = selectedAddress => (
         <div className={styles.selected_address}>
             <div>
-                <p>{selectedAddress.name}</p>
+                <p style={{fontWeight: 'bold'}}>{selectedAddress.name}</p>
                 <small>{selectedAddress.phone}</small>
                 <p>{selectedAddress.cityTown}, {selectedAddress.state} - {selectedAddress.postalCode}</p>
             </div>
@@ -49,17 +55,11 @@ function Shipping({index, checkout, finishOrder}) {
     return (
         <div className={styles.shipping}>
             <div className={stylesOverall.header}>
-                {addr ? (
-                    <span className={stylesOverall.step_number}>&#10004;</span>
-                ) : (
-                    <span className={stylesOverall.step_number}>{index + 1}</span>
-                )}
                 <div className={stylesOverall.header_area}>
-                    <h4>Delivery Address</h4>
+                    <h5>Delivery Address</h5>
+                    <AddressDialog/>
                     {addr !== '' && showChange &&
-                    <span className={stylesOverall.btn_change} onClick={() => changeAddress()}>
-                            Change
-                        </span>
+                    <span className={stylesOverall.btn_change} onClick={() => changeAddress()}>Change</span>
                     }
                 </div>
             </div>
@@ -68,7 +68,7 @@ function Shipping({index, checkout, finishOrder}) {
                 addresses.map(address => (
                     <div key={address.id} className={expanded ?
                         `${styles.address_container} ${stylesOverall.expanded}` : `${stylesOverall.un_expanded}`}>
-                        <input type="radio" id='address' name='address' onChange={() => handleAddressChange(address)}
+                        <input type="radio" id="address" name="address" onChange={() => handleAddressChange(address)}
                                value={addr} checked={addr === address.id}/>
                         <div className={styles.address_info}>
                             <div>
@@ -85,7 +85,6 @@ function Shipping({index, checkout, finishOrder}) {
                 token && (
                     <div className={styles.add_address_area}>
                         <p style={{margin: '1rem 0'}}>You don't have any addresses yet. Click to add</p>
-                        <AddressDialog/>
                     </div>
                 )
             )}
@@ -93,7 +92,7 @@ function Shipping({index, checkout, finishOrder}) {
                 {addr ? (
                     <>
                         {showSelectedAddress(addresses.find(address => address.id === addr))}
-                        {button && (
+                        {button && addr === '' && (
                             <div style={{padding: '2rem', textAlign: 'center'}}>
                                 <h4 style={{color: 'red'}}>
                                     Click on the button below if this is your preferred delivery address
@@ -108,7 +107,7 @@ function Shipping({index, checkout, finishOrder}) {
                 )}
             </div>
         </div>
-    );
+    )
 }
 
-export default Shipping;
+export default Shipping

@@ -8,7 +8,7 @@ const router = express.Router()
 
 router.get('/cart', requireAuth, fetchCart)
 router.post('/cart',[
-    body('items.*.id').not().isEmpty().withMessage('Product is required'),
+    body('items.*.id').not().isEmpty().withMessage('ProductInfo is required'),
     body('items.*.units').not().isEmpty().withMessage('Item units is required'),
 ], validateRequest, requireAuth, addToCart)
 

@@ -32,7 +32,7 @@ export const addProduct = async (req: Request, res: Response) => {
     if (!mongoose.Types.ObjectId.isValid(section)) throw new BadRequestError('Please select a section')
     if (!mongoose.Types.ObjectId.isValid(category)) throw new BadRequestError('Please select a category')
 
-    if (req.files.length === 0) throw new BadRequestError('Product images not found')
+    if (req.files.length === 0) throw new BadRequestError('ProductInfo images not found')
     const createdBy = req['user']!.id
     const images = await FileHandler.upload(req.files, name)
 
@@ -51,7 +51,11 @@ export const addProduct = async (req: Request, res: Response) => {
 export const fetchProduct = async (req: Request, res: Response) => {
     const product = await checkProduct(req)
     if (!product) throw new NotFoundError('Product')
-    res.send(product)
+    const similar = await Product.find({category: product.category}).limit(10)
+
+    res.send({
+        product, similar: similar.filter(prod => prod.id !== product.id)
+    })
 }
 
 export const updateProduct = async (req: Request, res: Response) => {

@@ -1,12 +1,23 @@
 import axios from 'axios'
-import {authError, authRequest, authSuccess, removeAuthErrors} from "../redux/auth/authActions";
-import {fetchSectionsError, fetchSectionsRequest, fetchSectionsSuccess} from "../redux/sections/sectionActions";
+import {
+    activateLinkError,
+    activateLinkRequest,
+    activateLinkSuccess,
+    authError,
+    authRequest,
+    authSuccess,
+    removeAuthErrors,
+    verifyAccountError,
+    verifyAccountRequest,
+    verifyAccountSuccess
+} from "../redux/auth/authActions"
+import {fetchSectionsError, fetchSectionsRequest, fetchSectionsSuccess} from "../redux/sections/sectionActions"
 import {
     clearProductErrors,
     fetchProductsError,
     fetchProductsRequest,
     fetchProductsSuccess
-} from "../redux/products/productActions";
+} from "../redux/products/productActions"
 import {
     addToCartError,
     addToCartRequest,
@@ -19,7 +30,7 @@ import {
     fetchCartError,
     fetchCartRequest,
     fetchCartSuccess
-} from "../redux/cart/cartActions";
+} from "../redux/cart/cartActions"
 import {
     addAddressError,
     addAddressRequest,
@@ -28,45 +39,37 @@ import {
     fetchAddressesError,
     fetchAddressesRequest,
     fetchAddressesSuccess
-} from "../redux/address/addressActions";
-import {checkoutParams} from "../redux/checkout/checkoutActions";
+} from "../redux/address/addressActions"
+import {checkoutParams} from "../redux/checkout/checkoutActions"
 import {
     addOrderError,
     addOrderRequest,
     addOrderSuccess,
     clearNewOrder,
     clearOrderError,
+    fetchLatestOrderError,
+    fetchLatestOrderRequest,
+    fetchLatestOrderSuccess,
     fetchOrdersError,
     fetchOrdersRequest,
     fetchOrdersSuccess
-} from "../redux/orders/orderActions";
-import {
-    clearOffersErrors,
-    fetchOffersError,
-    fetchOffersRequest,
-    fetchOffersSuccess
-} from "../redux/offers/offerActions";
+} from "../redux/orders/orderActions"
+import {clearOffersErrors, fetchOffersError, fetchOffersRequest, fetchOffersSuccess} from "../redux/offers/offerActions"
 import _ from 'lodash'
-import {fetchProductError, fetchProductRequest, fetchProductSuccess} from "../redux/product/productActions";
-import {fetchUserError, fetchUserRequest, fetchUserSuccess} from "../redux/user/userActions";
+import {fetchProductError, fetchProductRequest, fetchProductSuccess} from "../redux/product/productActions"
+import {fetchUserError, fetchUserRequest, fetchUserSuccess} from "../redux/user/userActions"
 import {
     clearPayment,
     clearPaypalErrors,
     makePaypalPayError,
     makePaypalPayRequest,
     makePaypalPaySuccess
-} from "../redux/paypal/paypalActions";
-import {
-    fetchCategoriesError,
-    fetchCategoriesRequest,
-    fetchCategoriesSuccess
-} from "../redux/categories/categoryActions";
+} from "../redux/paypal/paypalActions"
+import {fetchCategoriesError, fetchCategoriesRequest, fetchCategoriesSuccess} from "../redux/categories/categoryActions"
 
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
 const dispatchError = (dispatch, err, method) => {
-    // const {response: {data}} = err
-    // dispatch(method(data.errors))
     dispatch(method(err.response?.data?.errors))
 }
 
@@ -85,11 +88,21 @@ export const loginUser = (user, products) => async dispatch => {
     uploadCart('auth/signin', user, products, dispatch)
 }
 
+export const registerUser = (user) => async dispatch => {
+    dispatch(authRequest())
+    try {
+        const {data} = await axios.post(`${BASE_URL}/auth/signup`, user)
+        dispatch(authSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, authError)
+    }
+}
+
 const uploadCart = (url, params, products, dispatch) => {
     let token
     axios.post(`${BASE_URL}/${url}`, params, {withCredentials: true, credentials: 'include'}).then(({data}) => {
         setAuthenticationHeader(data.token)
-        token = data.token
+        token = data
     }).then(async () => {
         if (Object.values(products).length > 0) {
             try {
@@ -292,13 +305,33 @@ export const searchProducts = searchTerm => async dispatch => {
     }
 }
 
-export const activateAccount = token => async dispatch => {
-    try{
+export const requestLink = email => async dispatch => {
+    dispatch(activateLinkRequest())
+    try {
+        const {data} = await axios.post(`${BASE_URL}/auth/activate`, email)
+        dispatch(activateLinkSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, activateLinkError)
+    }
+}
+
+export const verifyAccount = token => async dispatch => {
+    dispatch(verifyAccountRequest())
+    try {
         const {data} = await axios.get(`${BASE_URL}/auth/account/${token}`)
-        console.log(data)
-        dispatch(data)
-    } catch (err){
-        console.log(err)
+        dispatch(verifyAccountSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, verifyAccountError)
+    }
+}
+
+export const fetchLatestOrder = () => async dispatch => {
+    dispatch(fetchLatestOrderRequest())
+    try {
+        const {data} = await axios.get(`${BASE_URL}/orders/latest`)
+        dispatch(fetchLatestOrderSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, fetchLatestOrderError)
     }
 }
 

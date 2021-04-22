@@ -23,7 +23,8 @@ function Product({product, token}) {
     }
 
     return (
-        <div className={styles.card}>
+
+        <div className={`${styles.card} col-md-3 col-sm-4 mb-3`}>
             <div className={styles.card_header}>
                 {product.discount > 0 && <div className={styles.offer}>{`${product.discount} % off`}</div>}
                 {product.images && showImage(product.images)}

@@ -3,20 +3,33 @@ import {useDispatch, useSelector} from "react-redux";
 import {AiOutlineHeart, AiOutlineShoppingCart} from "react-icons/ai";
 import {FcEmptyFilter} from "react-icons/fc";
 import {addCartItem, deleteCartItem, fetchProduct} from "../../api";
+
 import _ from 'lodash'
 import styles from './Product.module.css';
 import Rating from "../../components/rating/Rating";
 import {Link} from "react-router-dom";
+import AliceCarousel from "react-alice-carousel"
+import Product from "../../components/product/Product"
+import {Breadcrumb} from "react-bootstrap"
 
-function Product({match: {params}}) {
+function ProductInfo({match: {params}}) {
     const dispatch = useDispatch()
     const {products} = useSelector(state => state.cart)
-    const {product, errors} = useSelector(state => state.item)
+    const {product, similar, errors} = useSelector(state => state.item)
     const {token} = useSelector(state => state.auth)
     const [inCart, setInCart] = useState(false)
     const [image, setImage] = useState('')
 
     const item = product && Object.values(products).find(c => c.id === product.id)
+
+    const responsive = {
+        0: {items: 1},
+        568: {items: 3},
+        990: {items: 5},
+    }
+    let items = []
+    similar.forEach(prod => items.push(<Product product={prod} token={token}/>))
+    console.log(items)
 
     useEffect(() => {
         dispatch(fetchProduct(params.id))
@@ -40,6 +53,11 @@ function Product({match: {params}}) {
 
     return (
         <div className='main_container'>
+            <Breadcrumb>
+                <Breadcrumb.Item linkAs={Link} linkProps={{to: '/'}}>Home</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{to: '/products'}}>Products</Breadcrumb.Item>
+                <Breadcrumb.Item active>{product.name}</Breadcrumb.Item>
+            </Breadcrumb>
             {errors && errors.length > 0 ? (
                 <div className={styles.empty}>
                     <FcEmptyFilter/>
@@ -49,7 +67,7 @@ function Product({match: {params}}) {
                 !_.isEmpty(product) && (
                     <div className={styles.card_wrapper}>
                         <div className={styles.card}>
-                            {/*Product left*/}
+                            {/*ProductInfo left*/}
                             <div className={styles.product_images}>
                                 <div className={styles.image_display}>
                                     <div className={styles.image_showcase}>
@@ -64,7 +82,7 @@ function Product({match: {params}}) {
                                     ))}
                                 </div>
                             </div>
-                            {/*Product right*/}
+                            {/*ProductInfo right*/}
                             <div className={styles.product_content}>
                                 <h2 className={styles.product_title}>{product.name}</h2>
                                 <div className={styles.product_rating}>
@@ -120,6 +138,26 @@ function Product({match: {params}}) {
                         </div>
                         <hr className={styles.divider}/>
                         <p className={styles.similar}>Similar Products</p>
+                        <div style={{overflow: 'hidden'}}>
+                            {items.length > 0 ? (
+                                <AliceCarousel items={items}
+                                               autoPlay={items.length > 4}
+                                               mouseTracking
+                                               infinite={items.length > 4}
+                                               touchTracking
+                                               autoPlayInterval={5000}
+                                               animationDuration={500}
+                                               animationType='slide'
+                                               autoPlayControls={false}
+                                               disableDotsControls={items.length > 4}
+                                               disableButtonsControls
+                                               responsive={responsive}/>
+                            ) : (
+                                <p style={{color: 'red', textAlign: 'center', fontSize: '1.5rem'}}>
+                                    There are currently no similar products..
+                                </p>
+                            )}
+                        </div>
                     </div>
                 )
             )}
@@ -127,4 +165,4 @@ function Product({match: {params}}) {
     );
 }
 
-export default Product;
+export default ProductInfo;

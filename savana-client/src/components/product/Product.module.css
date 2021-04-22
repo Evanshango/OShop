@@ -1,14 +1,15 @@
 .card {
-    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     border: 0 solid #dcdcdc;
     border-radius: 8px;
     cursor: pointer;
     overflow: hidden;
     box-shadow: 0 6px 18px -9px rgba(0, 0, 0, .75);
     transition: transform 100ms ease-in;
-    max-width: 220px;
-    width: 100%;
-    /*width: 220px;*/
+    max-width: 220px!important;
+    padding: 0!important;
+    margin-right: 1rem!important;
 }
 
 .card:hover {
@@ -63,6 +64,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    margin-top: 1.5rem;
     text-transform: capitalize;
     color: #333333;
 }
@@ -170,6 +172,12 @@
     cursor: pointer;
 }
 
+@media screen and (max-width: 1680px){
+    .card{
+        max-width: 200px!important;
+    }
+}
+
 @media screen and (max-width: 1338px) {
     .card_image {
         height: 150px;
@@ -188,26 +196,76 @@
     }
 }
 
-@media screen and (max-width: 1162px) {
+@media screen and (max-width: 1285px){
     .card{
-        width: 162px;
+        max-width: 180px!important;
+    }
+}
+
+@media screen and (max-width: 1160px) {
+    .card{
+        max-width: 170px!important;
     }
     .card_image {
         height: 120px;
     }
 }
 
-@media screen and (max-width: 728px) {
+@media screen and (max-width: 1098px) {
     .card{
-        min-width: 120px!important;
+        max-width: 160px!important;
+    }
+}
+
+@media screen and (max-width: 977px) {
+    .card{
+        max-width: 150px!important;
+    }
+}
+@media screen and (max-width: 938px) {
+    .card{
+        max-width: 145px!important;
+    }
+}
+
+@media screen and (max-width: 888px) {
+    .card{
+        max-width: 180px!important;
+        /*margin: auto;*/
+    }
+}
+
+@media screen and (max-width: 785px) {
+    .card{
+        max-width: 165px!important;
+    }
+}
+
+@media screen and (max-width: 745px) {
+    .card{
+        max-width: 155px!important;
+    }
+}
+
+@media screen and (max-width: 702px) {
+    .card{
+        max-width: 145px!important;
+    }
+}
+
+@media screen and (max-width: 658px) {
+    .card{
+        max-width: 135px!important;
+    }
+}
+
+@media screen and (max-width: 615px) {
+    .card{
+        max-width: 125px!important;
     }
 }
 
 @media screen and (max-width: 639px) {
-    .card {
-        max-width: 142px;
-        width: 142px;
-    }
 
     .card_image {
         height: 100px;
@@ -222,52 +280,42 @@
     }
 }
 
-@media screen and (max-width: 573px) {
+@media screen and (max-width: 571px) {
     .card{
-        width: 140px;
+        max-width: 150px!important;
     }
 }
 
-@media screen and (max-width: 567px) {
+@media screen and (max-width: 517px) {
     .card{
-        width: 135px;
+        max-width: 200px!important;
     }
 }
 
-@media screen and (max-width: 549px) {
+@media screen and (max-width: 495px) {
     .card{
-        width: 130px;
+        max-width: 180px!important;
     }
 }
 
-@media screen and (max-width: 533px) {
+@media screen and (max-width: 450px) {
     .card{
-        width: 125px;
-    }
-}
-
-@media screen and (max-width: 516px) {
-    .card{
-        width: 120px;
-    }
-}
-
-@media screen and (max-width: 433px) {
-    .card{
-        width: 100%;
+        max-width: 160px!important;
     }
 }
 
 @media screen and (max-width: 378px) {
+    .card {
+        max-width: 120px!important;
+    }
     .offer {
         padding: .4rem;
         font-size: 12px;
     }
 }
 
-@media screen and (max-width: 278px) {
+@media screen and (max-width: 348px){
     .card{
-        max-width: 400px;
-        width: 300px;
+        max-width: 380px!important;
     }
 }

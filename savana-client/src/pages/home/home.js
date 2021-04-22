@@ -1,24 +1,23 @@
 import React, {useEffect, useState} from 'react'
 import styles from "./Home.module.css"
-import Search from "../../components/search/Search"
 import {useDispatch, useSelector} from "react-redux"
 import _ from 'lodash'
 import {Link} from "react-router-dom"
 import {fetchProducts} from "../../api"
-import Product from "../../components/product/Product"
 import Banner from "../../components/banner/Banner"
+import Featured from "../../components/featured/Featured"
+import Categories from "../../components/categories/Categories"
 
 function Home() {
     const dispatch = useDispatch()
     const {token} = useSelector(state => state.auth)
     const {products} = useSelector(state => state.product)
     const {offers} = useSelector(state => state.offer)
+    const {categories} = useSelector(state => state.category)
     const showImage = (images) => images && images[Math.floor(Math.random() * images.length)]
     const [bannerProd, setBannerProd] = useState({})
 
     const getRandomElements = (prods, limit) => prods.sort(() => Math.random() - Math.random()).slice(0, limit)
-
-    const displayItems = getRandomElements(products && products, 10)
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -39,51 +38,13 @@ function Home() {
     return (
         <>
             <Banner/>
-            <div className={styles.search}>
-                <Search/>
-            </div>
             {/*Featured*/}
-            <>
-                <div className={styles.title}>
-                    <h5>Featured Products</h5>
-                </div>
-                <div className={styles.home_module}>
-                    {products && getRandomElements(products.filter(p => p.featured), 5).map(product => (
-                        <Product product={product} key={product.id} token={token}/>
-                    ))}
-                </div>
-            </>
+            {/*<Featured products={products && getRandomElements(products.filter(p => p.featured), 4)} token={token}/>*/}
+            <Featured products={products && products.filter(p => p.featured)} token={token}/>
             {/*Featured*/}
-            {/*<Latest/>*/}
-            <>
-                <div className={styles.title} style={{marginTop: '0'}}>
-                    <h5>Latest Products</h5>
-                </div>
-                <div className={styles.row_one}>
-                    <div className={styles.home_module}>
-                        {displayItems.splice(0, 5).map(product => (
-                            <Product product={product} key={product.id} token={token}/>
-                        ))}
-                    </div>
-                </div>
-                <div className={styles.row_two}>
-                    <div className={styles.home_module}>
-                        {displayItems.splice(0, 5).map(product => (
-                            <Product product={product} key={product.id} token={token}/>
-                        ))}
-                    </div>
-                </div>
-                <div className={styles.show_more}>
-                    {products && products.length > 10 && (
-                        <li className={styles.btn_show_more}>
-                            <Link to={'/products'}>
-                                <button>Show More</button>
-                            </Link>
-                        </li>
-                    )}
-                </div>
-            </>
-            {/*<Latest/>*/}
+            {/*Categories*/}
+            <Categories categories={categories && getRandomElements(categories, 6)}/>
+            {/*Categories*/}
             <div className={styles.banner}>
                 <div className={styles.banner_content}>
                     {!_.isEmpty(bannerProd) && (
@@ -118,7 +79,7 @@ function Home() {
                                           backgroundImage: `linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), 
                                         url(${showImage(offer.product.images)})`
                                       }}>
-                                    <h2 style={{textTransform: 'capitalize'}}>{offer.product.name}</h2>
+                                    <h2 style={{textTransform: 'capitalize', color: 'white'}}>{offer.product.name}</h2>
                                     <h1 style={{color: '#fbb419'}}>{`${offer.product.discount}% off`}</h1>
                                 </Link>
                             )

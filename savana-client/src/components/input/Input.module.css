@@ -12,3 +12,7 @@
 .input_area input:focus {
     outline: none;
 }
+
+.input_area input::placeholder{
+    color: #dcdcdc;
+}

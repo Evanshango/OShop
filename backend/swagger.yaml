@@ -81,7 +81,7 @@ components:
       type: object
       properties:
         product:
-          $ref: '#/components/schemas/Product'
+          $ref: '#/components/schemas/ProductInfo'
         units:
           type: number
         customer:
@@ -115,7 +115,7 @@ components:
         id:
           type: string
         product:
-          $ref: '#/components/schemas/Product'
+          $ref: '#/components/schemas/ProductInfo'
         expiresAt:
           type: string
 
@@ -645,7 +645,7 @@ paths:
                 - images
       responses:
         201:
-          description: Product created successfully
+          description: ProductInfo created successfully
         400:
           description: Bad request
         401:
@@ -664,7 +664,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Product'
+                  $ref: '#/components/schemas/ProductInfo'
 
   /products/{id}:
     get:
@@ -676,7 +676,7 @@ paths:
         - in: path
           name: id
           required: true
-          description: Product id
+          description: ProductInfo id
           schema:
             type: string
       responses:
@@ -685,7 +685,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                $ref: '#/components/schemas/ProductInfo'
         400:
           description: Bad request
         404:
@@ -694,7 +694,7 @@ paths:
     patch:
       tags:
         - products
-      summary: Updates a Product
+      summary: Updates a ProductInfo
       description: Update a specific product based on the product id provided
       security:
         - tokenAuth: [ ]
@@ -702,7 +702,7 @@ paths:
         - in: path
           name: id
           required: true
-          description: The Product id
+          description: The ProductInfo id
           schema:
             type: string
       requestBody:
@@ -714,11 +714,11 @@ paths:
               $ref: '#/components/schemas/ProductBody'
       responses:
         200:
-          description: Product updated successfully
+          description: ProductInfo updated successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
+                $ref: "#/components/schemas/ProductInfo"
         4004:
           description: Bad request
         401:
@@ -729,7 +729,7 @@ paths:
     delete:
       tags:
         - products
-      summary: Deletes a Product
+      summary: Deletes a ProductInfo
       description: Delete a specific product based on the product id provided
       security:
         - tokenAuth: [ ]
@@ -737,12 +737,12 @@ paths:
         - in: path
           name: id
           required: true
-          description: The Product id
+          description: The ProductInfo id
           schema:
             type: string
       responses:
         200:
-          description: Product deleted successfully
+          description: ProductInfo deleted successfully
         4004:
           description: Bad request
         401:
@@ -776,7 +776,7 @@ paths:
                 units: 1
       responses:
         201:
-          description: Product added to cart
+          description: ProductInfo added to cart
         400:
           description: Bad request
         401:

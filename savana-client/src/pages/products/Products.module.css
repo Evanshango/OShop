@@ -3,7 +3,7 @@
     margin: 2rem auto;
     display: grid;
     grid-template-columns: 1fr 3fr;
-    grid-gap: 1rem;
+    grid-gap: 2rem;
     align-items: flex-start;
     min-height: 80vh;
 }
@@ -79,30 +79,10 @@
     outline: none;
 }
 
-.items{
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.child {
-    flex: 1 0 21%; /* explanation below */
-    margin: 5px;
-    width: 100%;
-    max-width: 200px;
-    /*margin: auto;*/
-}
-
-.content_area {
-    display: grid;
-    grid-gap: 2rem;
-    grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
-    margin: 0 auto 1rem auto;
-    width: 100%;
-}
-
-.content_area li {
-    display: flex;
-    justify-content: center;
+.product_item{
+    /*background: #838383;*/
+    margin-bottom: 1rem;
+    margin-right: 10px;
 }
 
 .filter_area {
@@ -113,7 +93,7 @@
 }
 
 .search_area {
-    display: none;
+    /*display: none;*/
     justify-content: center;
     width: 100%;
     margin: 0 auto .5rem auto;
@@ -210,11 +190,14 @@
     }
 }
 
-/*@media screen and (max-width: 1064px) {*/
-/*    .child {*/
-/*        flex: 0 0 21%;*/
-/*    }*/
-/*}*/
+@media screen and (max-width: 894px){
+    .items{
+        padding: 1.5rem;
+        margin: auto;
+        display: flex;
+        justify-content: flex-start;
+    }
+}
 
 @media screen and (max-width: 900px) {
     .content {
@@ -242,12 +225,13 @@
     }
 }
 
-@media screen and (max-width: 599px) {
+@media screen and (max-width: 571px){
     .items{
-        /*background: #333333;*/
-        justify-content: center;
+        width: 80%;
+        margin: auto!important;
     }
 }
+
 
 @media screen and (max-width: 567px) {
     .search_area {
@@ -266,9 +250,15 @@
     }
 }
 
-@media screen and (max-width: 500px) {
-    .child{
-        width: 120px;
+@media screen and (max-width: 571px){
+    .items{
+        width: 85%;
+    }
+}
+
+@media screen and (max-width: 517px) {
+    .items{
+        justify-content: center;
     }
 }
 
@@ -289,9 +279,6 @@
 }
 
 @media screen and (max-width: 340px){
-    .items{
-        justify-content: center;
-    }
     .child{
         display: flex;
         justify-content: center;

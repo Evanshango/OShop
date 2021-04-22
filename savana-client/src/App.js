@@ -24,7 +24,7 @@ function App() {
             if (decodedToken.exp * 1000 < Date.now()) {
                 dispatch(signOut())
             } else {
-                dispatch(authSuccess(token))
+                dispatch(authSuccess({token}))
                 setAuthenticationHeader(token)
             }
         }

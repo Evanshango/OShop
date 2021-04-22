@@ -6,6 +6,7 @@ import _ from "lodash";
 import {MdHourglassEmpty} from "react-icons/md";
 import {addCartItem} from "../../api";
 import CartItem from "../../components/cart-item/CartItem";
+import {Breadcrumb} from "react-bootstrap"
 
 function Cart() {
     const dispatch = useDispatch()
@@ -55,6 +56,12 @@ function Cart() {
 
     return (
         <div className={styles.cart}>
+            <div style={{width: '100%'}}>
+                <Breadcrumb>
+                    <Breadcrumb.Item linkAs={Link} linkProps={{to: '/'}}>Home</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Cart</Breadcrumb.Item>
+                </Breadcrumb>
+            </div>
             {Object.keys(cartItems).length > 0 ? (
                 <div className={styles.cart_area}>
                     <div className={styles.cart_right}>

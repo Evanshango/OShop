@@ -3,6 +3,7 @@ import {PRODUCT} from "../types";
 const initialState = {
     loading: false,
     product: {},
+    similar: [],
     errors: []
 }
 
@@ -14,7 +15,7 @@ const productItemReducer = (state = initialState, action) => {
             }
         case PRODUCT.FETCH_PRODUCT_SUCCESS:
             return {
-                ...state, loading: false, errors: [], product: action.payload
+                ...state, loading: false, errors: [], product: action.payload.product, similar: action.payload.similar
             }
         case PRODUCT.FETCH_PRODUCT_ERROR:
             return {

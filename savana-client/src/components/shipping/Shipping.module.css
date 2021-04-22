@@ -48,6 +48,10 @@
     align-items: center;
 }
 
+.selected_address small{
+    font-size: 1rem!important;
+}
+
 .edit {
     margin-left: auto;
     background: #fbb419;

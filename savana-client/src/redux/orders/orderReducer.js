@@ -1,9 +1,10 @@
-import {ORDER} from "../types";
+import {ORDER} from "../types"
 
 const initialState = {
     loading: false,
     order: {},
     orders: [],
+    latest: {},
     errors: []
 }
 
@@ -29,9 +30,9 @@ const orderReducer = (state = initialState, action) => {
             return {
                 ...state, order: action.payload, loading: false, errors: []
             }
-            // return {
-            //     ...state, orders: [...state.orders, action.payload], loading: false, errors: []
-            // }
+        // return {
+        //     ...state, orders: [...state.orders, action.payload], loading: false, errors: []
+        // }
         case ORDER.ADD_ORDER_ERROR:
             return {
                 ...state, loading: false, errors: action.payload, orders: []
@@ -39,6 +40,18 @@ const orderReducer = (state = initialState, action) => {
         case ORDER.CLEAR_NEW_ORDER:
             return {
                 ...state, loading: false, errors: [], order: {}
+            }
+        case ORDER.FETCH_LATEST_ORDER_REQUEST:
+            return {
+                ...state, loading: true
+            }
+        case ORDER.FETCH_LATEST_ORDER_SUCCESS:
+            return {
+                ...state, loading: false, errors: [], latest: action.payload
+            }
+        case ORDER.FETCH_LATEST_ORDER_ERROR:
+            return {
+                ...state, loading: false, latest: {}, errors: action.payload
             }
         case ORDER.CLEAR_ORDER_ERRORS:
             return {

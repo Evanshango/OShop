@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
 import styles from './Payment.module.css'
 import stylesOverall from './../../pages/checkout/Checkout.module.css'
-import {useDispatch, useSelector} from "react-redux";
-import {paypalPayment} from "../../api";
+import {useDispatch, useSelector} from "react-redux"
+import {paypalPayment} from "../../api"
 import mPesa from '../../assets/images/mpesa.jpg'
-import {Dialog, DialogContent} from "@material-ui/core";
+import {Dialog, DialogContent} from "@material-ui/core"
 import _ from 'lodash'
 
 const PayPalButton = window.paypal.Buttons['driver']('react', {React, ReactDOM})
@@ -17,13 +17,18 @@ const options = [
     {name: 'VISA', value: 'VISA'}
 ]
 
-function Payment({index}) {
+function Payment() {
 
-    const {order} = useSelector(state => state.order)
+    const {latest} = useSelector(state => state.order)
+    const [order, setOrder] = useState(!_.isEmpty(latest) ? latest : {})
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
 
     const handleClose = () => setOpen(false)
+
+    useEffect(() => {
+        setOrder(!_.isEmpty(latest) ? latest : {})
+    }, [latest])
 
     const createOrder = async (dt, actions) => {
         return actions.order.create({
@@ -59,7 +64,7 @@ function Payment({index}) {
             application_context: {
                 shipping_preference: 'NO_SHIPPING'
             }
-        });
+        })
     }
 
     const onApprove = (dt, actions) => {
@@ -77,7 +82,7 @@ function Payment({index}) {
             }
             dispatch(paypalPayment(payment))
         })
-    };
+    }
 
     const onCancel = (orderID) => {
         if (orderID !== '') {
@@ -93,7 +98,7 @@ function Payment({index}) {
                         <div className={styles.mpesa} onClick={() => setOpen(true)}>
                             <img src={mPesa} alt="mpesa"/>
                         </div>
-                        <Dialog open={open} onClose={handleClose} fullWidth maxWidth='xs'>
+                        <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
                             <DialogContent>
                                 <h3 style={{color: 'red', textAlign: 'center'}}>Coming soon!!</h3>
                             </DialogContent>
@@ -120,7 +125,6 @@ function Payment({index}) {
     return (
         <div className={styles.payment}>
             <div className={stylesOverall.header}>
-                <span className={stylesOverall.step_number}>{index + 1}</span>
                 <div className={stylesOverall.header_area}>
                     <h4>Payment Method</h4>
                 </div>
@@ -129,8 +133,10 @@ function Payment({index}) {
             {!_.isEmpty(order) && (
                 <div className={stylesOverall.content}>
                     <h5>How do you want to pay for your order
-                        {!_.isEmpty(order) && (<span style={{textTransform: 'uppercase', fontSize: '1.2rem',
-                                color: 'red', marginLeft: '.5rem'}}>
+                        {!_.isEmpty(order) && (<span style={{
+                                textTransform: 'uppercase', fontSize: '1.2rem',
+                                color: 'red', marginLeft: '.5rem'
+                            }}>
                         {`#${order.id}`}
                     </span>
                         )}
@@ -145,7 +151,7 @@ function Payment({index}) {
                 </div>
             )}
         </div>
-    );
+    )
 }
 
-export default Payment;
+export default Payment

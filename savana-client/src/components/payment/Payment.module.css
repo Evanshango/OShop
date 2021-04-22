@@ -2,9 +2,9 @@
     padding: 0
 }
 
-.payment hr{
+.payment hr {
     border: 1px solid #dcdcdc;
-    margin: 0!important;
+    margin: 0 !important;
 }
 
 .options {
@@ -15,7 +15,7 @@
     align-items: flex-start;
 }
 
-.options span label{
+.options span label {
     margin-left: .5rem;
 }
 
@@ -40,78 +40,93 @@
     margin-top: 1rem;
 }
 
-.mpesa{
+.mpesa {
     width: 100%;
     text-align: center;
     background: #0EB520;
     border-radius: 2rem;
     cursor: pointer;
-    height: 2.8rem;
+    height: 2.8rem !important;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.mpesa img{
+.mpesa img {
     object-fit: cover;
     width: 50%;
     z-index: 10;
 }
 
-@media screen and (max-width: 1640px){
-    .mpesa{
+@media screen and (max-width: 1680px) {
+    .mpesa {
+        height: 3.2rem!important;
+    }
+}
+
+@media screen and (max-width: 1611px) {
+    .mpesa {
+        height: 2.8rem!important;
+    }
+}
+
+@media screen and (max-width: 1640px) {
+    .mpesa {
         height: 2.15rem;
     }
 }
 
 @media screen and (max-width: 878px) {
-    .options{
+    .options {
         grid-template-columns: 1fr;
     }
 
-    .mpesa{
-        height: 2.8rem;
+    .mpesa {
+        height: 3.3rem!important;
     }
 }
 
-@media screen and (max-width: 788px){
-    .mpesa{
+@media screen and (max-width: 788px) {
+    .mpesa {
         height: 3.4rem;
     }
+
     .mpesa img {
         width: 25%;
     }
 }
 
-@media screen and (max-width: 608px){
-    .mpesa{
+@media screen and (max-width: 608px) {
+    .mpesa {
         height: 2.7rem;
     }
-    .mpesa img{
+
+    .mpesa img {
         width: 40%;
     }
 }
 
-@media screen and (max-width: 458px){
+@media screen and (max-width: 458px) {
     .mpesa {
         height: 2.5rem;
     }
-    .options{
+
+    .options {
         flex-direction: column;
         grid-gap: .5rem;
     }
 
-    .options span{
+    .options span {
         margin: .5rem 0;
     }
 }
 
-@media screen and (max-width: 398px){
-    .mpesa{
+@media screen and (max-width: 398px) {
+    .mpesa {
         height: 2.3rem;
     }
 
-    .mpesa img{
+    .mpesa img {
         width: 50%;
     }
 }

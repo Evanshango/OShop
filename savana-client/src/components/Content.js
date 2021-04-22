@@ -3,7 +3,9 @@ import Navbar from "./nav/Navbar";
 import Footer from "./footer/Footer";
 import Layout from "./Layout";
 import {useDispatch, useSelector} from "react-redux";
-import {addCheckOutParam, fetchCartItems, fetchOrderItems, fetchUser, fetchUserAddresses} from "../api";
+import {
+    addCheckOutParam, fetchCartItems, fetchLatestOrder, fetchOrderItems, fetchUser, fetchUserAddresses
+} from "../api"
 
 function Content() {
     const dispatch = useDispatch()
@@ -15,6 +17,7 @@ function Content() {
             dispatch(fetchCartItems())
             dispatch(fetchOrderItems())
             dispatch(fetchUser())
+            dispatch(fetchLatestOrder())
         }
     }, [token, dispatch])
 

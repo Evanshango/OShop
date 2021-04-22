@@ -91,7 +91,11 @@ export const googleOAuth = async (req: Request, res: Response) => {
 
     const existingUser = await User.findOne({email})
     if (existingUser) {
-        await userResponse(existingUser, req, res, 200)
+        if (existingUser.verified){
+            await userResponse(existingUser, req, res, 200)
+        } else {
+            throw new BadRequestError('Please check your email for an activation link')
+        }
     } else {
         const user = User.build({
             email, firstName: given_name, lastName: family_name, fullName: name, avatar: picture,
@@ -119,7 +123,7 @@ export const verifyAccount = async (req: Request, res: Response) => {
 
         if (user!.tokenExp > currDate) {
             await User.findByIdAndUpdate(id, {$set: {verified: true}, $unset: {activateToken: '', tokenExp: ''}})
-            message = 'Account activated'
+            message = 'Account activated successfully'
         } else {
             message = 'Activation token expired'
         }

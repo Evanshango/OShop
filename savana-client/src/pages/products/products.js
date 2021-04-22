@@ -5,8 +5,9 @@ import {useDispatch, useSelector} from "react-redux"
 import {clearPaymentValues, fetchProducts, searchProducts} from "../../api"
 import _ from 'lodash'
 import Pagination from "../../components/pagination/Pagination"
-import {useHistory} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import Product from '../../components/product/Product'
+import {Breadcrumb} from "react-bootstrap"
 
 function Products({match}) {
     let pageNumber = match.params.pageNumber || 1
@@ -79,9 +80,6 @@ function Products({match}) {
 
     return (
         <div className={styles.content}>
-            <div className={styles.search_area}>
-                <Search/>
-            </div>
             {/*Categories area*/}
             <div className={styles.categories}>
                 <div className={styles.filter_header}>
@@ -128,10 +126,17 @@ function Products({match}) {
                 )}
             </div>
             {/*Products area*/}
-            <div>
-                <div className={styles.items}>
+            <div style={{marginLeft: '1rem'}}>
+                <Breadcrumb>
+                    <Breadcrumb.Item linkAs={Link} linkProps={{to: '/'}}>Home</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Products</Breadcrumb.Item>
+                </Breadcrumb>
+                <div className={styles.search_area}>
+                    <Search/>
+                </div>
+                <div className={`${styles.items} row`}>
                     {products && products.map(product => (
-                        <div className={styles.child} key={product.id}>
+                        <div className={`${styles.product_item}`} key={product.id}>
                             <Product product={product} token={token}/>
                         </div>
                     ))}
@@ -143,7 +148,7 @@ function Products({match}) {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default Products;
+export default Products
