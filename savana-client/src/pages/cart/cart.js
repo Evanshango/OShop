@@ -59,6 +59,7 @@ function Cart() {
             <div style={{width: '100%'}}>
                 <Breadcrumb>
                     <Breadcrumb.Item linkAs={Link} linkProps={{to: '/'}}>Home</Breadcrumb.Item>
+                    <Breadcrumb.Item linkAs={Link} linkProps={{to: '/products'}}>Products</Breadcrumb.Item>
                     <Breadcrumb.Item active>Cart</Breadcrumb.Item>
                 </Breadcrumb>
             </div>

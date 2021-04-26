@@ -204,8 +204,10 @@
 .order_content{
     display: flex;
     justify-content: center;
-    min-height: 50vh;
+    min-height: 70vh;
     margin: auto;
+    align-items: center;
+    width: 100%;
 }
 
 .order_info{

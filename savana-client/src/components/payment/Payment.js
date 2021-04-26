@@ -161,8 +161,11 @@ function Payment() {
                                     </div>
                                 )}
                                 <DialogActions>
-                                    <button onClick={makeRequest} className={styles.make_request}
-                                            disabled={phone === '' || phoneError !== '' || errors.length > 0}>
+                                    {/*<button onClick={makeRequest} className={styles.make_request}*/}
+                                    {/*        disabled={phone === '' || phoneError !== '' || errors.length > 0}>*/}
+                                    {/*    Make Request*/}
+                                    {/*</button>*/}
+                                    <button onClick={makeRequest} className={styles.make_request} disabled>
                                         Make Request
                                     </button>
                                 </DialogActions>
@@ -171,14 +174,12 @@ function Payment() {
                     </>
                 )
             case 'PAYPAL':
-                return (
-                    <div className={styles.payment_buttons}>
-                        <PayPalButton style={{color: 'gold', shape: 'pill', height: 47}}
-                                      onCancel={({orderID}) => onCancel(orderID)}
-                                      createOrder={(data, actions) => createOrder(data, actions)}
-                                      onApprove={(data, actions) => onApprove(data, actions)}/>
-                    </div>
-                )
+                return (<div className={styles.payment_buttons}>
+                    <PayPalButton style={{color: 'gold', shape: 'pill', height: 47}}
+                                  onCancel={({orderID}) => onCancel(orderID)}
+                                  createOrder={(data, actions) => createOrder(data, actions)}
+                                  onApprove={(data, actions) => onApprove(data, actions)}/>
+                </div>)
             case 'VISA':
                 return <></>
             case 'CASH ON DELIVERY':
@@ -199,7 +200,7 @@ function Payment() {
             {!_.isEmpty(order) && (
                 <div className={stylesOverall.content}>
                     <div>
-                        {latest && (
+                        {!_.isEmpty(latest) && (
                             <>
                                 <p>({latest.items.length} Previous order items)</p>
                                 <Previous latest={latest.items}/>

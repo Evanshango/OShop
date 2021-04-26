@@ -1,7 +1,7 @@
 import {Request, Response} from 'express'
 import {Payment} from "../models/payment";
 import axios from "axios";
-import {MPESA_PASS_KEY, MPESA_SHORT_CODE, MPESA_STK_PUSH} from "../helpers/constants";
+import {CALL_BACK_URL_PROD, MPESA_PASS_KEY, MPESA_SHORT_CODE, MPESA_STK_PUSH, NODE_ENV} from "../helpers/constants";
 import {BadRequestError} from "../errors/bad-request-error";
 
 declare const Buffer: any
@@ -28,9 +28,7 @@ export const mpesaPayment = async (req: Request, res: Response) => {
     const {mPesaToken} = req
     const {phone, amount, orderId} = req.body
 
-    console.log('TOKEN', mPesaToken)
-
-    // const callbackURL = NODE_ENV! !== 'development' ? CALL_BACK_URL_PROD! : 'https://adff75d7bf0f.ngrok.io/api/v1/payments/stk/callback'
+    const callbackURL = NODE_ENV! !== 'development' ? CALL_BACK_URL_PROD! : 'https://adff75d7bf0f.ngrok.io/api/v1/payments/stk/callback'
 
     let dateNow = new Date()
     const year = dateNow.getFullYear()
@@ -49,11 +47,11 @@ export const mpesaPayment = async (req: Request, res: Response) => {
         "Password": password,
         "Timestamp": timestamp,
         "TransactionType": "CustomerPayBillOnline",
-        "Amount": 1, //TODO change value to an actual amount value from the request body
+        "Amount": amount,
         "PartyA": phone,
         "PartyB": MPESA_SHORT_CODE!,
         "PhoneNumber": phone,
-        "CallBackURL": 'https://adff75d7bf0f.ngrok.io/api/v1/payments/stk/callback',
+        "CallBackURL": callbackURL,
         "AccountReference": "Savana Treasures",
         "TransactionDesc": orderId,
     }
@@ -70,8 +68,8 @@ export const mpesaPayment = async (req: Request, res: Response) => {
         return res.send({
             message
         })
-    } catch ({response}) {
-        console.log(response)
+    } catch (err) {
+        console.log(err)
         throw new BadRequestError('Please try again after sometime')
     }
 }
