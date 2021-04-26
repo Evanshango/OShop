@@ -1,17 +1,28 @@
 import React, {useState} from 'react'
 import styles from "./Navbar.module.css"
-import {useSelector} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import {Link} from "react-router-dom"
 import {AiOutlineClose, AiOutlineMenu, AiOutlineShoppingCart} from "react-icons/ai"
+import {clearAuthErrors} from "../../api"
 
 function Navbar() {
+    const dispatch = useDispatch()
     const {products: cart} = useSelector(state => state.cart)
+    const {message} = useSelector(state => state.auth)
     const [click, setClick] = useState(false)
     const {token} = useSelector(state => state.auth)
 
     const handleClick = () => setClick(!click)
+        // // if (message !== '') dispatch(clearAuthErrors())
+        // if (message !== ''){
+        //     console.log(message)
+        // }
 
-    const closeMobileMenu = () => setClick(false)
+
+    const closeMobileMenu = () => {
+        if (message !== '') dispatch(clearAuthErrors())
+        setClick(false)
+    }
 
     return (
         <nav className={styles.nav}>

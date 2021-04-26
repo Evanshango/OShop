@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {AiOutlineHeart, AiOutlineShoppingCart} from "react-icons/ai";
-import {FcEmptyFilter} from "react-icons/fc";
-import {addCartItem, deleteCartItem, fetchProduct} from "../../api";
+import React, {useEffect, useState} from 'react'
+import {useDispatch, useSelector} from "react-redux"
+import {AiOutlineHeart, AiOutlineShoppingCart} from "react-icons/ai"
+import {FcEmptyFilter} from "react-icons/fc"
+import {addCartItem, deleteCartItem, fetchProduct} from "../../api"
 
 import _ from 'lodash'
-import styles from './Product.module.css';
-import Rating from "../../components/rating/Rating";
-import {Link} from "react-router-dom";
+import styles from './Product.module.css'
+import Rating from "../../components/rating/Rating"
+import {Link} from "react-router-dom"
 import AliceCarousel from "react-alice-carousel"
-import Product from "../../components/product/Product"
+import 'react-alice-carousel/lib/alice-carousel.css'
 import {Breadcrumb} from "react-bootstrap"
+import Product from "../../components/product/Product"
 
 function ProductInfo({match: {params}}) {
     const dispatch = useDispatch()
@@ -25,11 +26,15 @@ function ProductInfo({match: {params}}) {
     const responsive = {
         0: {items: 1},
         568: {items: 3},
-        990: {items: 5},
+        1024: {items: 5},
     }
-    let items = []
-    similar.forEach(prod => items.push(<Product product={prod} token={token}/>))
-    console.log(items)
+
+    const items = []
+    similar.forEach(prod => items.push(
+        <div className={styles.item}>
+            <Product product={prod} token={token}/>
+        </div>
+    ))
 
     useEffect(() => {
         dispatch(fetchProduct(params.id))
@@ -52,7 +57,7 @@ function ProductInfo({match: {params}}) {
     const addToWishlist = () => console.log('adding to wishlist')
 
     return (
-        <div className='main_container'>
+        <div className="main_container">
             <Breadcrumb>
                 <Breadcrumb.Item linkAs={Link} linkProps={{to: '/'}}>Home</Breadcrumb.Item>
                 <Breadcrumb.Item linkAs={Link} linkProps={{to: '/products'}}>Products</Breadcrumb.Item>
@@ -138,20 +143,15 @@ function ProductInfo({match: {params}}) {
                         </div>
                         <hr className={styles.divider}/>
                         <p className={styles.similar}>Similar Products</p>
-                        <div style={{overflow: 'hidden'}}>
+                        <div className={styles.similar_products}>
                             {items.length > 0 ? (
-                                <AliceCarousel items={items}
-                                               autoPlay={items.length > 4}
-                                               mouseTracking
-                                               infinite={items.length > 4}
-                                               touchTracking
-                                               autoPlayInterval={5000}
-                                               animationDuration={500}
-                                               animationType='slide'
-                                               autoPlayControls={false}
-                                               disableDotsControls={items.length > 4}
-                                               disableButtonsControls
-                                               responsive={responsive}/>
+                                <AliceCarousel mouseTracking items={items} autoWidth={true} responsive={responsive}
+                                               controlsStrategy="alternate" infinite={items.length > 4}
+                                               autoPlay={items.length > 4} disableButtonsControls
+                                               autoPlayInterval={5000} touchTracking animationType={'slide'}
+                                               animationDuration={500} autoPlayControls={false}
+                                               disableDotsControls
+                                />
                             ) : (
                                 <p style={{color: 'red', textAlign: 'center', fontSize: '1.5rem'}}>
                                     There are currently no similar products..
@@ -162,7 +162,7 @@ function ProductInfo({match: {params}}) {
                 )
             )}
         </div>
-    );
+    )
 }
 
-export default ProductInfo;
+export default ProductInfo

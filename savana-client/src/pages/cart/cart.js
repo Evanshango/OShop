@@ -66,8 +66,8 @@ function Cart() {
                 <div className={styles.cart_area}>
                     <div className={styles.cart_right}>
                         <div className={styles.cart_header}>
-                            <h4>My Cart</h4>
-                            <h4>Availability</h4>
+                            <h5>My Cart</h5>
+                            <h5>Availability</h5>
                         </div>
                         <hr/>
                         {Object.keys(cartItems).map((key, index) => (
@@ -80,7 +80,7 @@ function Cart() {
                     </div>
                     <div className={styles.cart_left}>
                         <div className={styles.cart_header}>
-                            <h4 style={{textAlign: 'center'}}>Total Amount</h4>
+                            <h5 style={{textAlign: 'center'}}>Total Amount</h5>
                         </div>
                         <hr/>
                         <div className={styles.sub_total_info}>

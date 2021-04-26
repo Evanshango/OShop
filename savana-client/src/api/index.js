@@ -45,6 +45,9 @@ import {
     addOrderError,
     addOrderRequest,
     addOrderSuccess,
+    cancelLatestOrderError,
+    cancelLatestOrderRequest,
+    cancelLatestOrderSuccess,
     clearNewOrder,
     clearOrderError,
     fetchLatestOrderError,
@@ -66,6 +69,7 @@ import {
     makePaypalPaySuccess
 } from "../redux/paypal/paypalActions"
 import {fetchCategoriesError, fetchCategoriesRequest, fetchCategoriesSuccess} from "../redux/categories/categoryActions"
+import {clearMpesaError, payMpesaError, payMpesaRequest, payMpesaSuccess} from "../redux/payment/paymentActions"
 
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
@@ -334,6 +338,28 @@ export const fetchLatestOrder = () => async dispatch => {
         dispatchError(dispatch, err, fetchLatestOrderError)
     }
 }
+
+export const cancelLatestOrder = orderId => async dispatch => {
+    dispatch(cancelLatestOrderRequest())
+    try {
+        const {data} = await axios.delete(`${BASE_URL}/orders/${orderId}`)
+        dispatch(cancelLatestOrderSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, cancelLatestOrderError)
+    }
+}
+
+export const makeMpesaPayment = (phone, amount, orderId) => async dispatch => {
+    dispatch(payMpesaRequest())
+    try {
+        const {data} = await axios.post(`${BASE_URL}/payments/m`, {phone, amount, orderId})
+        dispatch(payMpesaSuccess(data.message))
+    } catch (err) {
+        dispatchError(dispatch, err, payMpesaError)
+    }
+}
+
+export const clearMpesaPayErrors = () => dispatch => dispatch(clearMpesaError())
 
 export const signOut = () => dispatch => {
     sessionStorage.removeItem('savana')

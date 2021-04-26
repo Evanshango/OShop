@@ -1,7 +1,7 @@
 .footer_container {
     display: flex;
     justify-content: center;
-    background: linear-gradient(90deg, rgb(50, 27, 27) 0%, rgb(26, 23, 23) 100%);
+    background: #dddddd;;
     padding: 2rem;
     color: #ffffff;
     line-height: 3rem;
@@ -22,7 +22,7 @@
 .footer_top_box a:link, .footer_top_box a:visited{
     display: flex;
     flex-direction: column;
-    color: #838383;
+    color: #636363;
     font-size: 1rem;
     text-align: center;
 }
@@ -31,6 +31,7 @@
     font-weight: 500;
     font-size: 1.4rem;
     text-align: center;
+    color: #636363;
     margin: 0;
 }
 
@@ -42,8 +43,9 @@
 }
 
 .footer_copyright p{
-    font-size: .8rem;
+    font-size: .9rem;
     margin: 0;
+    color: #636363;
 }
 
 .social_media {
@@ -54,7 +56,7 @@
 .social_media svg{
     margin: 0 10px;
     font-size: 30px;
-    color: #ffffff;
+    color: red;
 }
 
 @media screen and (max-width: 268px){

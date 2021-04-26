@@ -3,7 +3,8 @@
     grid-template-columns: 1.5fr 1fr;
     margin: 2rem auto;
     width: 65%;
-    min-height: 70vh;
+    min-height: 80vh;
+    grid-gap: 1rem;
 }
 
 .stepper_buttons{

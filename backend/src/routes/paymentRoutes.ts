@@ -3,11 +3,7 @@ import {requireAuth} from "../middlewares/require-auth";
 import {validateRequest} from "../middlewares/validate-request";
 import {body} from "express-validator";
 import {
-    addPayment,
-    getPayments,
-    mpesaPayment,
-    stkCallback,
-    validateMpesaPayment
+    addPayment, getPayments, mpesaPayment, stkCallback, validateMpesaPayment
 } from "../controllers/paymentController";
 import {isAdmin} from "../middlewares/is-admin";
 import {mPesaAccessToken} from "../middlewares/mpesa-handler";

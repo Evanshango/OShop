@@ -42,11 +42,11 @@ function CartItem({product, incQty, decQty}) {
                 {showImage(product.images)}
                 <div className={styles.prod_desc}>
                    <span className={styles.availability}>
-                       <h4>{product.name}</h4>
+                       <h5>{product.name}</h5>
                        {showProductStatus(product)}
                    </span>
                     <p>{truncate(product.description, 50)}</p>
-                    <h5><small>$</small>{product.finalPrice.toFixed(2)}</h5>
+                    <h6><small>$</small>{product.finalPrice.toFixed(2)}</h6>
                     <div className={styles.item_actions}>
                         <span>Wishlist</span>
                         <span onClick={() => removeCartItem()}>Remove</span>

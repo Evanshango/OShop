@@ -11,7 +11,11 @@ function Featured({products, token}) {
         990: {items: 4},
     }
     let items = []
-    products.forEach(prod => items.push(<Product product={prod} token={token}/>))
+    products.forEach(prod => items.push(
+        <div className={styles.item}>
+            <Product product={prod} token={token}/>
+        </div>
+    ))
 
     return (
         <div className={styles.featured_container}>
@@ -21,18 +25,10 @@ function Featured({products, token}) {
             </div>
             <div style={{overflow: 'hidden'}}>
                 {items.length > 0 && (
-                    <AliceCarousel items={items}
-                                   autoPlay={items.length > 4}
-                                   mouseTracking
-                                   infinite={items.length > 4}
-                                   touchTracking
-                                   autoPlayInterval={5000}
-                                   animationDuration={500}
-                                   animationType='slide'
-                                   autoPlayControls={false}
-                                   disableDotsControls={items.length > 4}
-                                   disableButtonsControls
-                                   responsive={responsive}/>
+                    <AliceCarousel items={items} autoPlay={items.length > 4} mouseTracking infinite={items.length > 4}
+                                   touchTracking autoWidth={true} autoPlayInterval={5000} animationDuration={500}
+                                   animationType="slide" autoPlayControls={false} disableDotsControls
+                                   disableButtonsControls responsive={responsive}/>
                 )}
             </div>
         </div>

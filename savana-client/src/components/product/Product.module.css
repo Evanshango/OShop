@@ -7,9 +7,10 @@
     overflow: hidden;
     box-shadow: 0 6px 18px -9px rgba(0, 0, 0, .75);
     transition: transform 100ms ease-in;
-    max-width: 220px!important;
+    max-width: 200px!important;
+    width: 100%;
     padding: 0!important;
-    margin-right: 1rem!important;
+    margin-right: 1.3rem!important;
 }
 
 .card:hover {
@@ -172,12 +173,6 @@
     cursor: pointer;
 }
 
-@media screen and (max-width: 1680px){
-    .card{
-        max-width: 200px!important;
-    }
-}
-
 @media screen and (max-width: 1338px) {
     .card_image {
         height: 150px;
@@ -305,9 +300,6 @@
 }
 
 @media screen and (max-width: 378px) {
-    .card {
-        max-width: 120px!important;
-    }
     .offer {
         padding: .4rem;
         font-size: 12px;

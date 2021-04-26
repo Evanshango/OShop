@@ -218,6 +218,14 @@
     border-bottom-right-radius: 2rem;
 }
 
+.similar_products{
+    overflow-y: hidden;
+}
+
+.carousel_item{
+    background: red;
+}
+
 .label{
     padding: 0 1rem 0 0;
 }
@@ -244,6 +252,11 @@
 
 .empty p {
     font-size: 1.6rem;
+}
+
+.item{
+    width: 210px;
+    margin: 1rem;
 }
 
 @media screen and (max-width: 1078px) {

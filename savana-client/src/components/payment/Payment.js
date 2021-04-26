@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom'
 import styles from './Payment.module.css'
 import stylesOverall from './../../pages/checkout/Checkout.module.css'
 import {useDispatch, useSelector} from "react-redux"
-import {paypalPayment} from "../../api"
-import mPesa from '../../assets/images/mpesa.jpg'
-import {Dialog, DialogContent} from "@material-ui/core"
+import {clearMpesaPayErrors, makeMpesaPayment, paypalPayment} from "../../api"
+import {Dialog, DialogActions} from "@material-ui/core"
 import _ from 'lodash'
+import mPesaLogo from '../../assets/images/mpesa..svg'
+import Previous from "../order/Previous"
+import Input from "../input/Input"
 
 const PayPalButton = window.paypal.Buttons['driver']('react', {React, ReactDOM})
 
@@ -21,10 +23,18 @@ function Payment() {
 
     const {latest} = useSelector(state => state.order)
     const [order, setOrder] = useState(!_.isEmpty(latest) ? latest : {})
+    const {errors, loading} = useSelector(state => state.payment)
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
+    const [phone, setPhone] = useState('')
+    const [phoneError, setPhoneError] = useState('')
 
-    const handleClose = () => setOpen(false)
+    const handleClose = () => {
+        errors.length > 0 && dispatch(clearMpesaPayErrors())
+        setOpen(false)
+        setPhone('')
+        setPhoneError('')
+    }
 
     useEffect(() => {
         setOrder(!_.isEmpty(latest) ? latest : {})
@@ -90,28 +100,84 @@ function Payment() {
         }
     }
 
+    const makeRequest = () => {
+        dispatch(makeMpesaPayment(phone, latest.amount, latest.id))
+    }
+
+    const handleChange = e => {
+        setPhone(e.currentTarget.value)
+        setPhoneError('')
+    }
+
+    const formatPhone = () => {
+        let formattedPhone
+        if (phone !== '') {
+            if (phone.includes(254)) {
+                formattedPhone = phone
+            }
+            if (phone.startsWith(0) || phone.includes('+')) {
+                formattedPhone = `254${phone.substring(1, 10)}`
+            }
+            if (formattedPhone !== undefined) {
+                if (formattedPhone.length < 12 || formattedPhone.length > 12) {
+                    setPhoneError('Please enter a valid phone number')
+                    return
+                }
+            }
+
+            const char = formattedPhone !== undefined && formattedPhone.charAt(4)
+            const invalidChars = ['7', '8', '6']
+            if (invalidChars.includes(char)) {
+                setPhoneError('Please enter a valid MPesa number')
+                return
+            }
+            setPhone(formattedPhone)
+        } else {
+            setPhone('')
+        }
+    }
+
     const renderOpt = opt => ((() => {
         switch (opt.name) {
             case 'M-PESA':
                 return (
                     <>
-                        <div className={styles.mpesa} onClick={() => setOpen(true)}>
-                            <img src={mPesa} alt="mpesa"/>
+                        <div className={styles.payment_buttons}>
+                            <img src={mPesaLogo} alt="mpesa" onClick={() => setOpen(true)}/>
                         </div>
                         <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
-                            <DialogContent>
-                                <h3 style={{color: 'red', textAlign: 'center'}}>Coming soon!!</h3>
-                            </DialogContent>
+                            <div style={{padding: '1rem'}}>
+                                <h5>MPESA</h5>
+                                <Input name={'phone'} type={'number'} onblur={formatPhone}
+                                       label={'Enter your preferred MPESA Number to pay for your order'}
+                                       placeholder={'0712345678'} onchange={handleChange} value={phone}/>
+                                {loading && <p style={{color: 'green', padding: '1rem'}}>Please wait...</p>}
+                                {phoneError !== '' && (
+                                    <p style={{color: 'red', marginTop: '1rem'}}>{phoneError}</p>
+                                )}
+                                {errors.length > 0 && (
+                                    <div className={styles.errors}>
+                                        {errors.map((error, index) => <li key={index}>{error.message}</li>)}
+                                    </div>
+                                )}
+                                <DialogActions>
+                                    <button onClick={makeRequest} className={styles.make_request}
+                                            disabled={phone === '' || phoneError !== '' || errors.length > 0}>
+                                        Make Request
+                                    </button>
+                                </DialogActions>
+                            </div>
                         </Dialog>
                     </>
                 )
             case 'PAYPAL':
                 return (
-                    <>
-                        <PayPalButton style={{color: 'gold', shape: 'pill'}} onCancel={({orderID}) => onCancel(orderID)}
+                    <div className={styles.payment_buttons}>
+                        <PayPalButton style={{color: 'gold', shape: 'pill', height: 47}}
+                                      onCancel={({orderID}) => onCancel(orderID)}
                                       createOrder={(data, actions) => createOrder(data, actions)}
                                       onApprove={(data, actions) => onApprove(data, actions)}/>
-                    </>
+                    </div>
                 )
             case 'VISA':
                 return <></>
@@ -132,13 +198,21 @@ function Payment() {
             <hr/>
             {!_.isEmpty(order) && (
                 <div className={stylesOverall.content}>
-                    <h5>How do you want to pay for your order
-                        {!_.isEmpty(order) && (<span style={{
-                                textTransform: 'uppercase', fontSize: '1.2rem',
-                                color: 'red', marginLeft: '.5rem'
+                    <div>
+                        {latest && (
+                            <>
+                                <p>({latest.items.length} Previous order items)</p>
+                                <Previous latest={latest.items}/>
+                            </>
+                        )}
+                    </div>
+                    <h5 style={{marginTop: '2rem'}}>How do you want to pay for your order
+                        {!_.isEmpty(order) && (
+                            <span style={{
+                                textTransform: 'uppercase', fontSize: '1.2rem', color: 'red', marginLeft: '.5rem'
                             }}>
-                        {`#${order.id}`}
-                    </span>
+                                {`#${order.id}`}
+                            </span>
                         )}
                     </h5>
                     <div className={styles.options}>

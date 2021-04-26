@@ -66,6 +66,26 @@ export const fetchLatestOrderError = errors => {
     }
 }
 
+export const cancelLatestOrderRequest = () => {
+    return {
+        type: ORDER.CANCEL_LATEST_ORDER_REQUEST
+    }
+}
+
+export const cancelLatestOrderSuccess = id => {
+    return {
+        type: ORDER.CANCEL_LATEST_ORDER_SUCCESS,
+        payload: id
+    }
+}
+
+export const cancelLatestOrderError = errors => {
+    return {
+        type: ORDER.CANCEL_LATEST_ORDER_ERROR,
+        payload: errors
+    }
+}
+
 export const clearNewOrder = () => {
     return {
         type: ORDER.CLEAR_NEW_ORDER

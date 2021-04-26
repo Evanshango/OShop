@@ -19,6 +19,7 @@ function AddressDialog() {
 
     const closeDialog = () => {
         if (errors.length > 0) dispatch(clearAddressError())
+        setAddress({name: '', phone: '', cityTown: '', state: '', postalCode: 1, addressType: addressTypes[0].value})
         setOpen(false)
     }
 
@@ -32,16 +33,12 @@ function AddressDialog() {
         const id = await dispatch(addAddress(address))
         if (id) {
             setTimeout(() => {
-                setOpen(false)
+                closeDialog()
             }, 1000)
         } else {
             setOpen(true)
         }
     }
-
-    // useEffect(() => {
-    //     id !== '' ? setOpen(false) : setOpen(true)
-    // }, [id])
 
     return (
         <>

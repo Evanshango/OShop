@@ -18,6 +18,7 @@ export const mPesaAccessToken = async (req: Request, res: Response, next: NextFu
         })
         req.mPesaToken = data.access_token
     } catch (err) {
+        console.log(err)
         throw new BadRequestError('Unable to access mpesa services right now. Please try again later')
     }
     next()

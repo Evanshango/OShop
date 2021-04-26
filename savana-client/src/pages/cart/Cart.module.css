@@ -1,5 +1,5 @@
 .cart {
-    min-height: 70vh;
+    min-height: 85vh;
     display: flex;
     width: 60%;
     margin: 1rem auto;
@@ -46,11 +46,11 @@
 }
 
 .prod_desc p {
-    padding: .5rem 0;
+    padding: 0;
 }
 
 .cart_header {
-    padding: 1rem;
+    padding: .5rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -169,7 +169,7 @@
 }
 
 .action_buttons li {
-    padding: .5rem 2rem;
+    padding: .8rem 3rem;
     border-radius: 2rem;
     background: #fbb419;
     border: none;

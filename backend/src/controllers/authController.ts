@@ -3,7 +3,7 @@ import {TokenManager} from "../helpers/token-manager";
 import gravatar from "gravatar";
 import {User} from "../models/user";
 import {BadRequestError} from "../errors/bad-request-error";
-import {AUTH_METHOD, CLIENT_URL, GOOGLE_CLIENT_ID, JWT_SECRET} from "../helpers/constants";
+import {AUTH_METHOD, CLIENT_URL, CLIENT_URL_PROD, GOOGLE_CLIENT_ID, JWT_SECRET, NODE_ENV} from "../helpers/constants";
 import {PasswordManager} from "../helpers/password-manager";
 import {OAuth2Client} from "google-auth-library";
 import {EmailHandler} from "../helpers/email-handler";
@@ -21,6 +21,7 @@ const userResponse = async (user: any, req: Request, res: Response, status: numb
 }
 
 const generateTokenAndSendEmail = async (user: any, res: Response) => {
+    const url = NODE_ENV! === 'development' ? CLIENT_URL : CLIENT_URL_PROD
     const expiration = new Date()
     expiration.setSeconds(expiration.getSeconds() + ((7 * 24) * 60 * 60))
 
@@ -34,7 +35,7 @@ const generateTokenAndSendEmail = async (user: any, res: Response) => {
         `<h3>Hello ${user.fullName},</h3> 
                <p>Thank you for creating an account with us, Just one more step...</p>
                <p> To activate your account please click on this link: <a target="_blank" 
-                    href=${CLIENT_URL}/account/activate/${activateToken}>
+                    href=${url}/account/activate/${activateToken}>
                     <b style="color: red; text-decoration: underline; font-style: italic">Activation Link</b>
                </p>
                <p>Cheers,</p>`

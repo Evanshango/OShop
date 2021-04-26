@@ -2,7 +2,7 @@ import {ORDER} from "../types"
 
 const initialState = {
     loading: false,
-    order: {},
+    // order: {},
     orders: [],
     latest: {},
     errors: []
@@ -28,18 +28,15 @@ const orderReducer = (state = initialState, action) => {
             }
         case ORDER.ADD_ORDER_SUCCESS:
             return {
-                ...state, order: action.payload, loading: false, errors: []
+                ...state, latest: action.payload, loading: false, errors: []
             }
-        // return {
-        //     ...state, orders: [...state.orders, action.payload], loading: false, errors: []
-        // }
         case ORDER.ADD_ORDER_ERROR:
             return {
-                ...state, loading: false, errors: action.payload, orders: []
+                ...state, loading: false, errors: action.payload, latest: {}
             }
         case ORDER.CLEAR_NEW_ORDER:
             return {
-                ...state, loading: false, errors: [], order: {}
+                ...state, loading: false, errors: [], latest: {}
             }
         case ORDER.FETCH_LATEST_ORDER_REQUEST:
             return {
@@ -52,6 +49,18 @@ const orderReducer = (state = initialState, action) => {
         case ORDER.FETCH_LATEST_ORDER_ERROR:
             return {
                 ...state, loading: false, latest: {}, errors: action.payload
+            }
+        case ORDER.CANCEL_LATEST_ORDER_REQUEST:
+            return {
+                ...state, loading: true
+            }
+        case ORDER.CANCEL_LATEST_ORDER_SUCCESS:
+            return {
+                ...state, loading: false, latest: state.latest.id === action.payload ? {} : state.latest, errors: []
+            }
+        case ORDER.CANCEL_LATEST_ORDER_ERROR:
+            return {
+                ...state, loading: false, errors: action.payload, latest: state.latest
             }
         case ORDER.CLEAR_ORDER_ERRORS:
             return {

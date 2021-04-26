@@ -96,7 +96,7 @@ function Auth({clientId}) {
                                 <div key={index} style={{textAlign: 'center'}}>
                                     <li key={error.message}>{error.message} | OR</li>
                                     <Link to={'/account/activate/true'}>
-                                        <button>Request link</button>
+                                        <button onClick={() => dispatch(clearAuthErrors())}>Request link</button>
                                     </Link>
                                 </div>
                             ) : (

@@ -30,13 +30,13 @@ a:hover{
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 5px;
     height: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
     background: green;
-    border-radius: 8px;
+    border-radius: 5px;
 }
 
 li, ul {

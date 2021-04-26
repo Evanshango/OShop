@@ -26,6 +26,7 @@ export const ZOHO_USER = process.env.ZOHO_USER
 export const ZOHO_PASS = process.env.ZOHO_PASS
 
 export const CLIENT_URL = process.env.CLIENT_URL
+export const CLIENT_URL_PROD = process.env.CLIENT_URL_PROD
 
 export const MPESA_CONSUMER_KEY = process.env.MPESA_CONSUMER_KEY
 export const MPESA_CONSUMER_SECRET = process.env.MPESA_CONSUMER_SECRET
@@ -35,6 +36,7 @@ export const MPESA_C2B_URL = process.env.MPESA_C2B_URL
 export const MPESA_SHORT_CODE = process.env.MPESA_SHORT_CODE
 export const MPESA_PASS_KEY = process.env.MPESA_PASS_KEY
 export const MPESA_RC_NO = process.env.MPESA_RC_NO
+export const CALL_BACK_URL_PROD = process.env.CALL_BACK_URL_PROD
 
 export enum AUTH_METHOD {
     GOOGLE = 'GOOGLE',

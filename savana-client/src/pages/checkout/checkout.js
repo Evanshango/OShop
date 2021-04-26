@@ -16,9 +16,11 @@ function Checkout() {
 
     const {checkout} = useSelector(state => state.checkout)
     const {products} = useSelector(state => state.cart)
-    const {payment} = useSelector(state => state.paypal)
+    // const {payment} = useSelector(state => state.paypal)
+    const {latest, orders} = useSelector(state => state.order)
     const {user} = useSelector(state => state.current)
-    const [activeStep, setActiveStep] = useState(!_.isEmpty(user) ? 1 : 0)
+    const {token} = useSelector(state => state.auth)
+    const [activeStep, setActiveStep] = useState(token !== '' ? (!_.isEmpty(latest) ? 2 : 1) : 0)
 
     const total = Object.values(products).reduce((acc, curr) => acc + (curr.units * curr.finalPrice), 0)
 
@@ -28,10 +30,10 @@ function Checkout() {
             product: id, units, price: finalPrice, totalPrice: units * finalPrice
         }))
 
-        setActiveStep(!_.isEmpty(user) ? 1 : 0)
+        setActiveStep(token !== '' ? (!_.isEmpty(latest) ? 2 : 1) : 0)
 
         setOrder({amount: total, items})
-    }, [products, checkout, user, total])
+    }, [products, checkout, token, total, latest])
 
     const finishOrder = () => {
         const readyOrder = {...order, address: checkout.address, amount: total}
@@ -61,39 +63,77 @@ function Checkout() {
 
     return (
         <div className={styles.checkout_container}>
-            <div>
-                <Breadcrumb>
-                    <Breadcrumb.Item linkAs={Link} linkProps={{to: '/'}}>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item active>Checkout</Breadcrumb.Item>
-                </Breadcrumb>
-                <Stepper activeStep={activeStep} alternativeLabel>
-                    {getSteps().map((label) => (
-                        <Step key={label}>
-                            <StepLabel>{label}</StepLabel>
-                        </Step>
-                    ))}
-                </Stepper>
-                <div>
-                    {activeStep === getSteps().length ? (
+            {orders && orders.length > 0 ? (
+                <p>checking orders</p>
+            ) : (
+                <>
+                    <div>
+                        <Breadcrumb>
+                            <Breadcrumb.Item linkAs={Link} linkProps={{to: '/'}}>Home</Breadcrumb.Item>
+                            <Breadcrumb.Item active>Checkout</Breadcrumb.Item>
+                        </Breadcrumb>
+                        <Stepper activeStep={activeStep} alternativeLabel>
+                            {getSteps().map((label) => (
+                                <Step key={label}>
+                                    <StepLabel>{label}</StepLabel>
+                                </Step>
+                            ))}
+                        </Stepper>
                         <div>
-                            <p>All steps completed</p>
-                            <button onClick={handleReset}>Reset</button>
+                            {activeStep === getSteps().length ? (
+                                <div>
+                                    <p>All steps completed</p>
+                                    <button onClick={handleReset}>Reset</button>
+                                </div>
+                            ) : (
+                                <div>
+                                    <div style={{minHeight: '50vh'}}>{getStepContent(activeStep)}</div>
+                                    {!_.isEmpty(user) && (
+                                        <div className={styles.stepper_buttons}>
+                                            <button disabled={!_.isEmpty(user) ? activeStep === 1 : activeStep === 0}
+                                                    onClick={handleBack}>Back
+                                            </button>
+                                            <button onClick={handleNext} disabled={activeStep === 1 && _.isEmpty(latest)}>
+                                                {activeStep === getSteps().length - 1 ? 'Finish' : 'Next'}
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
-                    ) : (
-                        <div>
-                            <>{getStepContent(activeStep)}</>
-                            <div className={styles.stepper_buttons}>
-                                <button disabled={!_.isEmpty(user) ? activeStep === 1 : activeStep === 0}
-                                        onClick={handleBack}>Back
-                                </button>
-                                <button onClick={handleNext}>
-                                    {activeStep === getSteps().length - 1 ? 'Finish' : 'Next'}
-                                </button>
+                    </div>
+                    <div className={styles.order_summary}>
+                        <div className={styles.summary}>
+                            <div className={styles.summary_header}>
+                                <h4>
+                                    Order summary {' '}
+                                    <small>
+                                        ({products && Object.values(products).length} items)
+                                    </small>
+                                </h4>
+                                <li>
+                                    <Link to={'/cart'}>
+                                        <span>Edit</span>
+                                    </Link>
+                                </li>
+                            </div>
+                            {products && Object.values(products).length > 0 && Object.values(products).map(c => (
+                                <div className={styles.items} key={c.id}>
+                                    <h5>{c.name}</h5>
+                                    <h5>x{c.units}</h5>
+                                    <h5>{c.finalPrice?.toFixed(2)}</h5>
+                                </div>
+                            ))}
+                            <hr/>
+                            <h6>Shipping charges and taxes will be calculated when an address is provided</h6>
+                            <div className={styles.total}>
+                                <h4>Total</h4>
+                                <h5><small>$</small> {total.toFixed(2)}</h5>
                             </div>
                         </div>
-                    )}
-                </div>
-            </div>
+                    </div>
+                </>
+            )}
         </div>
         // <>
         //     {!_.isEmpty(payment) ? (
@@ -121,46 +161,6 @@ function Checkout() {
         //         </div>
         //     ) : (
         //         <>
-        //             {!_.isEmpty(products) ? (
-        //                 <div className={styles.checkout_container}>
-        //                     <div className={styles.steps}>
-        //                         {steps.map((step, index) => (
-        //                             <div key={index} className={styles.step}>
-        //                                 {renderContent(step)}
-        //                             </div>
-        //                         ))}
-        //                     </div>
-        //                     <div className={styles.order_summary}>
-        //                         <div className={styles.summary}>
-        //                             <div className={styles.summary_header}>
-        //                                 <h3>
-        //                                     Order summary
-        //                                     <small>
-        //                                         ({products && Object.values(products).length} items)
-        //                                     </small>
-        //                                 </h3>
-        //                                 <li>
-        //                                     <Link to={'/cart'}>
-        //                                         <span>Edit</span>
-        //                                     </Link>
-        //                                 </li>
-        //                             </div>
-        //                             {products && Object.values(products).length > 0 && Object.values(products).map(c => (
-        //                                 <div className={styles.items} key={c.id}>
-        //                                     <h5>{c.name}</h5>
-        //                                     <h5>x{c.units}</h5>
-        //                                     <h5>{c.finalPrice?.toFixed(2)}</h5>
-        //                                 </div>
-        //                             ))}
-        //                             <hr/>
-        //                             <h4>Shipping charges and taxes will be calculated when an address is provided</h4>
-        //                             <div className={styles.total}>
-        //                                 <h3>Total</h3>
-        //                                 <h4><small>$</small> {total.toFixed(2)}</h4>
-        //                             </div>
-        //                         </div>
-        //                     </div>
-        //                 </div>
         //             ) : (
         //                 <div className={styles.no_content}>
         //                     <div className={styles.no_items}>
