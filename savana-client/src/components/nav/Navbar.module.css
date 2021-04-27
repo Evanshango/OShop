@@ -6,8 +6,7 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: #44bbff;
-    /*background: linear-gradient(90deg, rgb(50, 27, 27) 0%, rgb(26, 23, 23) 100%);*/
+    background: linear-gradient(90deg, rgb(50, 27, 20) 0%, rgb(40, 23, 13) 90%);
 }
 
 .navigation {

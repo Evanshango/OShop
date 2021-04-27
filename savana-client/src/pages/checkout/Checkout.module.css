@@ -254,6 +254,9 @@
     background: rgb(241, 196, 15);
     background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
     cursor: pointer;
+    height: 3.3rem;
+    display: flex;
+    align-items: center;
 }
 
 .btn_keep_shopping{

@@ -155,11 +155,16 @@ export const fetchCategories = () => async dispatch => {
     }
 }
 
-export const fetchProducts = (page, limit) => async dispatch => {
+export const fetchProducts = (page, limit, filter) => async dispatch => {
     dispatch(fetchProductsRequest())
     try {
-        const {data} = await axios.get(`${BASE_URL}/products?page=${page}&limit=${limit}`)
-        dispatch(fetchProductsSuccess(data))
+        let response
+        if (filter){
+            response = await axios.post(`${BASE_URL}/products/filters?page=${page}&limit=${limit}`, filter)
+        } else {
+            response = await axios.get(`${BASE_URL}/products?page=${page}&limit=${limit}`)
+        }
+        dispatch(fetchProductsSuccess(response.data))
     } catch (err) {
         dispatchError(dispatch, err, fetchProductsError)
     }

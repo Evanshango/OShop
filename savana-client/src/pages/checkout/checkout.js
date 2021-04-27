@@ -65,8 +65,6 @@ function Checkout() {
 
     const handleBack = () => setActiveStep((prevActiveStep) => prevActiveStep - 1)
 
-    const handleReset = () => setActiveStep(0)
-
     return (
         <div>
             {!_.isEmpty(payment) ? (
@@ -107,30 +105,23 @@ function Checkout() {
                                     </Step>
                                 ))}
                             </Stepper>
-                            <div>
-                                {activeStep === getSteps().length ? (
-                                    <div>
-                                        <p>All steps completed</p>
-                                        <button onClick={handleReset}>Reset</button>
-                                    </div>
-                                ) : (
-                                    <div>
-                                        <div style={{minHeight: '50vh'}}>{getStepContent(activeStep)}</div>
-                                        {!_.isEmpty(user) && (
-                                            <div className={styles.stepper_buttons}>
-                                                <button
-                                                    disabled={!_.isEmpty(user) ? activeStep === 1 : activeStep === 0}
-                                                    onClick={handleBack}>Back
-                                                </button>
-                                                <button onClick={handleNext}
-                                                        disabled={activeStep === 1 && _.isEmpty(latest)}>
-                                                    {activeStep === getSteps().length - 1 ? 'Finish' : 'Next'}
-                                                </button>
-                                            </div>
+                            <>
+                                <div style={{minHeight: '50vh'}}>{getStepContent(activeStep)}</div>
+                                {!_.isEmpty(user) && (
+                                    <div className={styles.stepper_buttons}>
+                                        <button
+                                            disabled={!_.isEmpty(user) ? activeStep === 1 : activeStep === 0}
+                                            onClick={handleBack}>Back
+                                        </button>
+                                        {activeStep !== 2 && (
+                                            <button onClick={handleNext} disabled={activeStep === 1
+                                            && _.isEmpty(latest)}>
+                                                Next
+                                            </button>
                                         )}
                                     </div>
                                 )}
-                            </div>
+                            </>
                         </div>
                         <div className={styles.order_summary}>
                             <div className={styles.summary}>

@@ -17,10 +17,15 @@ export const fetchProducts = async (req: Request, res: Response) => {
     const {results, pages, page, count} = await Pagination.paginatedResults(Product, req.query)
 
     return res.status(200).json({
-        count,
-        page,
-        pages,
-        products: results
+        count, page, pages, products: results
+    })
+}
+
+export const fetchProductsWithFilters = async (req: Request, res: Response) => {
+    const {results, pages, page, count} = await Pagination.paginatedResults(Product, req.query, req.body.category)
+
+    return res.status(200).json({
+        count, page, pages, products: results
     })
 }
 

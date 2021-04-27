@@ -28,7 +28,7 @@ export const mpesaPayment = async (req: Request, res: Response) => {
     const {mPesaToken} = req
     const {phone, amount, orderId} = req.body
 
-    const callbackURL = NODE_ENV! !== 'development' ? CALL_BACK_URL_PROD! : 'https://adff75d7bf0f.ngrok.io/api/v1/payments/stk/callback'
+    const callbackURL = NODE_ENV! !== 'development' ? CALL_BACK_URL_PROD! : 'https://7c14d7997616.ngrok.io/api/v1/payments/stk/callback'
 
     let dateNow = new Date()
     const year = dateNow.getFullYear()
@@ -38,7 +38,8 @@ export const mpesaPayment = async (req: Request, res: Response) => {
     const minutes = dateNow.getMinutes()
     const seconds = dateNow.getSeconds()
     const timestamp = `${year}${month}${date}${hours}${minutes}${seconds}`
-    const password = new Buffer.from(`${MPESA_SHORT_CODE!}${MPESA_PASS_KEY!}${timestamp}`).toString('base64')
+    const shortCodePassKey = `${MPESA_SHORT_CODE!}${MPESA_PASS_KEY}${timestamp}`
+    const password = Buffer.alloc(shortCodePassKey.length, shortCodePassKey).toString('base64')
 
     let message
 
@@ -68,8 +69,8 @@ export const mpesaPayment = async (req: Request, res: Response) => {
         return res.send({
             message
         })
-    } catch (err) {
-        console.log(err)
+    } catch ({response}) {
+        console.log(response)
         throw new BadRequestError('Please try again after sometime')
     }
 }
@@ -108,9 +109,9 @@ export const stkCallback = async (req: Request, res: Response) => {
 }
 
 export const validateMpesaPayment = async (req: Request, res: Response) => {
-    console.log(req)
+    return res.send({})
 }
 
 export const confirmMpesaPayment = async (req: Request, res: Response) => {
-    console.log(req.body)
+    return res.send({})
 }

@@ -1,5 +1,12 @@
 import express from "express";
-import {addProduct, deleteProduct, fetchProduct, fetchProducts, updateProduct} from "../controllers/productController";
+import {
+    addProduct,
+    deleteProduct,
+    fetchProduct,
+    fetchProducts,
+    fetchProductsWithFilters,
+    updateProduct
+} from "../controllers/productController";
 import {requireAuth} from "../middlewares/require-auth";
 import {isAdmin} from "../middlewares/is-admin";
 import {validateRequest} from "../middlewares/validate-request";
@@ -16,6 +23,7 @@ router.post('/products',[
     body('stock').isFloat({gt: 0}).withMessage('Stock must be greater than 0'),
     body('description').not().isEmpty().withMessage('ProductInfo description is required')
 ], validateRequest, requireAuth, isAdmin, addProduct)
+router.post('/products/filters', fetchProductsWithFilters)
 router.get('/products/:id', fetchProduct)
 router.patch('/products/:id', [
     body('section').not().isEmpty().withMessage('Section is required'),

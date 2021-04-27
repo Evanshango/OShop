@@ -70,6 +70,7 @@ function Home() {
                 <div className={styles.offers}>
                     <div className={styles.title}>
                         <h5>Offers</h5>
+                        <p>View available Offers</p>
                     </div>
                     <div className={styles.offer_cards}>
                         {offers && offers.map(offer => (

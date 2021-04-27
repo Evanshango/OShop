@@ -20,7 +20,7 @@ function Banner() {
         <Carousel fade>
             {images.map((image, index) => (
                 <Carousel.Item interval={2000} key={index} className={styles.container}>
-                    <Image src={image} alt="" className="d-block w-100" height="700"/>
+                    <Image src={image} alt="" className="d-block w-100" height="600"/>
                     <Carousel.Caption className={styles.caption}>
                         <h1>We are your here to avail quality products for you</h1>
                         <h3>From imagination to reality, browse our latest products available now!</h3>

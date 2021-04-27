@@ -24,6 +24,7 @@ function Payment() {
     const {latest} = useSelector(state => state.order)
     const [order, setOrder] = useState(!_.isEmpty(latest) ? latest : {})
     const {errors, loading} = useSelector(state => state.payment)
+    const [payError, setPayError] = useState('')
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
     const [phone, setPhone] = useState('')
@@ -41,6 +42,7 @@ function Payment() {
     }, [latest])
 
     const createOrder = async (dt, actions) => {
+        payError !== '' && setPayError('')
         return actions.order.create({
             purchase_units: [{
                 reference_id: order.id,
@@ -96,7 +98,7 @@ function Payment() {
 
     const onCancel = (orderID) => {
         if (orderID !== '') {
-            console.log('Payment process cancelled')
+            setPayError('Payment process cancelled')
         }
     }
 
@@ -126,7 +128,7 @@ function Payment() {
             }
 
             const char = formattedPhone !== undefined && formattedPhone.charAt(4)
-            const invalidChars = ['7', '8', '6']
+            const invalidChars = ['7', '8', '6', '3']
             if (invalidChars.includes(char)) {
                 setPhoneError('Please enter a valid MPesa number')
                 return
@@ -174,12 +176,14 @@ function Payment() {
                     </>
                 )
             case 'PAYPAL':
-                return (<div className={styles.payment_buttons}>
-                    <PayPalButton style={{color: 'gold', shape: 'pill', height: 47}}
-                                  onCancel={({orderID}) => onCancel(orderID)}
-                                  createOrder={(data, actions) => createOrder(data, actions)}
-                                  onApprove={(data, actions) => onApprove(data, actions)}/>
-                </div>)
+                return (
+                    <div className={styles.payment_buttons}>
+                        <PayPalButton style={{color: 'gold', shape: 'pill', height: 47}}
+                                      onCancel={({orderID}) => onCancel(orderID)}
+                                      createOrder={(data, actions) => createOrder(data, actions)}
+                                      onApprove={(data, actions) => onApprove(data, actions)}/>
+                    </div>
+                )
             case 'VISA':
                 return <></>
             case 'CASH ON DELIVERY':
@@ -223,6 +227,11 @@ function Payment() {
                             </span>
                         ))}
                     </div>
+                </div>
+            )}
+            {payError !== '' && (
+                <div className={styles.errors}>
+                    <li>{payError}</li>
                 </div>
             )}
         </div>

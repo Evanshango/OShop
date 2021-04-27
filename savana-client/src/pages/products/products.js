@@ -1,23 +1,26 @@
 import React, {useEffect, useState} from 'react'
 import styles from './Products.module.css'
-import Search from "../../components/search/Search"
 import {useDispatch, useSelector} from "react-redux"
 import {clearPaymentValues, fetchProducts, searchProducts} from "../../api"
 import _ from 'lodash'
 import Pagination from "../../components/pagination/Pagination"
-import {Link, useHistory} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import {Breadcrumb} from "react-bootstrap"
 import Product from "../../components/product/Product"
+import {AiOutlineSearch} from "react-icons/ai"
+import {MdHourglassEmpty} from 'react-icons/md'
 
 function Products({match}) {
     let pageNumber = match.params.pageNumber || 1
-    const {location} = useHistory()
+    const location = useLocation()
 
     const dispatch = useDispatch()
     const [page, setPage] = useState(pageNumber)
     const [sects, setSects] = useState([])
     const [cats, setCats] = useState([])
     const [selectedCat, setSelectedCat] = useState([])
+    const [searchParam, setSearchParam] = useState('')
+    const [filterQuery, setFilterQuery] = useState('')
 
     const {sections} = useSelector(state => state.section)
     const {categories} = useSelector(state => state.category)
@@ -32,7 +35,6 @@ function Products({match}) {
         fetchCats(checkedSects)
         setSects(checkedSects)
     }
-
 
     const removeSecAndCat = (sections, currIndex) => {
         const deleted = sections.splice(currIndex, 1)
@@ -57,16 +59,33 @@ function Products({match}) {
         setSelectedCat(checkedCats)
     }
 
-    useEffect(() => {
-        const query = new URLSearchParams(location.search)
-        const searchQuery = query.get('search')
-        if (searchQuery) {
-            dispatch(searchProducts(searchQuery))
+    const handleSubmit = e => {
+        e.preventDefault()
+        if (searchParam !== '') {
+            dispatch(searchProducts(searchParam))
         } else {
             dispatch(fetchProducts(page, 12))
         }
+    }
+
+    useEffect(() => {
+        const {search} = location
+        const query = new URLSearchParams(search)
+        const filterQ = query.get('search')
+        if (filterQ !== null) {
+            setFilterQuery(filterQ)
+            const filterCategory = categories.length > 0 && categories.find(cat => cat.name === filterQ)
+            if (filterCategory) {
+                let cat = {}
+                cat['category'] = [filterCategory.id]
+                dispatch(fetchProducts(page, 12, cat))
+            }
+        } else {
+            setFilterQuery('')
+            dispatch(fetchProducts(page, 12))
+        }
         window.scrollTo(0, 0)
-    }, [location, dispatch, page])
+    }, [location, dispatch, page, categories])
 
     useEffect(() => {
         if (!_.isEmpty(payment)) {
@@ -75,8 +94,17 @@ function Products({match}) {
     }, [dispatch, payment])
 
     const handleFilter = () => {
-        console.log(selectedCat)
+        let cat = {}
+        cat['category'] = selectedCat.map(cat => cat.id)
+        dispatch(fetchProducts(page, 12, cat))
     }
+
+    useEffect(() => {
+        if (selectedCat && selectedCat.length === 0){
+            dispatch(fetchProducts(page, 12))
+        }
+    }, [dispatch, page, selectedCat])
+
 
     return (
         <div className={styles.content}>
@@ -115,36 +143,57 @@ function Products({match}) {
                     ))}
                 </ul>
                 {selectedCat.length > 0 && (
-                    <p>getting filter for (
-                        <>
-                            {selectedCat.map(filter => (
-                                <small key={filter.name}
-                                       style={{marginRight: '.5rem', color: 'red'}}>{filter.name},</small>
-                            ))}
-                        </>)
-                    </p>
+                    <div className={styles.tags_area}>
+                        {selectedCat.map(filter => (
+                            <small key={filter.name} className={styles.filter_tags}>{filter.name}</small>
+                        ))}
+                    </div>
                 )}
             </div>
             {/*Products area*/}
             <div>
                 <Breadcrumb>
-                    <Breadcrumb.Item linkAs={Link} linkProps={{to: '/'}}
-                                     className={styles.b_item}>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item active>Products</Breadcrumb.Item>
+                    <Breadcrumb.Item linkAs={Link} linkProps={{to: '/'}} className={styles.b_item}>
+                        Home
+                    </Breadcrumb.Item>
+                    {filterQuery !== '' ? (
+                        <>
+                            <Breadcrumb.Item linkAs={Link} linkProps={{to: '/products'}}>
+                                Products
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item active>{filterQuery}</Breadcrumb.Item>
+                        </>
+                    ): (
+                        <Breadcrumb.Item active>Products</Breadcrumb.Item>
+                    )}
                 </Breadcrumb>
                 <div className={styles.search_area}>
-                    <Search/>
+                    <form onSubmit={handleSubmit} className={styles.search_form}>
+                        <input type="text" placeholder="Products, Categories, Brands" value={searchParam}
+                               onChange={e => setSearchParam(e.currentTarget.value)}/>
+                        <span className={styles.search_icon}><AiOutlineSearch size={20}/></span>
+                    </form>
+                    {/*<Search/>*/}
                 </div>
-                <div className={styles.prod_items}>
-                    {products && products.map(product => (
-                        <Product product={product} token={token} key={product.id}/>
-                    ))}
-                </div>
-                <div className={styles.pagination}>
-                    {products.length > 0 && (
-                        <Pagination current={page} pages={pages !== null && pages} onClick={setPage}/>
-                    )}
-                </div>
+                {products && products.length > 0 ? (
+                    <>
+                        <div className={styles.prod_items}>
+                            {products && products.map(product => (
+                                <Product product={product} token={token} key={product.id}/>
+                            ))}
+                        </div>
+                        <div className={styles.pagination}>
+                            {products.length > 0 && (
+                                <Pagination current={page} pages={pages !== null && pages} onClick={setPage}/>
+                            )}
+                        </div>
+                    </>
+                ): (
+                    <div className={styles.empty_content}>
+                        <MdHourglassEmpty size={50} color={'orange'}/>
+                        <p style={{fontSize: '1.5rem'}}>Oops, no Products found!</p>
+                    </div>
+                )}
             </div>
         </div>
     )

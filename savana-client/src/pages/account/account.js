@@ -44,13 +44,9 @@ function Account() {
                     case 'My Orders':
                         return <Orders/>
                     case 'Wishlist':
-                        return (
-                            <p>wishlist</p>
-                        )
+                        return <p>wishlist</p>
                     case 'Address':
-                        return (
-                            <p>Address</p>
-                        )
+                        return <p>Address</p>
                     default:
                     // do nothing
                 }
@@ -75,7 +71,7 @@ function Account() {
                             ))}
                         </div>
                         <div className={styles.information}>
-                            <span>{nav.icon} <h3>{nav.name}</h3></span>
+                            <span>{nav.icon} <h4>{nav.name}</h4></span>
                             {renderContent}
                         </div>
                     </div>

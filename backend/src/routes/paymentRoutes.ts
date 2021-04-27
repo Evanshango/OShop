@@ -3,7 +3,7 @@ import {requireAuth} from "../middlewares/require-auth";
 import {validateRequest} from "../middlewares/validate-request";
 import {body} from "express-validator";
 import {
-    addPayment, getPayments, mpesaPayment, stkCallback, validateMpesaPayment
+    addPayment, confirmMpesaPayment, getPayments, mpesaPayment, stkCallback, validateMpesaPayment
 } from "../controllers/paymentController";
 import {isAdmin} from "../middlewares/is-admin";
 import {mPesaAccessToken} from "../middlewares/mpesa-handler";
@@ -21,5 +21,6 @@ router.post('/payments', [
 
 router.post('/payments/stk/callback', stkCallback)
 router.post('/payments/validation', validateMpesaPayment)
+router.post('/payments/confirmation', confirmMpesaPayment)
 
 export {router as paymentRouter}

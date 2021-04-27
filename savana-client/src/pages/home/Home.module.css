@@ -249,8 +249,8 @@
 
 .title {
     margin: 2rem 0 1rem 0;
-    text-align: center;
-    color: #838383;
+    /*text-align: center;*/
+    color: #636363;
 }
 
 .title h5 {
@@ -258,6 +258,12 @@
     display: inline-block;
     position: relative;
     z-index: 0;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.title p{
+    font-size: 1.2rem;
     font-weight: 500;
 }
 
@@ -274,7 +280,7 @@
 }
 
 .offers {
-    text-align: center;
+    /*text-align: center;*/
     font-weight: bold;
 }
 
@@ -307,7 +313,7 @@
 }
 
 .card:hover{
-    transform: scale(1.1);
+    transform: scale(1.05);
     cursor: pointer;
 }
 

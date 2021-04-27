@@ -1,20 +1,30 @@
 import React from 'react'
 import styles from './Categories.Module.css'
+import {useHistory} from 'react-router-dom'
 
 function Categories({categories}) {
+
+    const history = useHistory()
+
+    const handleClick = name => {
+        history.push({
+            pathname: '/products',
+            search: `?search=${name}`,
+            state: {category: name}
+        })
+    }
+
     return (
         <div className={styles.categories_container}>
             <div className={styles.title}>
                 <h5>Categories</h5>
                 <p>View our categories collection</p>
             </div>
-            <div className="row mt-3">
+            <div className={styles.cat_holder}>
                 {categories.map(cat => (
-                    <div className="col-md-4 col-sm-6" key={cat.id}>
-                        <div className={styles.card_item}>
-                            <h3>{cat.name}</h3>
-                            <p>Show related products &#8594;</p>
-                        </div>
+                    <div className={styles.card_item} key={cat.id} onClick={() => handleClick(cat.name)}>
+                        <h3>{cat.name}</h3>
+                        <p>Show related products &#8594;</p>
                     </div>
                 ))}
             </div>
