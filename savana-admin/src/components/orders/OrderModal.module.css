@@ -1,0 +1,55 @@
+.address_info{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /*grid-gap: 1rem;*/
+    grid-column-gap: 1rem;
+}
+
+.items{
+    margin: 1rem 0;
+}
+
+.single_items{
+    height: 50vh;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+.prod_image{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border: 1px solid #838383;
+    border-radius: 1rem;
+}
+
+.date{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 1rem;
+}
+
+.date input{
+    padding: .5rem;
+    border-radius: 5px;
+    border: 1px solid #636363;
+    outline: none;
+}
+
+.date button{
+    text-transform: uppercase;
+}
+
+.total_amount{
+    display: flex;
+    margin-top: .5rem;
+}
+
+.total_amount p{
+    margin-left: auto;
+    background: #dcdcdc;
+    padding: .3rem 1rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+    border-radius: 10px;
+}

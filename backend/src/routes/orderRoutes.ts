@@ -1,6 +1,6 @@
 import express from "express";
 import {
-    addOrder, cancelOrder, fetchOrders, fetchUserLatestOrder, fetchUserOrders
+    addOrder, cancelOrder, fetchOrder, fetchOrders, fetchUserLatestOrder, fetchUserOrders
 } from "../controllers/orderController";
 import {requireAuth} from "../middlewares/require-auth";
 import {validateRequest} from "../middlewares/validate-request";
@@ -16,6 +16,7 @@ router.post('/orders', [
     body('amount').not().isEmpty().withMessage('Total order amount is required'),
 ], validateRequest, requireAuth, addOrder)
 
+router.get('/orders/:id', fetchOrder)
 router.delete('/orders/:id', requireAuth, cancelOrder)
 
 export {router as orderRouter}

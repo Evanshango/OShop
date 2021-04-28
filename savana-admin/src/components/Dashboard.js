@@ -1,24 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react'
 import styles from './Dashboard.module.css'
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import {useSelector} from "react-redux";
+import NavigateNextIcon from '@material-ui/icons/NavigateNext'
+import {useSelector} from "react-redux"
 import {formatDate} from "../api"
+import {Badge, Table} from "react-bootstrap"
+import OrderModal from "./orders/OrderModal"
 
 function Dashboard() {
 
     const {sections} = useSelector(state => state.section)
     const {products} = useSelector(state => state.product)
     const {orders} = useSelector(state => state.order)
+    const [modalShow, setModalShow] = useState(false)
+    const [id, setId] = useState('')
 
     const completePayments = orders && orders.filter(prod => prod.paymentStatus === 'COMPLETED')
 
-    // const formatDate = date => {
-    //     const dt = new Date(date)
-    //     return dt.toLocaleString()
-    // }
-
     const loadMore = () => {
         console.log('loading more')
+    }
+
+    const handleClick = orderId => {
+        setId(orderId)
+        setModalShow(true)
     }
 
     const cards = [
@@ -58,7 +62,7 @@ function Dashboard() {
                         <div className={styles.card_body}>
                             <h2>{card.name}</h2>
                             {card.name === 'Revenue' ? (
-                                <h3><span>Kshs.</span> {card.value.toLocaleString()}</h3>
+                                <h3><span>USD.</span> {card.value.toLocaleString()}</h3>
                             ) : (
                                 <h3>{card.value.toLocaleString()}</h3>
                             )}
@@ -76,8 +80,8 @@ function Dashboard() {
                         <h3>Recent Orders</h3>
                         <button className={styles.view_all_button} onClick={() => loadMore()}>View All</button>
                     </div>
-                    <div style={{overflowX: 'auto'}}>
-                        <table width='100%' cellPadding={0} cellSpacing={0} className={styles.orders_table}>
+                    <div style={{marginTop: '1rem'}}>
+                        <Table striped bordered hover responsive className={styles.orders_table}>
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -97,30 +101,37 @@ function Dashboard() {
                                     <td>{index + 1}</td>
                                     <td>{order.id}</td>
                                     <td>
-                                        <small className={order.paymentMethod === 'PAYPAL' ? `${styles.paypal}`
-                                            : `${styles.mpesa}`}>{order.paymentMethod}
-                                        </small>
+                                        <Badge variant={order.paymentMethod === 'PAYPAL' ? 'primary' : 'success'}>
+                                            {order.paymentMethod}
+                                        </Badge>
                                     </td>
                                     <td><small>{formatDate(order.createdAt)}</small></td>
                                     <td>*TODO*</td>
-                                    <td className={order.paymentStatus === 'COMPLETED' ? `${styles.pay_complete}`
-                                        : `${styles.pay_pending}`}>
-                                        <small>{order.paymentStatus}</small>
+                                    <td>
+                                        <Badge variant={order.paymentStatus === 'COMPLETED' ? 'success' : 'secondary'}>
+                                            {order.paymentStatus}
+                                        </Badge>
                                     </td>
                                     <td style={{fontWeight: 'bold', textAlign: 'center'}}>
                                         {`$${order.amount.toLocaleString()}`}
                                     </td>
-                                    <td>{order.orderStatus}</td>
-                                    <td>Edit/ Delete</td>
+                                    <td>
+                                        <Badge variant={order.orderStatus === 'ORDERED' ? 'danger' : 'warning'}>
+                                            {order.orderStatus}
+                                        </Badge>
+                                    </td>
+                                    <td>
+                                        <OrderModal orderId={order.id}/>
+                                    </td>
                                 </tr>
                             ))}
                             </tbody>
-                        </table>
+                        </Table>
                     </div>
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default Dashboard;
+export default Dashboard

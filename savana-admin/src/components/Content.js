@@ -30,7 +30,7 @@ function Content({user}) {
     const closeSidebar = () => setSidebarOpen(false)
 
     return (
-        <div className='container'>
+        <div className='container_layout'>
             <Navbar openSidebar={openSidebar} sidebarOpen={sidebarOpen} user={user}/>
             <Main/>
             <Sidebar closeSidebar={closeSidebar} sidebarOpen={sidebarOpen}/>

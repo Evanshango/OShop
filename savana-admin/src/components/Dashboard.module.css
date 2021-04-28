@@ -45,9 +45,6 @@
 }
 
 .content {
-    /*display: grid;*/
-    /*grid-template-columns: 2fr 1fr;*/
-    /*grid-gap: 1rem;*/
     margin: 1rem 0;
 }
 
@@ -77,47 +74,8 @@
     border-radius: 2rem;
 }
 
-.orders_table, .user_data {
+.user_data {
     margin-top: 1rem;
-}
-
-.orders_table tr {
-    border-collapse: collapse;
-}
-
-.orders_table tr th {
-    text-align: left;
-    border: 1px solid #dcdcdc;
-    background: #dcdcdc;
-}
-
-.orders_table tr th {
-    padding: .5rem;
-    border-right: 1px solid #f3f4f6;
-}
-
-.orders_table tr td {
-    padding: 1rem;
-    border-top: 1px solid gainsboro;
-    border-left: 1px solid gainsboro;
-}
-
-.orders_table tr th:last-child,
-.orders_table tr td:last-child {
-    border-right: 1px solid gainsboro;
-}
-
-.orders_table tr:last-child th,
-.orders_table tr:last-child td {
-    border-bottom: 1px solid gainsboro;
-}
-
-.orders_table tr td {
-    font-weight: 300;
-}
-
-.orders_table tr th {
-    font-weight: 700;
 }
 
 .orders_table tr th:nth-child(2) {
@@ -125,19 +83,31 @@
 }
 
 .orders_table tr th:nth-child(3) {
-    width: 5rem;
+    width: 6rem;
+    min-width: 6rem;
 }
 
-.orders_table tr th:nth-child(4) {
-    min-width: 6rem;
+.orders_table tr th:nth-child(4), .orders_table tr th:nth-child(5) {
+    max-width: 10rem;
+    width: 10rem;
 }
 
 .orders_table tr th:nth-child(6) {
     width: 8rem;
 }
 
-.orders_table tr th:nth-child(7) {
+.orders_table tr th:nth-child(7), .orders_table tr th:nth-child(8) {
+    text-align: center;
     min-width: 8rem;
+    width: 8rem;
+}
+
+.orders_table tr th:nth-child(9){
+    text-align: center;
+}
+
+.orders_table tbody td:nth-child(8), .orders_table tbody td:nth-child(9){
+    text-align: center;
 }
 
 .order_status {
@@ -197,16 +167,8 @@
     font-size: 12px;
 }
 
-.paypal{
-    background: #256eff;
-}
-
-.pay_complete small {
-    background: #32cd32;
-}
-
-.pay_pending small {
-    background: #ff0000;
+.view_button{
+    padding: 0 1rem;
 }
 
 .actions button, .top_area button {
@@ -230,6 +192,16 @@
 
 .call {
     background: #256eff90;
+}
+
+.view_order{
+    cursor: pointer;
+    background: cornflowerblue;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    padding: .3rem 2rem;
+    border-radius: 5px;
 }
 
 @media screen and (max-width: 1298px) {

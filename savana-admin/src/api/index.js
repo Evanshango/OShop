@@ -13,8 +13,14 @@ import {
     deleteProductSuccess, productsError, productsRequest, productsSuccess, editProductRequest, editProductSuccess
 } from "../redux/products/productActions";
 import {
-    fetchOrdersError, fetchOrdersRequest, fetchOrdersSuccess, clearOrderErrors
-} from "../redux/orders/orderActions";
+    fetchOrdersError,
+    fetchOrdersRequest,
+    fetchOrdersSuccess,
+    clearOrderErrors,
+    fetchOrderRequest,
+    fetchOrderError,
+    fetchOrderSuccess
+} from "../redux/orders/orderActions"
 import {
     addOfferError, addOfferRequest, addOfferSuccess, clearOfferErrors, deleteOfferError, deleteOfferRequest,
     deleteOfferSuccess, fetchOffersError, fetchOffersRequest, fetchOffersSuccess
@@ -258,3 +264,13 @@ export const deleteOffer = id => async dispatch => {
 }
 
 export const clearOffersError = () => dispatch => dispatch(clearOfferErrors())
+
+export const fetchOrder = id => async dispatch => {
+    dispatch(fetchOrderRequest())
+    try{
+        const {data} = await axios.get(`${BASE_URL}/orders/${id}`)
+        dispatch(fetchOrderSuccess(data))
+    } catch (err){
+        dispatchError(dispatch, err, fetchOrderError)
+    }
+}

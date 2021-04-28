@@ -1,6 +1,6 @@
 .section_container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.5fr;
     grid-gap: 1rem;
     align-items: start;
 }
@@ -123,6 +123,7 @@
     position: absolute;
     top: .5rem;
     left: 1.5rem;
+    font-size: 12px;
     font-weight: normal;
     transform: translate(0, -50%) scale(0);
     z-index: 2;
@@ -204,6 +205,10 @@
     height: 3rem;
     object-fit: cover;
     border: 1px solid #dcdcdc;
+}
+
+.tag{
+    min-width: 4rem;
 }
 
 .in_stock small,

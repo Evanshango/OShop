@@ -27,7 +27,7 @@ function Sections() {
                 </div>
                 <hr/>
                 <div style={{overflowX: 'auto'}}>
-                    <DataTable data={categories} headers={['Name', 'Section', 'Actions']}/>
+                    <DataTable data={categories} headers={['Image','Name', 'Section', 'Actions']} tag={'categories'}/>
                 </div>
             </div>
         </div>

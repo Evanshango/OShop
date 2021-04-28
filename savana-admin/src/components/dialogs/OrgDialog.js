@@ -3,7 +3,7 @@ import {addOrganization, clearOrgErrors} from "../../api"
 import {useDispatch, useSelector} from "react-redux"
 import {Dialog, DialogActions, DialogContent, DialogTitle} from "@material-ui/core"
 import styles from './OrgDialog.module.css'
-import Input from "../input/Input"
+import {Input} from "../input/Input"
 import _ from 'lodash'
 
 function OrgDialog({organization}) {

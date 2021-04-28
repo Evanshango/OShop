@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Input.module.css'
+import {Form} from "react-bootstrap"
 
 const Input = ({label, name, placeholder, type, value, onchange, onblur, disable, min}) => {
 
@@ -12,4 +13,13 @@ const Input = ({label, name, placeholder, type, value, onchange, onblur, disable
     );
 }
 
-export default Input;
+const DisabledField = ({value, onchange, label}) => {
+    return(
+        <Form.Group>
+            <Form.Label>{label}</Form.Label>
+            <Form.Control value={value} disabled onChange={onchange}/>
+        </Form.Group>
+    )
+}
+
+export {Input, DisabledField};

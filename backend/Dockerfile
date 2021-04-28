@@ -17,6 +17,9 @@ RUN rm -rf node_modules/typescript
 
 FROM node:14-alpine
 WORKDIR /app
+
+ENV NODE_ENV=production
+
 COPY .env swagger.yaml ./
 COPY --from=deps /app/node_modules ./node_modules/
 COPY --from=build /app/build ./build/

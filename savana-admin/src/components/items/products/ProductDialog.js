@@ -6,7 +6,7 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import styles from './Products.module.css'
 import {addProduct, clearProdErrors, fetchCategoriesBySectionId, updateProduct} from "../../../api";
 import _ from 'lodash'
-import Input from "../../input/Input";
+import {Input} from "../../input/Input";
 
 const ProductDialog = ({data}) => {
     const dispatch = useDispatch()

@@ -10,6 +10,16 @@ export const fetchOrders = async (req: Request, res: Response) => {
     return res.send(orders)
 }
 
+export const fetchOrder = async (req: Request, res: Response) => {
+    const {id} = req.params
+    if (!mongoose.Types.ObjectId.isValid(id)) throw new BadRequestError('Invalid orderID')
+    const order = await Order.findById(id)
+    if (!order){
+        throw new NotFoundError('Order')
+    }
+    return res.send(order)
+}
+
 export const fetchUserLatestOrder = async (req: Request, res: Response) => {
     const {id} = req.user
     let foundOrder
