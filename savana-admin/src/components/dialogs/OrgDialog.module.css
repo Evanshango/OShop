@@ -6,18 +6,49 @@
     border-radius: 5px;
 }
 
+.success{
+    background: #D4EDDA;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.request:disabled{
+    cursor: not-allowed;
+    background: #838383!important;
+}
+
 .cancel, .save {
     border-radius: 2rem;
     border: none;
     outline: none;
     cursor: pointer;
-    padding: .6rem 3rem;
+    padding: .4rem 3rem;
     color: #ffffff;
     margin-bottom: 1rem;
 }
 
-.cancel {
+.cancel:disabled, .save:disabled{
+    cursor: not-allowed;
+    background: #838383;
+}
+
+.cancel, .btn_add {
     background: #ff0000;
+}
+
+.loading{
+    padding: 1rem 0 0 0;
+    text-align: center;
+}
+
+.btn_add{
+    border-radius: 2rem;
+    outline: none;
+    border: none;
+    color: #ffffff;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: .4rem 2rem;
 }
 
 .save {
@@ -25,18 +56,14 @@
 }
 
 .edit_btn{
-    background: #256eff;
-    color: #ffffff;
-    padding: .5rem 2rem;
-    border-radius: 5px;
-    cursor: pointer;
+    padding: .3rem 2rem;
 }
 
 .show_pass{
     margin: 1rem 0;
     padding: .5rem 2rem;
     text-transform: uppercase;
-    font-size: 10px;
+    font-size: 12px;
     border-radius: 5px;
     border: 1px solid #dcdcdc;
     outline: none;

@@ -23,12 +23,15 @@
     margin-left: auto;
     border-radius: 5px;
     border: 1px solid gainsboro;
-    padding: .5rem 1rem;
+    padding: .4rem 1rem;
+    display: flex;
+    align-items: center;
 }
 
 .navbar_right p{
     display: flex;
     align-items: center;
+    margin: auto;
 }
 
 .navbar_right:hover{
@@ -38,7 +41,7 @@
 .cancel,
 .ok {
     border-radius: 2rem;
-    padding: .5rem 2rem;
+    padding: .3rem 3rem;
     border: none;
     outline: none;
     cursor: pointer;

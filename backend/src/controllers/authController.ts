@@ -3,45 +3,17 @@ import {TokenManager} from "../helpers/token-manager";
 import gravatar from "gravatar";
 import {User} from "../models/user";
 import {BadRequestError} from "../errors/bad-request-error";
-import {AUTH_METHOD, CLIENT_URL_PROD, GOOGLE_CLIENT_ID, JWT_SECRET} from "../helpers/constants";
+import {AUTH_METHOD, CLIENT_URL_PROD, GOOGLE_CLIENT_ID} from "../helpers/constants";
 import {PasswordManager} from "../helpers/password-manager";
 import {OAuth2Client} from "google-auth-library";
-import {EmailHandler} from "../helpers/email-handler";
-import jwt from "jsonwebtoken";
-import {IPayload} from "../helpers/types";
 
 const userResponse = async (user: any, req: Request, res: Response, status: number) => {
 
-    const userJWt = await TokenManager.generateToken(user)
+    const userJWt = await TokenManager.generateUserToken(user)
 
     return res.status(status).json({
         status: 'success',
         token: userJWt
-    })
-}
-
-const generateTokenAndSendEmail = async (user: any, res: Response) => {
-    const expiration = new Date()
-    expiration.setSeconds(expiration.getSeconds() + ((7 * 24) * 60 * 60))
-
-    const activateToken = await TokenManager.generateToken(user)
-
-    await User.findByIdAndUpdate(user.id, {activateToken, tokenExp: expiration})
-
-    await EmailHandler.sendEmail(
-        user.email,
-        'ACCOUNT ACTIVATION',
-        `<h3>Hello ${user.fullName},</h3> 
-               <p>Thank you for creating an account with us, Just one more step...</p>
-               <p> To activate your account please click on this link: 
-               <a target="_blank" href=${CLIENT_URL_PROD!}/account/activate/${activateToken}>
-                    <b style="color: red; text-decoration: underline; font-style: italic">Activation Link</b>
-                </a>
-               </p>
-               <p>Cheers,</p>`
-    )
-    return res.status(201).json({
-        message: 'Check your email for an activation link. Kindly note that the link expires after 7 days'
     })
 }
 
@@ -60,7 +32,13 @@ export const signupUser = async (req: Request, res: Response) => {
     })
     await user.save()
 
-    await generateTokenAndSendEmail(user, res)
+    const url = `${CLIENT_URL_PROD!}/account/activate`
+
+    const {message} = await TokenManager.generateTokenAndSendEmail(user, User, 'user', user.fullName, url)
+
+    return res.status(201).json({
+        message
+    })
 }
 
 export const signinUser = async (req: Request, res: Response) => {
@@ -111,28 +89,20 @@ export const activationLink = async (req: Request, res: Response) => {
     const {email} = req.body
     const existing = await User.findOne({email})
     if (!existing) throw new BadRequestError('User with that email address does not exist')
-    await generateTokenAndSendEmail(existing, res)
+
+    const url = `${CLIENT_URL_PROD}/account/activate`
+
+    const {message} = await TokenManager.generateTokenAndSendEmail(existing, User, 'user', existing.fullName, url)
+
+    return res.status(201).json({
+        message
+    })
 }
 
 export const verifyAccount = async (req: Request, res: Response) => {
     const {token} = req.params
-    let message
-    try {
-        const {id} = jwt.verify(token, JWT_SECRET!) as IPayload
-        const user = await User.findById(id)
-        const currDate = new Date()
-
-        if (user!.tokenExp > currDate) {
-            await User.findByIdAndUpdate(id, {$set: {verified: true}, $unset: {activateToken: '', tokenExp: ''}})
-            message = 'Account activated successfully'
-        } else {
-            message = 'Activation token expired'
-        }
-
-        return res.send({message})
-    } catch (err) {
-        throw new BadRequestError('Invalid token')
-    }
+    const message = await TokenManager.activateAccount(token, User)
+    return res.send({message})
 }
 
 export const signoutUser = async (req: Request, res: Response) => {

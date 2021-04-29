@@ -3,7 +3,7 @@ import {USER_ROLE} from "../helpers/constants";
 import {NotAuthorizedError} from "../errors/not-authorized-error";
 
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
-    if (req.user!.role !== USER_ROLE.ADMIN) {
+    if (req.user!.role !== USER_ROLE.SUPER_ADMIN) {
         throw new NotAuthorizedError()
     }
     next()

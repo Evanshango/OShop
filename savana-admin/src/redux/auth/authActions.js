@@ -25,3 +25,9 @@ export const signOut = () => {
         type: AUTH.SIGNOUT_USER
     }
 }
+
+export const clearAuthErrors = () => {
+    return{
+        type: AUTH.CLEAR_AUTH_ERRORS
+    }
+}

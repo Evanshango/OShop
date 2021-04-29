@@ -5,7 +5,8 @@ export class Pagination {
     static async paginatedResults(model: Model<any>, queryParams: any, filters?: []) {
         const {page, limit, search, field} = queryParams
         const pattern = search !== undefined && new RegExp(`${search}`, 'i')
-        let fieldName = field !== undefined ? field : 'name'
+
+        let fieldName = field !== undefined ? field : (search !== undefined && search.includes('@') ? 'email' : 'name')
 
         let searchQuery: any = {}
         if (pattern) {

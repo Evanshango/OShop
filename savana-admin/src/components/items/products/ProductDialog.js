@@ -169,7 +169,7 @@ const ProductDialog = ({data}) => {
                     </div>
                     <div className={styles.add_new}>
                         <div className={styles.top_row}>
-                            <Input name={'name'} placeholder={'ProductInfo Name'} label={'ProductInfo Name*'} type={'text'}
+                            <Input name={'name'} placeholder={'Product Name'} label={'Product Name*'} type={'text'}
                                    onchange={handleChange} value={product.name}/>
                             <Input name={'price'} placeholder={'Price'} label={'Price*'} type={'number'}
                                    onblur={formatPrice} onchange={handleChange} value={product.price}/>
@@ -182,6 +182,8 @@ const ProductDialog = ({data}) => {
                             <Input label={'Final Price'} type={'text'} disable={true} onchange={handleChange}
                                    value={(product.price - (product.price * (product.discount * 0.01))).toFixed(2)}/>
                         </div>
+                        <Input name={'owner'} placeholder={'Product Owner'} label={'Product Owner*'} type={'text'}
+                               onchange={handleChange} value={product.name}/>
                         <div className={styles.product_description}>
                             <h5>Product Description*</h5>
                             <textarea placeholder='Description' name='description' onChange={handleChange}

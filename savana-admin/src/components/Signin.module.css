@@ -14,7 +14,13 @@
     text-align: left;
 }
 
-.login_form h2 {
+.success{
+    background: #D4EDDA;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.login_form h3 {
     text-transform: uppercase;
     color: #838383;
     text-align: center;
@@ -28,8 +34,18 @@
 .login_form form input {
     border-radius: 5px;
     border: 1px solid #a5aaad;
-    padding: .8rem;
+    padding: .5rem;
     width: 100%;
+}
+
+.errors {
+    background: rgb(248, 215, 218);
+    margin: .5rem auto;
+    padding: .5rem;
+    color: #ff0000;
+    border-radius: 5px;
+    width: 95%;
+    text-align: left!important;
 }
 
 .login_form form input:focus {
@@ -38,14 +54,22 @@
 
 .login_form form button {
     width: 100%;
-    padding: .8rem 1rem;
+    padding: .5rem 1rem;
     margin: 2rem 0 1rem 0;
     border-radius: 2rem;
     color: #ffffff;
     border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: rgb(241, 196, 15);
     background: linear-gradient(90deg, rgba(241, 196, 15, 1) 20%, rgba(243, 172, 18, 1) 100%);
     cursor: pointer;
+}
+
+.login_form form button:disabled{
+    cursor: not-allowed;
+    background: #838383;
 }
 
 .login_form form button:focus {

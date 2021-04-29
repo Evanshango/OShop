@@ -1,14 +1,19 @@
 .input_area p {
-    padding: .5rem 0;
+    padding: 0;
+    margin: 0;
 }
 
 .input_area input {
     width: 100%;
-    padding: .6rem .2rem;
+    padding: .4rem .2rem;
     border-radius: .3rem;
-    border: 1px solid #a5aaad;
+    border: 1px solid #CED4DA;
 }
 
 .input_area input:focus {
     outline: none;
+}
+
+.input_area input:disabled{
+    background: #dcdcdc;
 }

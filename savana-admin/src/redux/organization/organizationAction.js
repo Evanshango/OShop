@@ -60,6 +60,26 @@ export const editOrgError = errors => {
     }
 }
 
+export const activateOrgRequest = () => {
+    return {
+        type: ORGANIZATION.ACTIVATE_ORG_REQUEST
+    }
+}
+
+export const activateOrgSuccess = message => {
+    return {
+        type: ORGANIZATION.ACTIVATE_ORG_SUCCESS,
+        payload: message
+    }
+}
+
+export const activateOrgError = errors => {
+    return {
+        type: ORGANIZATION.ACTIVATE_ORG_ERROR,
+        payload: errors
+    }
+}
+
 export const clearOrgError = () => {
     return {
         type: ORGANIZATION.CLEAR_ORG_ERRORS

@@ -4,18 +4,22 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import {Dialog, DialogActions, DialogContent} from "@material-ui/core";
 import {useDispatch} from "react-redux";
 import {signOutUser} from "../../api";
+import {useHistory} from 'react-router-dom'
 
 function SignOutDialog({user}) {
+    const history = useHistory()
     const [open, setOpen] = useState(false)
     const closeDialog = () => setOpen(false)
     const dispatch = useDispatch()
 
-    const handleSignout = () => dispatch(signOutUser())
+    const handleSignout = () => {
+        dispatch(signOutUser(history))
+    }
 
     return (
         <>
             <div className={styles.navbar_right} onClick={() => setOpen(true)}>
-                {user && <p style={{color: 'black'}}>{user.email} <span><ArrowDropDownIcon/></span></p>}
+                {user && <p style={{color: 'black'}}>{user.name} <span><ArrowDropDownIcon/></span></p>}
             </div>
             <Dialog open={open} fullWidth maxWidth='sm'>
                 <DialogContent>

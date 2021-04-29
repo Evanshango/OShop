@@ -1,4 +1,4 @@
-import {Document, HookNextFunction, Model, model, Schema} from "mongoose";
+import mongoose, {Document, HookNextFunction, Model, model, Schema} from "mongoose";
 import {PasswordManager} from "../helpers/password-manager";
 
 interface IOrgAttrs {
@@ -10,8 +10,11 @@ interface IOrgAttrs {
 interface IOrgDoc extends Document {
     name: string
     email: string
+    verified: boolean
     userCount: number
+    password: string
     createdAt: string
+    tokenExp: Date
 }
 
 interface IOrgModel extends Model<IOrgDoc> {
@@ -25,8 +28,17 @@ const organizationSchema = new Schema({
     email: {
         type: String, required: true, unique: true, trim: true
     },
+    verified: {
+      type: Boolean, default: false
+    },
     password: {
         type: String, required: true
+    },
+    activateToken: {
+        type: String
+    },
+    tokenExp: {
+        type: mongoose.Schema.Types.Date
     },
     userCount: {
         type: Number, default: 0
@@ -37,6 +49,7 @@ const organizationSchema = new Schema({
         transform(doc, ret) {
             ret.id = ret._id
             delete ret._id
+            delete ret.password
             delete ret.__v
         }
     }

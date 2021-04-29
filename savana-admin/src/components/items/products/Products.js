@@ -26,7 +26,7 @@ function Products() {
             <div className={styles.search_products}>
                 <div className={styles.items_limit}>
                     <h4>Number of items per page*</h4>
-                    <input name='perPage' type='number' value={defaultItems} min={1}
+                    <input name='limit' type='number' value={defaultItems} min={1}
                            onChange={e => setDefaultItems(e.currentTarget.value)}/>
                     <button className={styles.load_more} onClick={() => loadProducts()}>Load</button>
                 </div>

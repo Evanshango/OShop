@@ -20,6 +20,10 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state, loading: false, token: '', errors: action.payload
             }
+        case AUTH.CLEAR_AUTH_ERRORS:
+            return {
+                ...state, errors: [], token: '', loading: false
+            }
         case AUTH.SIGNOUT_USER:
             return {
                 ...state, token: '', loading: false, error: []

@@ -17,7 +17,7 @@
 .search_term input {
     width: 70%;
     margin: 0 1rem;
-    padding: 1rem;
+    padding: .6rem 1rem;
     border: 1px solid #dcdcdc;
     border-radius: 5px;
 }
@@ -54,13 +54,13 @@
     border-radius: 5px;
     outline: none;
     border: 1px solid #dcdcdc;
-    padding: 1rem;
+    padding: .6rem 1rem;
     margin: 0 1rem;
     width: 70%;
 }
 
 .products_container button {
-    padding: .6rem 2rem;
+    padding: .3rem 2rem;
     background: #ff0000;
     border-radius: 2rem;
     outline: none;
@@ -245,7 +245,7 @@
     border: none;
     outline: none;
     cursor: pointer;
-    padding: .6rem 3rem;
+    padding: .4rem 3rem;
     color: #ffffff;
     margin-bottom: 1rem;
 }

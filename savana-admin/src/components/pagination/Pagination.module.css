@@ -1,0 +1,40 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.icons {
+    cursor: pointer;
+    border-radius: 2px;
+    padding: 7px 15px;
+    /*font-size: 1.2rem;*/
+    border: 1px solid #838383;
+}
+
+.icons:focus {
+    outline: none;
+}
+
+.icons:not(:last-child) {
+    margin-right: .5rem;
+}
+
+.icons:disabled {
+    background: #333333;
+    color: #ffffff;
+    cursor: not-allowed;
+}
+
+@media screen and (max-width: 728px) {
+    .pagination {
+        transform: scale(.7);
+        position: absolute;
+    }
+}
+
+@media screen and (max-width: 628px) {
+    .pagination {
+        transform: scale(.5);
+    }
+}

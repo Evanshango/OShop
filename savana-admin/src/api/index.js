@@ -1,37 +1,81 @@
-import axios from "axios";
-import {authError, authRequest, authSuccess, signOut} from "../redux/auth/authActions";
+import axios from "axios"
+import {authError, authRequest, authSuccess, clearAuthErrors, signOut} from "../redux/auth/authActions"
 import {
-    addSectionError, addSectionRequest, addSectionSuccess, clearSectionErrors, deleteSectionError, sectionsError,
-    deleteSectionSuccess, sectionsRequest, sectionsSuccess
-} from "../redux/sections/sectionActions";
+    addSectionError,
+    addSectionRequest,
+    addSectionSuccess,
+    clearSectionErrors,
+    deleteSectionError,
+    deleteSectionSuccess,
+    sectionsError,
+    sectionsRequest,
+    sectionsSuccess
+} from "../redux/sections/sectionActions"
 import {
-    addCategoryError, addCategoryRequest, addCategorySuccess, categoriesError, categoriesRequest,
-    categoriesSuccess, clearCategoryErrors, deleteCategoryError, deleteCategorySuccess
-} from "../redux/categories/categoryActions";
+    addCategoryError,
+    addCategoryRequest,
+    addCategorySuccess,
+    categoriesError,
+    categoriesRequest,
+    categoriesSuccess,
+    clearCategoryErrors,
+    deleteCategoryError,
+    deleteCategorySuccess
+} from "../redux/categories/categoryActions"
 import {
-    addProductError, addProductRequest, addProductSuccess, clearProductErrors, deleteProductError,
-    deleteProductSuccess, productsError, productsRequest, productsSuccess, editProductRequest, editProductSuccess
-} from "../redux/products/productActions";
+    addProductError,
+    addProductRequest,
+    addProductSuccess,
+    clearProductErrors,
+    deleteProductError,
+    deleteProductSuccess,
+    editProductRequest,
+    editProductSuccess,
+    productsError,
+    productsRequest,
+    productsSuccess
+} from "../redux/products/productActions"
 import {
+    clearOrderErrors,
+    fetchOrderError,
+    fetchOrderRequest,
     fetchOrdersError,
     fetchOrdersRequest,
     fetchOrdersSuccess,
-    clearOrderErrors,
-    fetchOrderRequest,
-    fetchOrderError,
     fetchOrderSuccess
 } from "../redux/orders/orderActions"
 import {
-    addOfferError, addOfferRequest, addOfferSuccess, clearOfferErrors, deleteOfferError, deleteOfferRequest,
-    deleteOfferSuccess, fetchOffersError, fetchOffersRequest, fetchOffersSuccess
-} from "../redux/offers/offerActions";
+    addOfferError,
+    addOfferRequest,
+    addOfferSuccess,
+    clearOfferErrors,
+    deleteOfferError,
+    deleteOfferRequest,
+    deleteOfferSuccess,
+    fetchOffersError,
+    fetchOffersRequest,
+    fetchOffersSuccess
+} from "../redux/offers/offerActions"
 import {
+    activateOrgError,
+    activateOrgRequest, activateOrgSuccess,
     addOrgError,
-    addOrgRequest, addOrgSuccess, clearOrgError, editOrgError, editOrgRequest, editOrgSuccess,
+    addOrgRequest,
+    addOrgSuccess,
+    clearOrgError,
+    editOrgError,
+    editOrgRequest,
+    editOrgSuccess,
     fetchOrgError,
     fetchOrgRequest,
     fetchOrgSuccess
 } from "../redux/organization/organizationAction"
+import {
+    clearRequestErrors,
+    requestLinkError,
+    requestLinkRequest,
+    requestLinkSuccess
+} from "../redux/organization/activateActions"
 
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
@@ -45,46 +89,54 @@ export const formatDate = date => {
     return dt.toLocaleString()
 }
 
-export const signOutUser = () => {
+export const signOutUser = history => {
     return (dispatch) => {
-        sessionStorage.removeItem('oshop')
+        sessionStorage.removeItem('savana')
         delete axios.defaults.headers.common['Authorization']
         dispatch(signOut())
+        history.push('/')
     }
 }
 
 const setAuthHeader = token => {
-    sessionStorage.setItem('oshop', `Bearer ${token}`)
+    sessionStorage.setItem('savana', `Bearer ${token}`)
     axios.defaults.headers["common"]['Authorization'] = `Bearer ${token}`
 }
 
-export const authUser = user => async dispatch => {
+export const authUser = (user, option) => async dispatch => {
     dispatch(authRequest())
     try {
-        const {data} = await axios.post(`${BASE_URL}/auth/signin`, user, {
-            withCredentials: true,
-            credentials: 'include'
-        })
-        setAuthHeader(data.token)
-        dispatch(authSuccess(data.token))
+        let result
+        if (option === 'admin') {
+            result = await axios.post(`${BASE_URL}/auth/signin`, user, {withCredentials: true, credentials: 'include'})
+        } else {
+            result = await axios.post(`${BASE_URL}/organizations/signin`, user, {
+                withCredentials: true,
+                credentials: 'include'
+            })
+        }
+        setAuthHeader(result.data.token)
+        dispatch(authSuccess(result.data.token))
     } catch (err) {
         dispatchError(dispatch, err, authError)
     }
 }
 
+export const clearAuthError = () => dispatch => dispatch(clearAuthErrors())
+
 export const fetchOrganizations = () => async dispatch => {
     dispatch(fetchOrgRequest())
-    try{
+    try {
         const {data} = await axios.get(`${BASE_URL}/organizations`)
         dispatch(fetchOrgSuccess(data))
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, fetchOrgError)
     }
 }
 
 export const addOrganization = organization => async dispatch => {
     dispatch(addOrgRequest())
-    try{
+    try {
         const {data} = await axios.post(`${BASE_URL}/organizations`, organization)
         dispatch(addOrgSuccess(data))
     } catch (err) {
@@ -92,12 +144,35 @@ export const addOrganization = organization => async dispatch => {
     }
 }
 
+export const activateOrganization = (token, history) => async dispatch => {
+    dispatch(activateOrgRequest())
+    try{
+        const {data} = await axios.get(`${BASE_URL}/organizations/activate/${token}`)
+        dispatch(activateOrgSuccess(data))
+        history.push('/')
+    } catch (err){
+        dispatchError(dispatch, err, activateOrgError)
+    }
+}
+
+export const requestLink = email => async dispatch => {
+    dispatch(requestLinkRequest())
+    try{
+        const {data} = await axios.post(`${BASE_URL}/organization/request/link`, {email})
+        dispatch(requestLinkSuccess(data))
+    } catch (err){
+        dispatchError(dispatch, err, requestLinkError)
+    }
+}
+
+export const clearRequestError = () => dispatch => dispatch(clearRequestErrors())
+
 export const editOrganization = organization => async dispatch => {
     dispatch(editOrgRequest())
-    try{
+    try {
         const {data} = await axios.patch(`${BASE_URL}/organizations/${organization.id}`, organization)
         dispatch(editOrgSuccess(data))
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, editOrgError)
     }
 }
@@ -189,17 +264,17 @@ export const fetchProducts = () => async dispatch => {
 
 export const addProduct = product => async dispatch => {
     dispatch(addProductRequest())
-    try{
+    try {
         const {data} = await axios.post(`${BASE_URL}/products`, product)
         dispatch(addProductSuccess(data))
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, addProductError)
     }
 }
 
 export const updateProduct = product => async dispatch => {
     dispatch(editProductRequest())
-    try{
+    try {
         const {data} = await axios.patch(`${BASE_URL}/products/${product.id}`, product)
         dispatch(editProductSuccess(data))
     } catch (err) {
@@ -208,7 +283,7 @@ export const updateProduct = product => async dispatch => {
 }
 
 export const deleteProduct = id => async dispatch => {
-    try{
+    try {
         await axios.delete(`${BASE_URL}/products/${id}`)
         dispatch(deleteProductSuccess(id))
     } catch (err) {
@@ -222,10 +297,10 @@ export const clearProdErrors = () => dispatch => {
 
 export const fetchOrders = () => async dispatch => {
     dispatch(fetchOrdersRequest())
-    try{
+    try {
         const {data} = await axios.get(`${BASE_URL}/orders`)
         dispatch(fetchOrdersSuccess(data))
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, fetchOrdersError)
     }
 }
@@ -234,17 +309,17 @@ export const clearOrderError = () => dispatch => dispatch(clearOrderErrors())
 
 export const fetchOffers = () => async dispatch => {
     dispatch(fetchOffersRequest())
-    try{
+    try {
         const {data} = await axios.get(`${BASE_URL}/offers`)
         dispatch(fetchOffersSuccess(data))
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, fetchOffersError)
     }
 }
 
 export const addOffer = offer => async dispatch => {
     dispatch(addOfferRequest())
-    try{
+    try {
         const {data} = await axios.post(`${BASE_URL}/offers`, offer)
         dispatch(addOfferSuccess(data))
         return data.id
@@ -255,22 +330,32 @@ export const addOffer = offer => async dispatch => {
 
 export const deleteOffer = id => async dispatch => {
     dispatch(deleteOfferRequest())
-    try{
+    try {
         const {data} = await axios.delete(`${BASE_URL}/offers/${id}`)
         dispatch(deleteOfferSuccess(data))
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, deleteOfferError)
     }
 }
 
 export const clearOffersError = () => dispatch => dispatch(clearOfferErrors())
 
+export const searchOrganizations = param => async dispatch => {
+    dispatch(fetchOrgRequest())
+    try {
+        const {data} = await axios.get(`${BASE_URL}/organizations?search=${param}`)
+        dispatch(fetchOrgSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, fetchOrgError())
+    }
+}
+
 export const fetchOrder = id => async dispatch => {
     dispatch(fetchOrderRequest())
-    try{
+    try {
         const {data} = await axios.get(`${BASE_URL}/orders/${id}`)
         dispatch(fetchOrderSuccess(data))
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, fetchOrderError)
     }
 }

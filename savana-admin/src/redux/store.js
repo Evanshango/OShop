@@ -1,18 +1,20 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux'
 import {composeWithDevTools} from "redux-devtools-extension"
 import thunk from 'redux-thunk'
-import authReducer from "./auth/authReducer";
-import sectionReducer from "./sections/sectionReducer";
-import categoryReducer from "./categories/categoryReducer";
-import productReducer from "./products/productReducer";
-import orderReducer from "./orders/orderReducer";
-import offerReducer from "./offers/offerReducer";
+import authReducer from "./auth/authReducer"
+import sectionReducer from "./sections/sectionReducer"
+import categoryReducer from "./categories/categoryReducer"
+import productReducer from "./products/productReducer"
+import orderReducer from "./orders/orderReducer"
+import offerReducer from "./offers/offerReducer"
 import organizationReducer from "./organization/organizationReducer"
+import requestReducer from "./organization/activateReducer"
 
 const initialState = {}
 const middleware = [thunk]
 
 const rootReducer = combineReducers({
+    activate: requestReducer,
     organization: organizationReducer,
     user: authReducer,
     section: sectionReducer,
@@ -28,8 +30,8 @@ const devTools = NODE_ENV === "production" ? (
     applyMiddleware(...middleware)
 ) : (
     composeWithDevTools(applyMiddleware(...middleware))
-);
+)
 
-const store = createStore(rootReducer, initialState, devTools);
+const store = createStore(rootReducer, initialState, devTools)
 
 export default store

@@ -16,12 +16,12 @@ function App() {
     const token = useSelector(state => state.user.token)
 
     useEffect(() => {
-        const existingToken = sessionStorage.getItem('oshop')
+        const existingToken = sessionStorage.getItem('savana')
 
         if (existingToken) {
             const decodedToken = jwtDecode(existingToken.split(' ')[1])
             if (decodedToken.exp * 1000 < Date.now()) {
-                sessionStorage.removeItem('oshop')
+                sessionStorage.removeItem('savana')
                 delete axios.defaults.headers['common']['Authorization']
             } else {
                 store.dispatch({
@@ -30,9 +30,9 @@ function App() {
                 })
                 axios.defaults.headers['common']['Authorization'] = existingToken
 
-                const {email, id, role} = decodedToken
+                const {email, id, role, name} = decodedToken
 
-                userProps({email, id, role})
+                userProps({email, id, role, name})
             }
         }
     }, [token])

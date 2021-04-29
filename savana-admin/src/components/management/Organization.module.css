@@ -1,12 +1,7 @@
-.org_container button {
-    padding: .6rem 2rem;
-    background: #ff0000;
-    border-radius: 2rem;
-    outline: none;
-    border: none;
-    color: #ffffff;
-    text-transform: uppercase;
-    cursor: pointer;
+.search_area{
+    display: grid;
+    width: 50%;
+    margin: 2rem auto;
 }
 
 .org_container button:focus {
@@ -80,4 +75,18 @@
 
 .organization_table tr th:nth-child(7) {
     min-width: 10rem;
+}
+
+.pagination {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+@media screen and (max-width: 838px) {
+    .search_area{
+        width: 90%;
+    }
 }

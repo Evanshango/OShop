@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {addOrganization, clearOrgErrors} from "../../api"
 import {useDispatch, useSelector} from "react-redux"
-import {Dialog, DialogActions, DialogContent, DialogTitle} from "@material-ui/core"
+import {CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle} from "@material-ui/core"
 import styles from './OrgDialog.module.css'
 import {Input} from "../input/Input"
 import _ from 'lodash'
@@ -26,9 +26,10 @@ function OrgDialog({organization}) {
         setOpen(false)
     }
 
-    const handleChange = e => setOrg({
-        ...org, [e.target.name]: e.currentTarget.value
-    })
+    const handleChange = e => {
+        if (errors.length > 0) dispatch(clearOrgErrors())
+        setOrg({...org, [e.target.name]: e.currentTarget.value})
+    }
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -48,13 +49,16 @@ function OrgDialog({organization}) {
         }
     }, [loading])
 
-
     return (
         <>
             {!_.isEmpty(organization) ? (
-                <td><span className={styles.edit_btn} onClick={() => openDialog()}>Edit</span></td>
+                <td>
+                    <span className={`btn btn-sm btn-outline-primary ${styles.edit_btn}`} onClick={() => openDialog()}>
+                        Edit
+                    </span>
+                </td>
             ) : (
-                <button onClick={() => setOpen(true)}>Add New</button>
+                <button className={styles.btn_add} onClick={() => setOpen(true)}>Add New</button>
             )}
             <Dialog open={open} fullWidth maxWidth="xs" onClose={closeDialog}>
                 <DialogTitle><span>Add Organization</span></DialogTitle>
@@ -63,11 +67,9 @@ function OrgDialog({organization}) {
                         <Input name={'name'} label={'Organization Name*'} type={'text'} onchange={handleChange}
                                value={org.name} placeholder={'Name'}/>
                         <Input name={'email'} label={'Organization Email*'} type={'email'} onchange={handleChange}
-                               value={org.email} placeholder={'Email'}/>
+                               value={org.email} placeholder={'Email'} disable={!_.isEmpty(organization)}/>
                         {pass && (
                             <>
-                                <Input name={'currPass'} label={'Current Password*'} type={'password'}
-                                       onchange={handleChange} value={org.password} placeholder={'Current Password'}/>
                                 <Input name={'newPass'} label={'New Password*'} type={'password'}
                                        onchange={handleChange} value={org.password} placeholder={'New Password'}/>
                                 <Input name={'confirmPass'} label={'Confirm Password*'} type={'password'}
@@ -88,10 +90,15 @@ function OrgDialog({organization}) {
                             {errors.map(error => <li key={error.message}>{error.message}</li>)}
                         </div>
                     )}
+                    {loading && (
+                        <div className={styles.loading}>
+                            <CircularProgress color="secondary" />
+                        </div>
+                    )}
                 </DialogContent>
                 <DialogActions>
-                    <button className={styles.cancel} onClick={closeDialog}>Cancel</button>
-                    <button className={styles.save} onClick={handleSubmit}>
+                    <button className={styles.cancel} onClick={closeDialog} disabled={loading}>Cancel</button>
+                    <button className={styles.save} onClick={handleSubmit} disabled={loading}>
                         {!_.isEmpty(organization) ? 'Update' : 'Save'}
                     </button>
                 </DialogActions>

@@ -27,6 +27,7 @@ export const ZOHO_PASS = process.env.ZOHO_PASS
 
 export const CLIENT_URL = process.env.CLIENT_URL
 export const CLIENT_URL_PROD = process.env.CLIENT_URL_PROD
+export const CLIENT_ADMIN_URL_PROD = process.env.CLIENT_ADMIN_URL_PROD
 
 export const MPESA_CONSUMER_KEY = process.env.MPESA_CONSUMER_KEY
 export const MPESA_CONSUMER_SECRET = process.env.MPESA_CONSUMER_SECRET
