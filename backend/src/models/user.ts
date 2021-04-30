@@ -35,7 +35,7 @@ interface IUserDoc extends Document {
 
 const userSchema = new Schema({
     email: {
-        type: String, required: true, unique: true, lowercase: true, trim: true
+        type: String, required: true, lowercase: true, trim: true
     },
     firstName: {
         type: String, required: true, trim: true

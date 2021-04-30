@@ -1,0 +1,15 @@
+.user_search{
+    margin: 1rem auto;
+    width: 60%;
+    display: flex;
+}
+
+.user_search input{
+    padding: 1.3rem!important;
+}
+
+@media screen and (max-width: 838px){
+    .user_search{
+        width: 90%;
+    }
+}

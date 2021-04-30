@@ -2,6 +2,7 @@ import {Request, Response} from "express";
 import {User} from "../models/user";
 import {NotFoundError} from "../errors/not-found-error";
 import {NotAuthorizedError} from "../errors/not-authorized-error";
+import {AUTH_METHOD} from "../helpers/constants";
 
 
 const checkUser = async (req: Request) => {
@@ -45,6 +46,17 @@ export const updateUser = async (req: Request, res: Response) => {
         runValidators: true
     })
     return res.send(updatedUser)
+}
+
+export const addOrganizationUser = async (req: Request, res: Response) => {
+    const {email, firstName, lastName, role} = req.body
+    const {user} = req
+
+    const newUser = User.build({email, firstName, lastName, fullName: `${firstName} ${lastName}`, verified: false,
+        method: AUTH_METHOD.LOCAL, role}
+    )
+    console.log(newUser)
+    console.log(user)
 }
 
 export const deleteUser = async (req: Request, res: Response) => {
