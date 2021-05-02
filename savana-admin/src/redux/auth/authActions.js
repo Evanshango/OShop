@@ -31,3 +31,10 @@ export const clearAuthErrors = () => {
         type: AUTH.CLEAR_AUTH_ERRORS
     }
 }
+
+export const userObject = user => {
+    return{
+        type: AUTH.SET_USER,
+        payload: user
+    }
+}

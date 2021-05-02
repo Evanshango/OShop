@@ -1,17 +1,19 @@
-import './App.css';
-import {BrowserRouter as Router} from "react-router-dom";
-import Content from "./components/Content";
-import Signin from "./components/Signin";
-import {useSelector} from "react-redux";
+import './App.css'
+import {BrowserRouter as Router} from "react-router-dom"
+import Content from "./components/Content"
+import Signin from "./components/Signin"
+import {useDispatch, useSelector} from "react-redux"
 import jwtDecode from "jwt-decode"
-import axios from "axios";
-import store from "./redux/store";
-import {AUTH} from "./redux/types";
-import {useEffect, useState} from "react";
-import ScrollToTop from "./components/ScrollToTop";
+import axios from "axios"
+import store from "./redux/store"
+import {AUTH} from "./redux/types"
+import {useEffect, useState} from "react"
+import ScrollToTop from "./components/ScrollToTop"
+import {userInfo} from "./api"
 
 function App() {
 
+    const dispatch = useDispatch()
     const [user, setUser] = useState({})
     const token = useSelector(state => state.user.token)
 
@@ -31,6 +33,7 @@ function App() {
                 axios.defaults.headers['common']['Authorization'] = existingToken
 
                 const {email, id, role, name} = decodedToken
+                dispatch(userInfo({email, id, role, name}))
 
                 userProps({email, id, role, name})
             }
@@ -48,7 +51,7 @@ function App() {
                 <Content user={user}/>
             )}
         </Router>
-    );
+    )
 }
 
-export default App;
+export default App

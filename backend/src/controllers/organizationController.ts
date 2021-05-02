@@ -4,7 +4,7 @@ import {Organization} from "../models/organization";
 import {BadRequestError} from "../errors/bad-request-error";
 import {TokenManager} from "../helpers/token-manager";
 import {PasswordManager} from "../helpers/password-manager";
-import {CLIENT_ADMIN_URL_PROD} from "../helpers/constants";
+import {CLIENT_ADMIN_URL_PROD, USER_ROLE} from "../helpers/constants";
 
 export const getOrganizations = async (req: Request, res: Response) => {
     const {results, pages, page, count} = await Pagination.paginatedResults(Organization, req.query)
@@ -26,7 +26,7 @@ export const addOrganization = async (req: Request, res: Response) => {
     }
 
     const org = Organization.build({
-        name, email, password
+        name, email, password, role: USER_ROLE.ADMIN
     })
 
     await org.save()

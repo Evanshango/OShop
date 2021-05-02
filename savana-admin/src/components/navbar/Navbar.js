@@ -4,6 +4,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import SignOutDialog from "./SignOutDialog";
 
 function Navbar({openSidebar, user}) {
+
     return (
         <nav className={styles.navbar}>
             <div className={styles.nav_icon} onClick={() => openSidebar()}>

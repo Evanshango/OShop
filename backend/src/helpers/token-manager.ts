@@ -11,7 +11,7 @@ export class TokenManager {
     }
 
     static async generateOrgToken(org: any) {
-        return jwt.sign({id: org.id, email: org.email, name: org.name}, JWT_SECRET!)
+        return jwt.sign({id: org.id, email: org.email, role: org.role, name: org.name}, JWT_SECRET!)
     }
 
     static async generateTokenAndSendEmail(user: any, model: Model<any>, tag: string, name: string, url: string) {

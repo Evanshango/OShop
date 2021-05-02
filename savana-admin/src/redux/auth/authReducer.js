@@ -1,8 +1,9 @@
-import {AUTH} from "../types";
+import {AUTH} from "../types"
 
 const initialState = {
     loading: false,
     token: '',
+    user: {},
     errors: []
 }
 
@@ -23,6 +24,10 @@ const authReducer = (state = initialState, action) => {
         case AUTH.CLEAR_AUTH_ERRORS:
             return {
                 ...state, errors: [], token: '', loading: false
+            }
+        case AUTH.SET_USER:
+            return {
+                ...state, loading: false, user: action.payload, errors: []
             }
         case AUTH.SIGNOUT_USER:
             return {

@@ -33,7 +33,7 @@ function Content({user}) {
         <div className='container_layout'>
             <Navbar openSidebar={openSidebar} sidebarOpen={sidebarOpen} user={user}/>
             <Main/>
-            <Sidebar closeSidebar={closeSidebar} sidebarOpen={sidebarOpen}/>
+            <Sidebar closeSidebar={closeSidebar} sidebarOpen={sidebarOpen} user={user}/>
         </div>
     );
 }

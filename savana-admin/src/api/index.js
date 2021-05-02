@@ -1,5 +1,5 @@
 import axios from "axios"
-import {authError, authRequest, authSuccess, clearAuthErrors, signOut} from "../redux/auth/authActions"
+import {authError, authRequest, authSuccess, clearAuthErrors, signOut, userObject} from "../redux/auth/authActions"
 import {
     addSectionError,
     addSectionRequest,
@@ -58,17 +58,25 @@ import {
 } from "../redux/offers/offerActions"
 import {
     activateOrgError,
-    activateOrgRequest, activateOrgSuccess,
+    activateOrgRequest,
+    activateOrgSuccess,
     addOrgError,
     addOrgRequest,
     addOrgSuccess,
+    addOrgUserError,
+    addOrgUserReq,
+    addOrgUserSuccess,
+    clearAddUserOrgErrors,
     clearOrgError,
     editOrgError,
     editOrgRequest,
     editOrgSuccess,
     fetchOrgError,
     fetchOrgRequest,
-    fetchOrgSuccess
+    fetchOrgSuccess,
+    fetchOrgUsersErrors,
+    fetchOrgUsersReq,
+    fetchOrgUsersSuccess
 } from "../redux/organization/organizationAction"
 import {
     clearRequestErrors,
@@ -122,6 +130,8 @@ export const authUser = (user, option) => async dispatch => {
     }
 }
 
+export const userInfo = user => dispatch => dispatch(userObject(user))
+
 export const clearAuthError = () => dispatch => dispatch(clearAuthErrors())
 
 export const fetchOrganizations = () => async dispatch => {
@@ -146,21 +156,21 @@ export const addOrganization = organization => async dispatch => {
 
 export const activateOrganization = (token, history) => async dispatch => {
     dispatch(activateOrgRequest())
-    try{
+    try {
         const {data} = await axios.get(`${BASE_URL}/organizations/activate/${token}`)
         dispatch(activateOrgSuccess(data))
         history.push('/')
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, activateOrgError)
     }
 }
 
 export const requestLink = email => async dispatch => {
     dispatch(requestLinkRequest())
-    try{
+    try {
         const {data} = await axios.post(`${BASE_URL}/organization/request/link`, {email})
         dispatch(requestLinkSuccess(data))
-    } catch (err){
+    } catch (err) {
         dispatchError(dispatch, err, requestLinkError)
     }
 }
@@ -359,3 +369,25 @@ export const fetchOrder = id => async dispatch => {
         dispatchError(dispatch, err, fetchOrderError)
     }
 }
+
+export const fetchOrganizationUsers = () => async dispatch => {
+    dispatch(fetchOrgUsersReq())
+    try {
+        const {data} = await axios.get(`${BASE_URL}/users/organization`)
+        dispatch(fetchOrgUsersSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, fetchOrgUsersErrors)
+    }
+}
+
+export const addOrganizationUser = user => async dispatch => {
+    dispatch(addOrgUserReq())
+    try {
+        const {data} = await axios.post(`${BASE_URL}/users/organization`, user)
+        dispatch(addOrgUserSuccess(data))
+    } catch (err) {
+        dispatchError(dispatch, err, addOrgUserError)
+    }
+}
+
+export const clearAddUserOrgError = () => dispatch => dispatch(clearAddUserOrgErrors())

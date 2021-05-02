@@ -8,6 +8,13 @@
     padding: 1.3rem!important;
 }
 
+.avatar{
+    border: 1px solid #636363;
+    border-radius: .5rem;
+    height: 45px;
+    width: 45px;
+}
+
 @media screen and (max-width: 838px){
     .user_search{
         width: 90%;

@@ -11,18 +11,11 @@ function Dashboard() {
     const {sections} = useSelector(state => state.section)
     const {products} = useSelector(state => state.product)
     const {orders} = useSelector(state => state.order)
-    const [modalShow, setModalShow] = useState(false)
-    const [id, setId] = useState('')
 
     const completePayments = orders && orders.filter(prod => prod.paymentStatus === 'COMPLETED')
 
     const loadMore = () => {
         console.log('loading more')
-    }
-
-    const handleClick = orderId => {
-        setId(orderId)
-        setModalShow(true)
     }
 
     const cards = [

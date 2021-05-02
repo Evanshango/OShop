@@ -1,4 +1,4 @@
-import {ORGANIZATION} from "../types"
+import {ORGANIZATION, USER} from "../types"
 
 export const fetchOrgRequest = () => {
     return {
@@ -83,5 +83,51 @@ export const activateOrgError = errors => {
 export const clearOrgError = () => {
     return {
         type: ORGANIZATION.CLEAR_ORG_ERRORS
+    }
+}
+
+export const fetchOrgUsersReq = () => {
+    return {
+        type: USER.FETCH_ORG_USERS_REQUEST
+    }
+}
+
+export const fetchOrgUsersSuccess = users => {
+    return {
+        type: USER.FETCH_ORG_USERS_SUCCESS,
+        payload: users
+    }
+}
+
+export const fetchOrgUsersErrors = errors => {
+    return {
+        type: USER.FETCH_ORG_USERS_ERRORS,
+        payload: errors
+    }
+}
+
+export const addOrgUserReq = () => {
+    return {
+        type: USER.ADD_USER_ORG_REQUEST
+    }
+}
+
+export const addOrgUserSuccess = user => {
+    return {
+        type: USER.ADD_USER_ORG_SUCCESS,
+        payload: user
+    }
+}
+
+export const addOrgUserError = errors => {
+    return {
+        type: USER.ADD_USER_ORG_ERROR,
+        payload: errors
+    }
+}
+
+export const clearAddUserOrgErrors = () => {
+    return {
+        type: USER.CLEAR_ADD_USER_ERRORS
     }
 }

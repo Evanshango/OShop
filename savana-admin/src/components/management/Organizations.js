@@ -1,14 +1,17 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import OrgDialog from "../dialogs/OrgDialog"
 import styles from './Organization.module.css'
 import {useDispatch, useSelector} from "react-redux"
-import {formatDate, searchOrganizations} from "../../api"
+import {fetchOrganizationUsers, formatDate, searchOrganizations} from "../../api"
 import {Badge, Form, Table} from "react-bootstrap"
 import Pagination from "../pagination/Pagination"
+import {useHistory} from 'react-router-dom'
 
 function Organizations() {
     const dispatch = useDispatch()
+    const history = useHistory()
     const {organizations, pages} = useSelector(state => state.organization)
+    const {user} = useSelector(state => state.user)
     const [param, setParam] = useState('')
     const [page, setPage] = useState(1)
 
@@ -16,6 +19,13 @@ function Organizations() {
         e.preventDefault()
         dispatch(searchOrganizations(param))
     }
+
+    useEffect(() => {
+        if (!user.role){
+            history.push('/')
+        }
+    }, [user])
+
 
     return (
         <div className={styles.org_container}>

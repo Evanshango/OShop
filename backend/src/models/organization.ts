@@ -1,15 +1,18 @@
 import mongoose, {Document, HookNextFunction, Model, model, Schema} from "mongoose";
 import {PasswordManager} from "../helpers/password-manager";
+import {USER_ROLE} from "../helpers/constants";
 
 interface IOrgAttrs {
     name: string
     email: string
+    role: USER_ROLE
     password: string
 }
 
 interface IOrgDoc extends Document {
     name: string
     email: string
+    role: USER_ROLE
     verified: boolean
     userCount: number
     password: string
@@ -27,6 +30,9 @@ const organizationSchema = new Schema({
     },
     email: {
         type: String, required: true, unique: true, trim: true
+    },
+    role: {
+        type: String, enum: Object.values(USER_ROLE), default: USER_ROLE.ADMIN
     },
     verified: {
       type: Boolean, default: false

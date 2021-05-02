@@ -48,15 +48,21 @@ export const updateUser = async (req: Request, res: Response) => {
     return res.send(updatedUser)
 }
 
+export const fetchOrganizationUsers = async (req: Request, res: Response) => {
+    const users = await User.find({organization: req.user.id})
+    return res.send(users)
+}
+
 export const addOrganizationUser = async (req: Request, res: Response) => {
     const {email, firstName, lastName, role} = req.body
     const {user} = req
 
     const newUser = User.build({email, firstName, lastName, fullName: `${firstName} ${lastName}`, verified: false,
-        method: AUTH_METHOD.LOCAL, role}
+        method: AUTH_METHOD.LOCAL, role, organization: user.id}
     )
-    console.log(newUser)
-    console.log(user)
+    await newUser.save()
+
+    return res.send(await User.findById(newUser.id))
 }
 
 export const deleteUser = async (req: Request, res: Response) => {
