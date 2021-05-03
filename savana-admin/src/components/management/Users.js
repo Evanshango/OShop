@@ -1,12 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import UserDialog from "../dialogs/UserDialog"
 import styles from './../dialogs/User.module.css'
 import {Badge, Form, Table} from "react-bootstrap"
-import {fetchOrganizationUsers, formatDate} from "../../api"
-import {useDispatch, useSelector} from "react-redux"
+import {formatDate} from "../../api"
+import {useSelector} from "react-redux"
 
 function Users() {
-    const dispatch = useDispatch()
     const {users} = useSelector(state => state.organization.users)
     const [param, setParam] = useState('')
 
@@ -14,15 +13,11 @@ function Users() {
         e.preventDefault()
     }
 
-    useEffect(() => {
-        dispatch(fetchOrganizationUsers())
-    }, [dispatch])
-
     return (
         <>
             <UserDialog/>
             <div className={styles.user_search}>
-                <Form style={{display: 'flex'}} onSubmit={handleSubmit} className='w-100'>
+                <Form style={{display: 'flex'}} onSubmit={handleSubmit} className="w-100">
                     <Form.Control type={'text'} placeholder={'Search by Name/Email'} value={param}
                                   onChange={e => setParam(e.currentTarget.value)}/>
                     <button className="btn btn-outline-primary ml-3" type={'submit'}>Search</button>
@@ -40,6 +35,7 @@ function Users() {
                         <th>Avatar</th>
                         <th>Organization</th>
                         <th>Status</th>
+                        <th>Role</th>
                         <th>Registration Date</th>
                         <th>Actions</th>
                     </tr>
@@ -58,24 +54,24 @@ function Users() {
                             <td>{user.organization.name}</td>
                             <td>
                                 <Badge variant={user.verified ? 'success' : 'danger'}>
-                                    {user.verified ? 'VERIFIED': 'UNVERIFIED'}
+                                    {user.verified ? 'VERIFIED' : 'UNVERIFIED'}
+                                </Badge>
+                            </td>
+                            <td>
+                                <Badge variant={user.role === 'USER'
+                                    ? (user.role === 'ADMIN' ? 'success' : 'danger') : 'warning'}>
+                                    {user.role}
                                 </Badge>
                             </td>
                             <td>{formatDate(user.createdAt)}</td>
                             <td>Edit/Delete</td>
                         </tr>
                     ))}
-                    {/*{users && users.map((user, index) => (*/}
-                    {/*    // <tr key={index}>*/}
-                    {/*    //     <td>{index + 1}</td>*/}
-                    {/*    //     <td>{user.id}</td>*/}
-                    {/*    // </tr>*/}
-                    {/*))}*/}
                     </tbody>
                 </Table>
             </div>
         </>
-    );
+    )
 }
 
-export default Users;
+export default Users

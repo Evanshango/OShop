@@ -49,7 +49,7 @@ function OrderModal({orderId}) {
                                 <p>Set Delivery Date</p>
                                 <div className={styles.date}>
                                     <input type="date" value={selectedDate} onChange={e => handleDateChange(e)}/>
-                                    <button className="btn btn-sm btn-success" onClick={handleUpdate}>
+                                    <button className="btn btn-sm btn-outline-primary" onClick={handleUpdate}>
                                         Update
                                     </button>
                                 </div>

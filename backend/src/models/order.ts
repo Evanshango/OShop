@@ -20,6 +20,7 @@ interface IOrderAttrs {
 }
 
 interface IOrderDoc extends Document {
+    id: string
     customer: string,
     amount: number
     address: string

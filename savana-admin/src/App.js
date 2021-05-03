@@ -9,13 +9,19 @@ import store from "./redux/store"
 import {AUTH} from "./redux/types"
 import {useEffect, useState} from "react"
 import ScrollToTop from "./components/ScrollToTop"
-import {userInfo} from "./api"
+import {fetchOrganizationUsers, userInfo} from "./api"
+import _ from 'lodash'
 
 function App() {
 
     const dispatch = useDispatch()
     const [user, setUser] = useState({})
-    const token = useSelector(state => state.user.token)
+    const {token, user: person} = useSelector(state => state.user)
+
+    useEffect(() => {
+        if (!_.isEmpty(person) && person.role === 'ADMIN') dispatch(fetchOrganizationUsers())
+    }, [person])
+
 
     useEffect(() => {
         const existingToken = sessionStorage.getItem('savana')

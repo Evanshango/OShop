@@ -125,7 +125,7 @@ const ProductDialog = ({data}) => {
             ) : (
                 <button onClick={() => setOpen(true)}>Add New</button>
             )}
-            <Dialog open={open} fullWidth maxWidth='md'>
+            <Dialog open={open} fullWidth maxWidth='md' onClose={closeDialog}>
                 <DialogTitle><span className={styles.dialog_title}>{data ? 'Edit' : 'Add'} Product</span></DialogTitle>
                 <DialogContent>
                     <div className={styles.sec_cat_area}>

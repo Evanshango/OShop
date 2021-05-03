@@ -78,6 +78,10 @@
     margin-top: 1rem;
 }
 
+.orders_table tr th:nth-child(1) {
+    width: 3rem;
+}
+
 .orders_table tr th:nth-child(2) {
     width: 8rem;
 }
@@ -98,8 +102,8 @@
 
 .orders_table tr th:nth-child(7), .orders_table tr th:nth-child(8) {
     text-align: center;
-    min-width: 8rem;
-    width: 8rem;
+    min-width: 10rem;
+    width: 10rem;
 }
 
 .orders_table tr th:nth-child(9){

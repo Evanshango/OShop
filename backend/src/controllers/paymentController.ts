@@ -1,7 +1,13 @@
 import {Request, Response} from 'express'
 import {Payment} from "../models/payment";
 import axios from "axios";
-import {CALL_BACK_URL_PROD, MPESA_PASS_KEY, MPESA_SHORT_CODE, MPESA_STK_PUSH, NODE_ENV} from "../helpers/constants";
+import {
+    CALL_BACK_URL_PROD,
+    MPESA_PASS_KEY,
+    MPESA_SHORT_CODE,
+    MPESA_STK_PUSH,
+    PAYMENT_METHOD
+} from "../helpers/constants";
 import {BadRequestError} from "../errors/bad-request-error";
 
 declare const Buffer: any
@@ -28,15 +34,16 @@ export const mpesaPayment = async (req: Request, res: Response) => {
     const {mPesaToken} = req
     const {phone, amount, orderId} = req.body
 
-    const callbackURL = NODE_ENV! !== 'development' ? CALL_BACK_URL_PROD! : 'https://7c14d7997616.ngrok.io/api/v1/payments/stk/callback'
+    // const callbackURL = NODE_ENV! !== 'development' ? CALL_BACK_URL_PROD! : 'https://cf81f007266c.ngrok.io/api/v1/payments/stk/callback'
+    const callbackURL = CALL_BACK_URL_PROD!
 
     let dateNow = new Date()
     const year = dateNow.getFullYear()
     const month = padDate(dateNow.getMonth() + 1)
-    const date = dateNow.getDate()
-    const hours = dateNow.getHours()
-    const minutes = dateNow.getMinutes()
-    const seconds = dateNow.getSeconds()
+    const date = padDate(dateNow.getDate())
+    const hours = padDate(dateNow.getHours())
+    const minutes = padDate(dateNow.getMinutes())
+    const seconds = padDate(dateNow.getSeconds())
     const timestamp = `${year}${month}${date}${hours}${minutes}${seconds}`
     const shortCodePassKey = `${MPESA_SHORT_CODE!}${MPESA_PASS_KEY}${timestamp}`
     const password = Buffer.alloc(shortCodePassKey.length, shortCodePassKey).toString('base64')
@@ -54,6 +61,7 @@ export const mpesaPayment = async (req: Request, res: Response) => {
         "PhoneNumber": phone,
         "CallBackURL": callbackURL,
         "AccountReference": "Savana Treasures",
+        "Remarks": orderId,
         "TransactionDesc": orderId,
     }
 
@@ -64,13 +72,17 @@ export const mpesaPayment = async (req: Request, res: Response) => {
 
         message = data.ResponseCode === 0 ? data.CustomerMessage : data.CustomerMessage
 
-        console.log(data)
+        const payment = Payment.build({
+            order: orderId, amount, currency: 'KSH', method: PAYMENT_METHOD.MPESA, checkoutId: data.CheckoutRequestID,
+            merchantId: data.MerchantRequestID
+        })
+
+        await payment.save()
 
         return res.send({
             message
         })
-    } catch ({response}) {
-        console.log(response)
+    } catch (err) {
         throw new BadRequestError('Please try again after sometime')
     }
 }
@@ -90,6 +102,18 @@ export const stkCallback = async (req: Request, res: Response) => {
                     r[e.Name] = e.Value;
                     return r;
                 }, {});
+                const payment = await Payment.findOne({checkoutId, merchantId})
+
+                if (!payment) throw new BadRequestError('Payment not found')
+
+                await Payment.findByIdAndUpdate(payment.id, {
+                    message, paymentRef: result.MpesaReceiptNumber
+                })
+
+                const {order} = payment
+
+                await Payment.deleteOrderCart(order, PAYMENT_METHOD.MPESA)
+
                 break
             case 1037:
                 message = Body.stkCallback.ResultDesc
@@ -100,12 +124,7 @@ export const stkCallback = async (req: Request, res: Response) => {
     } else {
         throw new BadRequestError('Something went wrong')
     }
-
-    console.log({checkoutId, message, merchantId, result})
-
-    return res.send({
-        checkoutId, message, merchantId, result
-    })
+    return res.send({message})
 }
 
 export const validateMpesaPayment = async (req: Request, res: Response) => {
