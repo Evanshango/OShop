@@ -2,7 +2,7 @@ import {Request, Response} from 'express'
 import mongoose from "mongoose";
 import {BadRequestError} from "../errors/bad-request-error";
 import {Order} from "../models/order";
-import {PAYMENT_STATUS} from "../helpers/constants";
+import {PAYMENT_STATUS, RANDOM_ID} from "../helpers/constants";
 import {NotFoundError} from "../errors/not-found-error";
 
 export const fetchOrders = async (req: Request, res: Response) => {
@@ -14,7 +14,7 @@ export const fetchOrder = async (req: Request, res: Response) => {
     const {id} = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) throw new BadRequestError('Invalid orderID')
     const order = await Order.findById(id)
-    if (!order){
+    if (!order) {
         throw new NotFoundError('Order')
     }
     return res.send(order)
@@ -47,7 +47,9 @@ export const addOrder = async (req: Request, res: Response) => {
     const {amount, items, address} = body
     if (!mongoose.Types.ObjectId.isValid(address)) throw new BadRequestError('An address is required')
 
-    const order = Order.build({customer: user.id, address, amount, items})
+    const randomId = RANDOM_ID(new Date())
+
+    const order = Order.build({randomId, customer: user.id, address, amount, items})
     await order.save()
 
     return res.send(await Order.findById(order.id))

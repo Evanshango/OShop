@@ -5,8 +5,9 @@ import {
     CALL_BACK_URL_PROD,
     MPESA_PASS_KEY,
     MPESA_SHORT_CODE,
-    MPESA_STK_PUSH,
-    PAYMENT_METHOD
+    MPESA_STK_PUSH, NODE_ENV,
+    PAYMENT_METHOD,
+    RANDOM_ID
 } from "../helpers/constants";
 import {BadRequestError} from "../errors/bad-request-error";
 
@@ -23,7 +24,11 @@ export const addPayment = async (req: Request, res: Response) => {
 
     const {order, paymentRef, payerEmail, payerId, payerName, amount, currency, method} = req.body
 
-    const toSave = Payment.build({order, paymentRef, payerName, amount, currency, method, payerEmail, payerId})
+    const randomId = RANDOM_ID(new Date())
+
+    const toSave = Payment.build({
+        order, orderRandomId: randomId, paymentRef, payerName, amount, currency, method, payerEmail, payerId
+    })
 
     const payment = await toSave.save()
 
@@ -32,10 +37,10 @@ export const addPayment = async (req: Request, res: Response) => {
 
 export const mpesaPayment = async (req: Request, res: Response) => {
     const {mPesaToken} = req
-    const {phone, amount, orderId} = req.body
+    const {phone, amount, orderId, randomId} = req.body
 
-    // const callbackURL = NODE_ENV! !== 'development' ? CALL_BACK_URL_PROD! : 'https://cf81f007266c.ngrok.io/api/v1/payments/stk/callback'
-    const callbackURL = CALL_BACK_URL_PROD!
+    const callbackURL = NODE_ENV! !== 'development' ? CALL_BACK_URL_PROD! : 'https://818d40e2bda8.ngrok.io/api/v1/payments/stk/callback'
+    // const callbackURL = CALL_BACK_URL_PROD!
 
     let dateNow = new Date()
     const year = dateNow.getFullYear()
@@ -73,8 +78,8 @@ export const mpesaPayment = async (req: Request, res: Response) => {
         message = data.ResponseCode === 0 ? data.CustomerMessage : data.CustomerMessage
 
         const payment = Payment.build({
-            order: orderId, amount, currency: 'KSH', method: PAYMENT_METHOD.MPESA, checkoutId: data.CheckoutRequestID,
-            merchantId: data.MerchantRequestID
+            order: orderId, orderRandomId: randomId, amount, currency: 'KSH', method: PAYMENT_METHOD.MPESA,
+            checkoutId: data.CheckoutRequestID, merchantId: data.MerchantRequestID
         })
 
         await payment.save()
@@ -83,6 +88,7 @@ export const mpesaPayment = async (req: Request, res: Response) => {
             message
         })
     } catch (err) {
+        console.log(err)
         throw new BadRequestError('Please try again after sometime')
     }
 }
@@ -127,10 +133,6 @@ export const stkCallback = async (req: Request, res: Response) => {
     return res.send({message})
 }
 
-export const validateMpesaPayment = async (req: Request, res: Response) => {
-    return res.send({})
-}
-
 export const confirmMpesaPayment = async (req: Request, res: Response) => {
-    return res.send({})
+    const {orderId} = req.body
 }

@@ -4,7 +4,46 @@
     width: 60%;
     margin: 1rem auto;
     flex-direction: column;
-    align-items: center;
+    /*align-items: center;*/
+}
+
+.cart_holder{
+    display: grid;
+    grid-template-columns: 3fr 1.5fr;
+    grid-gap: 1rem;
+}
+
+.order_summary{
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.summary_header{
+    background: #dcdcdc;
+    padding: 1rem;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.info_title{
+    color: #838383;
+}
+
+.item_info{
+    display: flex;
+    justify-content: space-between;
+}
+
+.item_info h6{
+    font-weight: bold;
+}
+
+.actions{
+    text-align: center;
+    display: flex;
+    min-width: 100px;
+    justify-content: space-between;
 }
 
 .cart_area {
@@ -20,29 +59,47 @@
     border: 1px solid #dcdcdc;
 }
 
-.cart_right, .cart_left {
-    box-shadow: 0 .4rem 1.2rem rgba(0, 0, 0, .2);
-    border-radius: 5px;
-    max-height: 85vh;
-    overflow-y: auto;
+.cart_item{
+
 }
 
-.cart_item {
-    padding: 1rem;
-    align-items: center;
-    display: flex;
+.prod_image{
+    width: 5rem!important;
+    min-width: 5rem!important;
 }
 
-.cart_item img {
-    border-radius: 5px;
+.prod_image img{
+    width: 60px;
+    height: 60px;
     object-fit: cover;
-    width: 5rem;
-    height: 6rem;
+    border-radius: 10px;
     border: 1px solid #dcdcdc;
+}
+
+.prod_name{
+    width: 15rem!important;
+    min-width: 10rem!important;
+}
+
+.delete_btn{
+    width: 8rem!important;
+    min-width: 8rem!important;
+    text-align: center;
+}
+
+.price{
+    width: 7rem!important;
+    min-width: 7rem!important;
 }
 
 .prod_desc {
     width: 100%;
+}
+.badge{
+    max-width: 60px!important;
+    text-transform: uppercase;
+    font-weight: lighter;
+    font-size: 9px;
 }
 
 .prod_desc p {
@@ -89,31 +146,9 @@
     color: #f64749;
 }
 
-.cart_table {
-    width: 100%;
-    margin-top: 3rem;
-    border-collapse: collapse;
-}
-
-.cart_table tr th {
-    background: #ff4500;
-    text-align: left;
-    color: #ffffff;
-}
-
-.cart_table tr th,
-.cart_table tr td {
-    padding: .5rem;
-    border: 1px solid gainsboro;
-}
-
 .prod_info {
     display: flex;
     overflow-x: hidden;
-}
-
-.cart_table tr {
-    box-shadow: 0 .4rem 1.2rem rgba(0, 0, 0, .1);
 }
 
 .prod_info img {
@@ -146,7 +181,8 @@
 }
 
 .no_items {
-    margin: auto;
+    /*margin: auto;*/
+    margin-top: 15rem;
     text-align: center;
 }
 
@@ -165,11 +201,11 @@
 }
 
 .no_items li:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 .action_buttons li {
-    padding: .8rem 3rem;
+    padding: .5rem 3rem;
     border-radius: 2rem;
     background: #fbb419;
     border: none;
@@ -183,99 +219,6 @@
     color: #ffffff;
 }
 
-.sub_total {
-    padding: 1rem .2rem;
-    margin: 1rem 0 1rem auto;
-    width: 24%;
-    border-top: 3px solid #fbb419;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.actions {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.actions span {
-    border: 1px solid #dcdcdc;
-    margin: 0 .7rem;
-    width: 2rem;
-    height: 2.3rem;
-    text-align: center;
-    border-radius: 50%;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-.actions input {
-    width: 30px;
-    padding: .5rem;
-    border: 1px solid #dcdcdc;
-    border-radius: 2px;
-    text-align: center;
-}
-
-.actions input:focus {
-    outline: none;
-}
-
-.actions svg {
-    background: #dddddd;
-    font-size: 20px;
-    border-radius: 2rem;
-}
-
-.actions svg:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-}
-
-.actions svg:not(:last-child) {
-    background: cornflowerblue;
-    color: #ffffff;
-}
-
-.actions svg:last-child {
-    background: #ff0000;
-    color: #ffffff;
-}
-
-.sub_total_info {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 1rem;
-}
-
-.sub_total p {
-    font-size: 1.3rem;
-    font-weight: bold;
-}
-
-.sub_total h4 {
-    font-size: 1.2rem;
-    position: relative;
-}
-
-.sub_total h4::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: -20%;
-    transform: translate(-50%, -50%);
-    background-color: #ff0000;
-    width: 100%;
-    height: .1rem;
-    z-index: 1;
-}
-
-.sub_total h4 span {
-    font-size: 12px;
-}
-
 .action_buttons {
     display: flex;
     flex-grow: 1;
@@ -286,22 +229,6 @@
     background: transparent !important;
     border: 1px solid #dcdcdc !important;
     color: #838383 !important;
-}
-
-.sub_total li {
-    margin-top: 4rem;
-}
-
-.sub_total li a {
-    width: 100%;
-    background: #fbb419;
-    border-radius: .5rem;
-    padding: .8rem 5rem;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: #ffffff;
-    text-transform: uppercase;
 }
 
 .item_actions {
@@ -321,7 +248,7 @@
     width: 90%;
     text-align: center;
     background: #fbb419;
-    padding: 1rem;
+    padding: .6rem 1rem;
     border-radius: 3px;
     color: #ffffff;
     text-transform: uppercase;
@@ -331,28 +258,17 @@
     .cart {
         width: 70%;
     }
+}
 
-    .sub_total {
-        width: 50%;
+@media screen and (max-width: 872px){
+    .cart_holder{
+        grid-template-columns: 1fr;
     }
 }
 
 @media screen and (max-width: 868px) {
     .cart {
         width: 80%;
-    }
-
-    .cart_table tr td:nth-child(2) {
-        min-width: 10rem;
-    }
-
-    .cart_table tr td:nth-child(4) {
-        min-width: 8rem;
-    }
-
-    .cart_table tr td:nth-child(3),
-    .cart_table tr td:nth-child(5) {
-        min-width: 6rem;
     }
 }
 
@@ -364,28 +280,9 @@
     .cart_area {
         grid-template-columns: 1fr;
     }
-
-    .sub_total {
-        width: 52%;
-    }
-}
-
-@media screen and (max-width: 612px) {
-    .cart_item img {
-        margin-right: .5rem;
-    }
-
-    .item_actions span {
-        font-size: 12px;
-        padding: .3rem 1rem;
-    }
 }
 
 @media screen and (max-width: 548px) {
-    .sub_total {
-        width: 100%;
-    }
-
     .prod_info {
         flex-direction: column;
         align-items: center;
@@ -400,12 +297,5 @@
 @media screen and (max-width: 441px) {
     .action_buttons {
         flex-direction: column;
-    }
-}
-
-@media screen and (max-width: 310px) {
-    .cart_item img {
-        width: 3rem;
-        height: 4rem;
     }
 }

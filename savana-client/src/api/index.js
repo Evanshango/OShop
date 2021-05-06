@@ -92,6 +92,38 @@ export const loginUser = (user, products) => async dispatch => {
     uploadCart('auth/signin', user, products, dispatch)
 }
 
+export const returnFormattedPhone = phone => {
+    let message, formatted
+    const invalidChars = ['7', '8', '6', '3']
+    if (phone.length < 10 || phone.length > 12) {
+        message = 'invalid'
+        formatted = ''
+    }
+
+    if (phone.startsWith(0) || phone.includes('+')) {
+        formatted = `254${phone.substring(1, 10)}`
+        message = 'valid'
+    }
+
+    if (phone.includes(254)) {
+        formatted = phone
+        message = 'valid'
+    }
+
+    if (formatted.length < 12){
+        message = 'invalid'
+        formatted = ''
+    }
+
+    if (invalidChars.includes(formatted.charAt(4))){
+        message = 'invalid'
+        formatted = ''
+    }
+
+    return {message, formatted}
+
+}
+
 export const registerUser = (user) => async dispatch => {
     dispatch(authRequest())
     try {
@@ -159,7 +191,7 @@ export const fetchProducts = (page, limit, filter) => async dispatch => {
     dispatch(fetchProductsRequest())
     try {
         let response
-        if (filter){
+        if (filter) {
             response = await axios.post(`${BASE_URL}/products/filters?page=${page}&limit=${limit}`, filter)
         } else {
             response = await axios.get(`${BASE_URL}/products?page=${page}&limit=${limit}`)
@@ -354,10 +386,10 @@ export const cancelLatestOrder = orderId => async dispatch => {
     }
 }
 
-export const makeMpesaPayment = (phone, amount, orderId) => async dispatch => {
+export const makeMpesaPayment = (phone, amount, orderId, randomId) => async dispatch => {
     dispatch(payMpesaRequest())
     try {
-        const {data} = await axios.post(`${BASE_URL}/payments/m`, {phone, amount, orderId})
+        const {data} = await axios.post(`${BASE_URL}/payments/m`, {phone, amount, orderId, randomId})
         dispatch(payMpesaSuccess(data.message))
     } catch (err) {
         dispatchError(dispatch, err, payMpesaError)

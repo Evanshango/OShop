@@ -28,8 +28,16 @@
 }
 
 .payment_buttons {
-    height: 5vh;
+    max-height: 4.5vh;
     text-align: center;
+    height: 4.5vh;
+}
+
+.mpesa_btn{
+    border-radius: 2rem;
+    height: 40px;
+    width: 100%;
+    border: 1px solid #008000;
 }
 
 .payment_buttons img {
@@ -43,18 +51,26 @@
 
 .make_request{
     border-radius: 2rem;
-    padding: .6rem 1rem;
-    margin-top: 1rem;
+    padding: .5rem 1rem;
     background: #008000;
     color: #ffffff;
     text-transform: uppercase;
     outline: none;
+    font-size: 14px;
+    margin-top: 1rem;
     border: none;
 }
 
 .make_request:disabled{
     cursor: not-allowed;
     background: #636363;
+}
+
+.message_area{
+    padding: 1rem;
+    margin-top: 1rem;
+    background: #D4EDDA;
+    border-radius: 5px;
 }
 
 .errors {

@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
 import styles from './Cart.module.css'
-import {useDispatch, useSelector} from "react-redux";
-import {Link} from "react-router-dom";
-import _ from "lodash";
-import {MdHourglassEmpty} from "react-icons/md";
-import {addCartItem} from "../../api";
-import CartItem from "../../components/cart-item/CartItem";
-import {Breadcrumb} from "react-bootstrap"
+import {useDispatch, useSelector} from "react-redux"
+import {Link} from "react-router-dom"
+import _ from "lodash"
+import {MdHourglassEmpty} from "react-icons/md"
+import {addCartItem} from "../../api"
+import CartItem from "../../components/cart-item/CartItem"
+import {Breadcrumb, Table} from "react-bootstrap"
 
 function Cart() {
     const dispatch = useDispatch()
@@ -44,13 +44,11 @@ function Cart() {
         return prods.length > 0 ? (
             <p className={styles.warning}>Please remove items that are out of stock before checkout</p>
         ) : (
-            <li>
-                <Link to={'/checkout'}>
-                    <span>
-                        <div className={styles.buy_now}>Checkout</div>
-                    </span>
-                </Link>
-            </li>
+            <Link to={'/checkout'}>
+                <button className="btn btn-outline-danger w-100">
+                    Proceed to checkout
+                </button>
+            </Link>
         )
     })())
 
@@ -64,30 +62,48 @@ function Cart() {
                 </Breadcrumb>
             </div>
             {Object.keys(cartItems).length > 0 ? (
-                <div className={styles.cart_area}>
-                    <div className={styles.cart_right}>
-                        <div className={styles.cart_header}>
-                            <h5>My Cart</h5>
-                            <h5>Availability</h5>
-                        </div>
-                        <hr/>
-                        {Object.keys(cartItems).map((key, index) => (
-                            <div key={index}>
-                                <CartItem product={cartItems[key]} incQty={incrementQty} decQty={decrementQty}/>
-                                {index + 1 !== Object.keys(cartItems).length && <hr/>}
-                            </div>
-                        ))}
-                        {showCheckOutBtn()}
+                <div className={styles.cart_holder}>
+                    <div>
+                        <Table striped responsive style={{margin: '1rem 0'}}>
+                            <thead className='thead-light'>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Price per Unit</th>
+                                <th style={{textAlign: 'center'}}>Units</th>
+                                <th style={{textAlign: 'center'}}>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {Object.keys(cartItems).map((key, index) => (
+                                <tr key={index}>
+                                    <CartItem product={cartItems[key]} incQty={incrementQty} decQty={decrementQty}/>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </Table>
                     </div>
-                    <div className={styles.cart_left}>
-                        <div className={styles.cart_header}>
-                            <h5 style={{textAlign: 'center'}}>Total Amount</h5>
+                    <div className={styles.order_summary}>
+                        <h5 className={styles.summary_header}>Order Summary</h5>
+                        <p style={{fontStyle: 'italic'}}>
+                            Shipping costs will be added depending on the choices made during checkout.
+                        </p>
+                        <div className={styles.item_info}>
+                            <h6 className={styles.info_title}>Order subtotal</h6>
+                            <h6>${totalPrice.toFixed(2)}</h6>
                         </div>
                         <hr/>
-                        <div className={styles.sub_total_info}>
-                            <p>Subtotal</p>
-                            <h4><span>$</span> {totalPrice.toLocaleString()}</h4>
+                        <div className={styles.item_info}>
+                            <h6 className={styles.info_title}>Shipping and handling</h6>
+                            <h6>$0.00</h6>
                         </div>
+                        <hr/>
+                        <div className={styles.item_info}>
+                            <h6 className={styles.info_title}>Total</h6>
+                            <h6>${totalPrice.toFixed(2)}</h6>
+                        </div>
+                        <hr/>
+                        {showCheckOutBtn()}
                     </div>
                 </div>
             ) : (
@@ -111,7 +127,7 @@ function Cart() {
                 </div>
             )}
         </div>
-    );
+    )
 }
 
-export default Cart;
+export default Cart

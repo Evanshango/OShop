@@ -77,3 +77,15 @@ export enum PRODUCT_STATUS {
     ACTIVE = 'ACTIVE',
     DELETED = 'DELETED'
 }
+
+const padValue = (value: any) => value < 10 ? `0${value}` : value
+
+export const RANDOM_ID = (date: Date) => {
+    const day = padValue(date.getDay())
+    const hr = padValue(date.getHours())
+    const min = padValue(date.getMinutes())
+    const sec = padValue(date.getSeconds())
+    const uuid = (Math.random().toString(36).slice(-6)).toUpperCase();
+
+    return `${day}${uuid.substring(0, 2)}${hr}${uuid.substring(2, 4)}${min}${uuid.substring(4, 6)}${sec}`
+}

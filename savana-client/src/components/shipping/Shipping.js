@@ -104,9 +104,9 @@ function Shipping({index, checkout, finishOrder}) {
                         {showSelectedAddress(addresses.find(address => address.id === addr))}
                         <hr/>
                         {!_.isEmpty(latest) && (
-                            <div style={{marginTop: '1rem'}}>
-                                <p>You have an incomplete order
-                                    <span style={{color: 'red', fontWeight: 'bold'}}> #{latest.id}</span>.
+                            <div style={{margin: '1rem 0'}}>
+                                <p>You have an incomplete order #
+                                    <span style={{color: 'red', fontWeight: 'bold'}}>{latest.randomId}</span>.
                                 </p>
                                 <Previous latest={latest.items}/>
                                 <p>

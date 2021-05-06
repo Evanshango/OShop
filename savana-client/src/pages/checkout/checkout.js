@@ -65,6 +65,10 @@ function Checkout() {
 
     const handleBack = () => setActiveStep((prevActiveStep) => prevActiveStep - 1)
 
+    const confirmPayment = () => {
+        console.log('querying')
+    }
+
     return (
         <div>
             {!_.isEmpty(payment) ? (
@@ -96,6 +100,7 @@ function Checkout() {
                         <div>
                             <Breadcrumb>
                                 <Breadcrumb.Item linkAs={Link} linkProps={{to: '/'}}>Home</Breadcrumb.Item>
+                                <Breadcrumb.Item linkAs={Link} linkProps={{to: '/cart'}}>Cart</Breadcrumb.Item>
                                 <Breadcrumb.Item active>Checkout</Breadcrumb.Item>
                             </Breadcrumb>
                             <Stepper activeStep={activeStep} alternativeLabel>
@@ -126,23 +131,17 @@ function Checkout() {
                         <div className={styles.order_summary}>
                             <div className={styles.summary}>
                                 <div className={styles.summary_header}>
-                                    <h4>
-                                        Order summary {' '}
-                                        <small>
-                                            ({products && Object.values(products).length} items)
-                                        </small>
+                                    <h4>Order summary {' '}<small>
+                                        ({products && Object.values(products).length} items)
+                                    </small>
                                     </h4>
-                                    <li>
-                                        <Link to={'/cart'}>
-                                            <span>Edit</span>
-                                        </Link>
-                                    </li>
+                                    <li><Link to={'/cart'}><span>Edit</span></Link></li>
                                 </div>
                                 {products && Object.values(products).length > 0 && Object.values(products).map(c => (
                                     <div className={styles.items} key={c.id}>
-                                        <h5>{c.name}</h5>
-                                        <h5>x{c.units}</h5>
-                                        <h5>{c.finalPrice?.toFixed(2)}</h5>
+                                        <h4>{c.name}</h4>
+                                        <h4>x{c.units}</h4>
+                                        <h4>{c.finalPrice?.toFixed(2)}</h4>
                                     </div>
                                 ))}
                                 <hr/>
@@ -151,6 +150,21 @@ function Checkout() {
                                     <h4>Total</h4>
                                     <h5><small>$</small> {total.toFixed(2)}</h5>
                                 </div>
+                            </div>
+                            <div className={styles.request}>
+                                <p>
+                                    In case you made a payment via MPesa, please enter your order number and the MPesa
+                                    Confirmation Reference Number then click on the button to confirm
+                                </p>
+                                <div className="form-group">
+                                    <input type="text" className="form-control" placeholder={'Order No...'}/>
+                                </div>
+                                <div className="form-group">
+                                    <input type="text" className="form-control" placeholder={'MPesa Ref No...'}/>
+                                </div>
+                                <button className="btn btn-warning w-100 text-light" onClick={confirmPayment}>
+                                    Confirm
+                                </button>
                             </div>
                         </div>
                     </div>

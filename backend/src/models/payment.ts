@@ -5,6 +5,7 @@ import {Cart} from "./cart";
 
 interface IPaymentAttrs {
     order: string
+    orderRandomId: string
     paymentRef?: string
     payerEmail?: string
     payerId?: string
@@ -19,6 +20,7 @@ interface IPaymentAttrs {
 
 interface IPaymentDoc extends Document {
     order: string
+    orderRandomId: string
     paymentRef: string
     payerEmail?: string
     payerId?: string
@@ -41,6 +43,9 @@ interface IPaymentModel extends Model<IPaymentDoc> {
 
 const paymentSchema = new Schema({
     order: {type: mongoose.Schema.Types.ObjectId, ref: 'Order'},
+    orderRandomId: {
+        type: String, required: true
+    },
     paymentRef: {
         type: String
     },

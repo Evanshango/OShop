@@ -3,6 +3,7 @@ import {ORDER_STATUS, PAYMENT_METHOD, PAYMENT_STATUS} from "../helpers/constants
 import {Product} from "./product";
 
 interface IOrderAttrs {
+    randomId: string
     customer: string
     amount: number
     address: string
@@ -21,6 +22,7 @@ interface IOrderAttrs {
 
 interface IOrderDoc extends Document {
     id: string
+    randomId: string
     customer: string,
     amount: number
     address: string
@@ -43,6 +45,9 @@ interface IOrderModel extends Model<IOrderDoc> {
 }
 
 const orderSchema = new Schema({
+    randomId: {
+      type: String, required: true
+    },
     customer: {
         type: mongoose.Schema.Types.ObjectId, ref: 'User',
         required: true

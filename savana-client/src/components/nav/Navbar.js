@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux"
 import {Link} from "react-router-dom"
 import {AiOutlineClose, AiOutlineMenu, AiOutlineShoppingCart} from "react-icons/ai"
 import {clearAuthErrors} from "../../api"
+import {Badge} from "@material-ui/core"
 
 function Navbar() {
     const dispatch = useDispatch()
@@ -13,11 +14,6 @@ function Navbar() {
     const {token} = useSelector(state => state.auth)
 
     const handleClick = () => setClick(!click)
-        // // if (message !== '') dispatch(clearAuthErrors())
-        // if (message !== ''){
-        //     console.log(message)
-        // }
-
 
     const closeMobileMenu = () => {
         if (message !== '') dispatch(clearAuthErrors())
@@ -62,9 +58,11 @@ function Navbar() {
                         </li>
                         <li className={styles.nav_icon} onClick={closeMobileMenu}>
                             <Link to={'/cart'}>
-                                <button className={styles.nav_links}>
-                                    <AiOutlineShoppingCart/> {cart ? Object.keys(cart).length : 0}
-                                </button>
+                                <Badge badgeContent={cart ? Object.keys(cart).length : 0} color={'error'} showZero>
+                                    <button className={styles.nav_links}>
+                                        <AiOutlineShoppingCart/>
+                                    </button>
+                                </Badge>
                             </Link>
                         </li>
                     </ul>
@@ -74,7 +72,7 @@ function Navbar() {
                 </div>
             </div>
         </nav>
-    )
+)
 }
 
 export default Navbar
