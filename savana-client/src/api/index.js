@@ -87,9 +87,9 @@ export const authUser = (idToken, products) => dispatch => {
     uploadCart('auth/google', {idToken}, products, dispatch)
 }
 
-export const loginUser = (user, products) => async dispatch => {
+export const loginUser = (user, products, history, from) => async dispatch => {
     dispatch(authRequest())
-    uploadCart('auth/signin', user, products, dispatch)
+    uploadCart('auth/signin', user, products, dispatch, history, from)
 }
 
 export const returnFormattedPhone = phone => {
@@ -134,8 +134,9 @@ export const registerUser = (user) => async dispatch => {
     }
 }
 
-const uploadCart = (url, params, products, dispatch) => {
+const uploadCart = (url, params, products, dispatch, history, from) => {
     let token
+    let returnUrl = from === undefined ? '/' : from
     axios.post(`${BASE_URL}/${url}`, params, {withCredentials: true, credentials: 'include'}).then(({data}) => {
         setAuthenticationHeader(data.token)
         token = data
@@ -150,6 +151,7 @@ const uploadCart = (url, params, products, dispatch) => {
         }
     }).then(() => {
         dispatch(authSuccess(token))
+        history.push(returnUrl)
     }).catch(err => {
         dispatchError(dispatch, err, authError)
     })

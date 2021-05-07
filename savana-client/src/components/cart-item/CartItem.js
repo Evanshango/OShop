@@ -35,8 +35,6 @@ function CartItem({product, incQty, decQty}) {
         )
     })())
 
-    console.log(product)
-
     return (
         <>
             <td className={styles.prod_image}>{showImage(product.images)}</td>

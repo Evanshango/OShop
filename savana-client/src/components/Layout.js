@@ -8,6 +8,7 @@ import Cart from "../pages/cart/cart"
 import Checkout from "../pages/checkout/checkout"
 import ProductInfo from "../pages/product-info/productInfo"
 import Activate from "../pages/account/activate"
+import Signin from "../pages/authenitication/Signin";
 
 function Layout() {
     return (
@@ -20,6 +21,7 @@ function Layout() {
             <Route path={'/account'} component={Account}/>
             <Route path={'/cart'} component={Cart}/>
             <Route path={'/checkout'} component={Checkout}/>
+            <Route path={'/signin'} component={Signin}/>
         </Switch>
     )
 }

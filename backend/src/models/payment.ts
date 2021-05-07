@@ -1,7 +1,7 @@
 import mongoose, {Document, HookNextFunction, model, Model, Schema} from "mongoose";
 import {Order} from "./order";
-import {PAYMENT_STATUS} from "../helpers/constants";
 import {Cart} from "./cart";
+import {PAYMENT_METHOD, PAYMENT_STATUS} from "../helpers/constants";
 
 interface IPaymentAttrs {
     order: string
@@ -38,6 +38,7 @@ interface IPaymentModel extends Model<IPaymentDoc> {
     build(attrs: IPaymentAttrs): IPaymentDoc
 
     deleteOrderCart(orderId: string, method: string): void
+
     // deleteOrderCart(orderId: string, method: string): Promise<IPaymentDoc | null>
 }
 
@@ -92,15 +93,17 @@ paymentSchema.statics.build = (attrs: IPaymentAttrs) => (new Payment(attrs))
 
 paymentSchema.statics.deleteOrderCart = async (orderId: string, method: string) => {
     let customer
+    let payMethod = method === PAYMENT_METHOD.MPESA ? PAYMENT_METHOD.MPESA : PAYMENT_METHOD.PAYPAL
     const order = await Order.findById(orderId)
-    if (order){
+    if (order) {
         customer = order.customer
         await Order.findByIdAndUpdate(order.id, {
-            // @ts-ignore
-            paymentMethod: method, paymentStatus: PAYMENT_STATUS.COMPLETED}, {new: true})
+                paymentStatus: PAYMENT_STATUS.COMPLETED, paymentMethod: payMethod
+            }, {new: true}
+        )
     }
     const toDelete = await Cart.findOne({customer})
-    if (toDelete){
+    if (toDelete) {
         await Cart.findByIdAndDelete(toDelete.id)
     }
 }

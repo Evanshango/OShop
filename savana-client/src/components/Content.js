@@ -3,11 +3,13 @@ import Navbar from "./nav/Navbar";
 import Footer from "./footer/Footer";
 import Layout from "./Layout";
 import {useDispatch, useSelector} from "react-redux";
+import {useLocation} from 'react-router-dom'
 import {
     addCheckOutParam, fetchCartItems, fetchLatestOrder, fetchOrderItems, fetchUser, fetchUserAddresses
 } from "../api"
 
 function Content() {
+    const {pathname} = useLocation()
     const dispatch = useDispatch()
     const {token} = useSelector(state => state.auth)
 
@@ -29,7 +31,7 @@ function Content() {
         <>
             <Navbar/>
             <Layout/>
-            <Footer/>
+            {pathname !== '/signin' && <Footer/>}
         </>
     );
 }
